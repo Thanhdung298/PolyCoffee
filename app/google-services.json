@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "556094010685",
+    "firebase_url": "https://polycoffee-72a33-default-rtdb.firebaseio.com",
+    "project_id": "polycoffee-72a33",
+    "storage_bucket": "polycoffee-72a33.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556094010685:android:ce9917c812ae481702c154",
+        "android_client_info": {
+          "package_name": "com.example.polycoffee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "556094010685-mdgkbd4d1ivks1pdaacdn4k2q8l8buri.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnTwUCcMaD_bE_fbl1z7hdA5mKk1Ydx2g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "556094010685-mdgkbd4d1ivks1pdaacdn4k2q8l8buri.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
