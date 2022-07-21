@@ -17,29 +17,22 @@ import com.google.firebase.database.ValueEventListener
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    val list = ArrayList<User>()
-
-
+    val username = requireActivity().intent.getStringExtra("Username").toString()
+    var user = User()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
-        val database = FirebaseDatabase.getInstance().getReference("User")
-        database.addValueEventListener(object : ValueEventListener {
+        val database = FirebaseDatabase.getInstance().getReference("User").child(username)
+        database.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                for (snap in snapshot.children){
-                    list.add(snap.getValue(User::class.java)!!)
-                }
+                user = snapshot.getValue(User::class.java)!!
             }
-
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
 
         })
-        val hoTen=binding.tvProfileHoten
-        val diaChi = binding.tvProfileDiachi
-        val ngaySinh = binding.tvProfileNgaysinh
-        val sdt = binding.tvProfileSdt
+
 
 
 

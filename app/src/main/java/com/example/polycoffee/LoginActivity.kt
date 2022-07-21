@@ -27,19 +27,7 @@ class LoginActivity : AppCompatActivity(){
         binding.rdoLoginRMB.isChecked = preferences.getBoolean("check",false)
 
         binding.btnLogin.setOnClickListener {
-            val database = FirebaseDatabase.getInstance().getReference("User")
-            database.addValueEventListener(object : ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for (snap in snapshot.children){
-                        list.add(snap.getValue(User::class.java)!!)
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-            })
+            checkLogin()
         }
 
 
@@ -60,22 +48,29 @@ class LoginActivity : AppCompatActivity(){
         val username = binding.edLoginUsername.text.toString()
         val password = binding.edLoginPassword.text.toString()
         val checkbox = binding.rdoLoginRMB
-
-
+        var check = false
         if (username.isEmpty()||password.isEmpty()){
-            Toast.makeText(this@LoginActivity,"Tên đăng nhập và mật khẩu không được bỏ trống",
-                Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@LoginActivity,"Tên đăng nhập và mật khẩu không được bỏ trống",Toast.LENGTH_SHORT).show()
         } else{
-//            if(username.equals()){
-//                Toast.makeText(this@LoginActivity,"Login thanh cong", Toast.LENGTH_SHORT).show()
-//                rememberUser(username,password,checkbox.isChecked)
-//                val intent = Intent(this,MainActivity::class.java)
-//                intent.putExtra("user",username)
-//                startActivity(intent)
-//                finish()
-//            } else{
-//                Toast.makeText(this@LoginActivity,"Tên đăng nhập và mật khẩu không đúng", Toast.LENGTH_SHORT).show()
-//            }
+            val database= FirebaseDatabase.getInstance().getReference("User")
+            val intent = Intent(this,MainActivity::class.java)
+            database.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.hasChild(username)){
+                        rememberUser(username,password,checkbox.isChecked)
+                        Toast.makeText(this@LoginActivity,"Login thanh cong",Toast.LENGTH_SHORT).show()
+                        intent.putExtra("Username",binding.edLoginUsername.text.toString())
+                        startActivity(intent)
+                    } else{
+                        Toast.makeText(this@LoginActivity,"đăng nhập khum thành công",Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
+
         }
     }
 }
