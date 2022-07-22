@@ -1,23 +1,14 @@
 package com.example.polycoffee.adapter
 
-import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
-import android.graphics.Bitmap
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.polycoffee.dao.DAO
 import com.example.polycoffee.dao.TempFunc
-import com.example.polycoffee.databinding.DialogChoosenBinding
-import com.example.polycoffee.databinding.DialogLoaispBinding
 import com.example.polycoffee.databinding.ItemMenuBinding
 import com.example.polycoffee.fragments.MenuFragment
 import com.example.polycoffee.model.LoaiSanPham
-import java.net.URI
 
 class AdapterMenu(val context: Context,val list:ArrayList<LoaiSanPham>,val fragment:MenuFragment) : RecyclerView.Adapter<AdapterMenu.ViewHolder>() {
     class ViewHolder(binding:ItemMenuBinding) : RecyclerView.ViewHolder(binding.root) {

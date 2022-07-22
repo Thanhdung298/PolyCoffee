@@ -20,7 +20,6 @@ class LoginActivity : AppCompatActivity(){
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         dao = DAO(this)
-        val list = ArrayList<User>()
         val preferences = getSharedPreferences("USER ACCOUNT", MODE_PRIVATE)
         binding.edLoginUsername.setText(preferences.getString("username",""))
         binding.edLoginPassword.setText(preferences.getString("password",""))
@@ -69,24 +68,7 @@ class LoginActivity : AppCompatActivity(){
                     } else{
                         Toast.makeText(this@LoginActivity,"Sai tên đăng nhập",Toast.LENGTH_SHORT).show()
                     }
-//                    val user = snapshot.getValue(User::class.java)
-//                    print(user)
-//                    if(user!=null){
-//
-//                        if(user.passWord == password){
-//                            rememberUser(username,password,checkbox.isChecked)
-//                            Toast.makeText(this@LoginActivity,"Login thanh cong",Toast.LENGTH_SHORT).show()
-//                            intent.putExtra("Username",binding.edLoginUsername.text.toString())
-//                            startActivity(intent)
-//                        }
-//                        else{
-//                            Toast.makeText(this@LoginActivity,"Sai mật khẩu",Toast.LENGTH_SHORT).show()
-//                        }
-//                    } else{
-//                        Toast.makeText(this@LoginActivity,"Sai tên đăng nhập",Toast.LENGTH_SHORT).show()
-//                    }
                 }
-
                 override fun onCancelled(error: DatabaseError) {
                     TODO("Not yet implemented")
                 }

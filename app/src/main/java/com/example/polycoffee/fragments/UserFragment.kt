@@ -15,13 +15,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.polycoffee.adapter.AdapterMenu
 import com.example.polycoffee.adapter.AdapterUser
 import com.example.polycoffee.dao.DAO
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.DialogUserBinding
 import com.example.polycoffee.databinding.FragmentUserBinding
-import com.example.polycoffee.model.LoaiSanPham
 import com.example.polycoffee.model.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -118,8 +116,8 @@ class UserFragment : Fragment() {
         }
 
         saveBtn.setOnClickListener {
-            val user = User(username.editText!!.text.toString(),password.editText!!.text.toString(),hoten.editText!!.text.toString(),ngaySinh.editText!!.text.toString(),diaChi.editText!!.text.toString(),sdt.editText!!.text.toString(),TempFunc.BitMapToString(bitmapImg))
-            DAO(requireContext()).insert(user,"User")
+            val userAdd = User(username.editText!!.text.toString(),password.editText!!.text.toString(),hoten.editText!!.text.toString(),ngaySinh.editText!!.text.toString(),diaChi.editText!!.text.toString(),sdt.editText!!.text.toString(),TempFunc.BitMapToString(bitmapImg))
+            DAO(requireContext()).insert(userAdd,"User")
             alertDialog.dismiss()
         }
         cancelBtn.setOnClickListener {

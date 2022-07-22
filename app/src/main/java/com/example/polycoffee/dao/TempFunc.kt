@@ -12,13 +12,12 @@ import com.example.polycoffee.fragments.UserFragment
 import com.example.polycoffee.model.LoaiSanPham
 import com.example.polycoffee.model.User
 import java.io.ByteArrayOutputStream
-import java.util.*
 
 class TempFunc {
     companion object{
         fun BitMapToString(bitmap: Bitmap):String{
             val baos = ByteArrayOutputStream()
-            bitmap?.compress(Bitmap.CompressFormat.PNG,100,baos)
+            bitmap.compress(Bitmap.CompressFormat.PNG,100,baos)
             val b = baos.toByteArray()
             return Base64.encodeToString(b,Base64.DEFAULT)
         }
@@ -42,10 +41,10 @@ class TempFunc {
                     .setTitle("Xóa")
                     .setMessage("Bạn chắc chắn xóa chứ?")
                     .setNegativeButton("Cancel"
-                    ) { p0, p1 ->
+                    ) { p0, _ ->
                         p0.dismiss()
                     }.setPositiveButton("Chắc chắn"){
-                            p0,p1 ->
+                            p0, _ ->
                         DAO(context).remove(objectAny,"LoaiSP")
                         when(fragmentAny){
                             is MenuFragment -> fragmentAny.getListLSP()

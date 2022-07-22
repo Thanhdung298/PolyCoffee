@@ -19,7 +19,6 @@ import com.example.polycoffee.adapter.AdapterMenu
 import com.example.polycoffee.dao.DAO
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.DialogLoaispBinding
-import com.example.polycoffee.databinding.DialogSanphamBinding
 import com.example.polycoffee.databinding.FragmentMenuBinding
 import com.example.polycoffee.model.*
 import com.google.firebase.database.DataSnapshot
@@ -88,14 +87,14 @@ class MenuFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-    fun openDialogSP(sanPham: SanPham, type:Int){
-        val builder = AlertDialog.Builder(requireContext())
-        val binding = DialogSanphamBinding.inflate(layoutInflater)
-        builder.setView(binding.root)
-
-        val alertDialog = builder.create()
-        alertDialog.show()
-    }
+//    fun openDialogSP(sanPham: SanPham, type:Int){
+//        val builder = AlertDialog.Builder(requireContext())
+//        val binding = DialogSanphamBinding.inflate(layoutInflater)
+//        builder.setView(binding.root)
+//
+//        val alertDialog = builder.create()
+//        alertDialog.show()
+//    }
     fun openDialogLSP(loaiSanPham: LoaiSanPham, type:Int){
         val builder = AlertDialog.Builder(requireContext())
         val binding = DialogLoaispBinding.inflate(layoutInflater)
