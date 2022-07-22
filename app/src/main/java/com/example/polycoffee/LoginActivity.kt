@@ -48,7 +48,6 @@ class LoginActivity : AppCompatActivity(){
         val username = binding.edLoginUsername.text.toString()
         val password = binding.edLoginPassword.text.toString()
         val checkbox = binding.rdoLoginRMB
-        var check = false
         if (username.isEmpty()||password.isEmpty()){
             Toast.makeText(this@LoginActivity,"Tên đăng nhập và mật khẩu không được bỏ trống",Toast.LENGTH_SHORT).show()
         } else{
@@ -57,13 +56,35 @@ class LoginActivity : AppCompatActivity(){
             database.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.hasChild(username)){
-                        rememberUser(username,password,checkbox.isChecked)
-                        Toast.makeText(this@LoginActivity,"Login thanh cong",Toast.LENGTH_SHORT).show()
-                        intent.putExtra("Username",binding.edLoginUsername.text.toString())
-                        startActivity(intent)
+                        val user = snapshot.child(username).getValue(User::class.java)
+                        if(user!!.passWord==password){
+                            rememberUser(username,password,checkbox.isChecked)
+                            Toast.makeText(this@LoginActivity,"Login thành công",Toast.LENGTH_SHORT).show()
+                            intent.putExtra("Username",binding.edLoginUsername.text.toString())
+                            startActivity(intent)
+                        } else{
+                            Toast.makeText(this@LoginActivity,"Sai mật khẩu",Toast.LENGTH_SHORT).show()
+                        }
+
                     } else{
-                        Toast.makeText(this@LoginActivity,"đăng nhập khum thành công",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LoginActivity,"Sai tên đăng nhập",Toast.LENGTH_SHORT).show()
                     }
+//                    val user = snapshot.getValue(User::class.java)
+//                    print(user)
+//                    if(user!=null){
+//
+//                        if(user.passWord == password){
+//                            rememberUser(username,password,checkbox.isChecked)
+//                            Toast.makeText(this@LoginActivity,"Login thanh cong",Toast.LENGTH_SHORT).show()
+//                            intent.putExtra("Username",binding.edLoginUsername.text.toString())
+//                            startActivity(intent)
+//                        }
+//                        else{
+//                            Toast.makeText(this@LoginActivity,"Sai mật khẩu",Toast.LENGTH_SHORT).show()
+//                        }
+//                    } else{
+//                        Toast.makeText(this@LoginActivity,"Sai tên đăng nhập",Toast.LENGTH_SHORT).show()
+//                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {

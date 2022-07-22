@@ -17,11 +17,10 @@ import com.google.firebase.database.ValueEventListener
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    val username = requireActivity().intent.getStringExtra("Username").toString()
     var user = User()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-
+        val username = requireActivity().intent.getStringExtra("Username").toString()
         val database = FirebaseDatabase.getInstance().getReference("User").child(username)
         database.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -30,14 +29,9 @@ class ProfileFragment : Fragment() {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
-
         })
 
         return binding.root
-        binding.tvProfileHoten.text= user.hoTen.toString()
-        binding.tvProfileDiachi.text= user.diaChi.toString()
-        binding.tvProfileNgaysinh.text= user.ngaySinh.toString()
-        binding.tvProfileSdt.text= user.sDT.toString()
 
     }
 

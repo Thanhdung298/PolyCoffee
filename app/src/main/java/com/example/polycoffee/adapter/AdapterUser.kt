@@ -32,12 +32,12 @@ class AdapterUser(var context: Context,var list:ArrayList<User>,var fragment:Use
         if(user.anhDaiDien!=""){
             holder.img.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))
         }
-        holder.username.text = user.userName
-        holder.password.text = user.passWord
-        holder.hoTen.text = user.hoTen
-        holder.ngaySinh.text = user.ngaySinh
-        holder.diaChi.text = user.diaChi
-        holder.sdt.text = user.sDT
+        holder.username.text = "Username: ${user.userName}"
+        holder.password.text = "Passwrod: ${user.passWord}"
+        holder.hoTen.text = "Họ tên: ${user.hoTen}"
+        holder.ngaySinh.text = "Ngày sinh: ${user.ngaySinh}"
+        holder.diaChi.text = "Địa chỉ: ${user.diaChi}"
+        holder.sdt.text = "Số điện thoại: ${user.sDT}"
 
         holder.view.setOnLongClickListener(object : View.OnLongClickListener{
             override fun onLongClick(p0: View?): Boolean {
