@@ -37,7 +37,7 @@ class MenuFragment : Fragment() {
     lateinit var adapter:AdapterMenu
     lateinit var recyclerView: RecyclerView
     lateinit var listLoaiSP:ArrayList<LoaiSanPham>
-    lateinit var bitmapLoaiSP:Bitmap
+    var bitmapLoaiSP:Bitmap? = null
     lateinit var img:ImageView
 
     private var _binding: FragmentMenuBinding? = null
@@ -124,7 +124,7 @@ class MenuFragment : Fragment() {
         }
 
         saveBtn.setOnClickListener {
-            val loaiSP = LoaiSanPham(maLoai.editText!!.text.toString(),tenLoai.editText!!.text.toString(),TempFunc.BitMapToString(bitmapLoaiSP))
+            val loaiSP = LoaiSanPham(maLoai.editText!!.text.toString(),tenLoai.editText!!.text.toString(),if(bitmapLoaiSP == null)"" else TempFunc.BitMapToString(bitmapLoaiSP!!))
             DAO(requireContext()).insert(loaiSP,"LoaiSP")
             alertDialog.dismiss()
         }

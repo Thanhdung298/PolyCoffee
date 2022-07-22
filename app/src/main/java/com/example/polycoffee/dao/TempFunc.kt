@@ -18,7 +18,7 @@ class TempFunc {
     companion object{
         fun BitMapToString(bitmap: Bitmap):String{
             val baos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG,100,baos)
+            bitmap?.compress(Bitmap.CompressFormat.PNG,100,baos)
             val b = baos.toByteArray()
             return Base64.encodeToString(b,Base64.DEFAULT)
         }
