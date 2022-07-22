@@ -21,7 +21,7 @@
         app:layout_constraintVertical_bias="0.122" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tvProfileHoten"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -33,7 +33,7 @@
         app:layout_constraintVertical_bias="0.115" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/tvProfileNgaysinh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -45,7 +45,7 @@
         app:layout_constraintVertical_bias="0.366" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/tvProfileSdt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -57,7 +57,7 @@
         app:layout_constraintVertical_bias="0.484" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/tvProfileDiachi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"

@@ -33,11 +33,14 @@ class ProfileFragment : Fragment() {
 
         })
 
-
-
-
         return binding.root
+        binding.tvProfileHoten.text= user.hoTen.toString()
+        binding.tvProfileDiachi.text= user.diaChi.toString()
+        binding.tvProfileNgaysinh.text= user.ngaySinh.toString()
+        binding.tvProfileSdt.text= user.sDT.toString()
+
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
