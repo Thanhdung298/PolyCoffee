@@ -61,6 +61,7 @@ class LoginActivity : AppCompatActivity(){
                             Toast.makeText(this@LoginActivity,"Login thành công",Toast.LENGTH_SHORT).show()
                             intent.putExtra("Username",binding.edLoginUsername.text.toString())
                             startActivity(intent)
+                            finish()
                         } else{
                             Toast.makeText(this@LoginActivity,"Sai mật khẩu",Toast.LENGTH_SHORT).show()
                         }

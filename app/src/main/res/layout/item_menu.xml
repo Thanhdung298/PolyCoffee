@@ -34,5 +34,6 @@
             android:textColor="#C12727"
             android:textSize="24sp"
             android:textStyle="bold" />
+
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

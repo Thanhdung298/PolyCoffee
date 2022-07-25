@@ -46,10 +46,10 @@ class TempFunc {
                     }.setPositiveButton("Chắc chắn"){
                             p0, _ ->
                         DAO(context).remove(objectAny,"LoaiSP")
-                        when(fragmentAny){
-                            is MenuFragment -> fragmentAny.getListLSP()
-                            is UserFragment -> fragmentAny.getListLSP()
-                        }
+//                        when(fragmentAny){
+//                            is MenuFragment -> fragmentAny.getListLSP()
+//                            is UserFragment -> fragmentAny.getListLSP()
+//                        }
                         p0.dismiss()
                     }
                 val dialog = builderRemove.create()

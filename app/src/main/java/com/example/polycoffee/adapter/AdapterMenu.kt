@@ -23,6 +23,7 @@ class AdapterMenu(val context: Context,val list:ArrayList<LoaiSanPham>,val fragm
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         val loaiSanPham = list[position]
         if(loaiSanPham.img!="") {
             holder.img.setImageBitmap(TempFunc.StringToBitmap(loaiSanPham.img))
@@ -35,6 +36,7 @@ class AdapterMenu(val context: Context,val list:ArrayList<LoaiSanPham>,val fragm
             }
 
         })
+
     }
 
     override fun getItemCount(): Int = list.size
