@@ -13,6 +13,7 @@ class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:Ord
         val view = binding.itemBanView
         val menu = binding.itemBanMenu
         val hoaDon = binding.itemBanHoaDon
+        val id = binding.itemBanId
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,6 +29,8 @@ class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:Ord
         holder.hoaDon.setOnClickListener {
 
         }
+
+        holder.id.text = "Bàn ${list[position].maBan}"
     }
 
     override fun getItemCount(): Int = list.size

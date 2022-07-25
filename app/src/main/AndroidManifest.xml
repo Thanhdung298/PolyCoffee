@@ -20,9 +20,6 @@
             android:name=".SubMenuActivity"
             android:exported="false" />
         <activity
-            android:name=".OrderActivity"
-            android:exported="false" />
-        <activity
             android:name=".LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" >
