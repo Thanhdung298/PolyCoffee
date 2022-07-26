@@ -16,7 +16,7 @@ class DAO(private val context: Context) {
                 is User -> objectAny.userName
                 is HoaDon -> objectAny.maHD
                 else -> ""
-            }).setValue(objectAny).addOnFailureListener { Toast.makeText(context,"That bai",Toast.LENGTH_SHORT).show() }
+            }.toString()).setValue(objectAny).addOnFailureListener { Toast.makeText(context,"That bai",Toast.LENGTH_SHORT).show() }
                 .addOnSuccessListener { Toast.makeText(context,"Thanh cong",Toast.LENGTH_SHORT).show()}
         }
         fun remove(objectAny: Any,refName: String){
@@ -28,7 +28,7 @@ class DAO(private val context: Context) {
                 is User -> objectAny.userName
                 is HoaDon -> objectAny.maHD
                 else -> ""
-            }).removeValue().addOnFailureListener { Toast.makeText(context,"That bai",Toast.LENGTH_SHORT).show() }
+            }.toString()).removeValue().addOnFailureListener { Toast.makeText(context,"That bai",Toast.LENGTH_SHORT).show() }
                 .addOnSuccessListener { Toast.makeText(context,"Thanh cong",Toast.LENGTH_SHORT).show()}
         }
 

@@ -41,7 +41,7 @@ class AdapterUser(var context: Context,var list:ArrayList<User>,var fragment:Use
 
         holder.view.setOnLongClickListener(object : View.OnLongClickListener{
             override fun onLongClick(p0: View?): Boolean {
-                TempFunc.choosenDialog(context,user,fragment)
+                TempFunc.choosenDialog(context,user,fragment,"User")
                 return false
             }
 

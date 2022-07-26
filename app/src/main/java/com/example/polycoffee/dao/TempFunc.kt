@@ -6,10 +6,12 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.view.LayoutInflater
+import com.example.polycoffee.SubMenuActivity
 import com.example.polycoffee.databinding.DialogChoosenBinding
 import com.example.polycoffee.fragments.MenuFragment
 import com.example.polycoffee.fragments.UserFragment
 import com.example.polycoffee.model.LoaiSanPham
+import com.example.polycoffee.model.SanPham
 import com.example.polycoffee.model.User
 import java.io.ByteArrayOutputStream
 
@@ -25,7 +27,7 @@ class TempFunc {
             val imgBytes = Base64.decode(imgStr,0)
             return BitmapFactory.decodeByteArray(imgBytes,0,imgBytes.size)
         }
-        fun choosenDialog(context:Context,objectAny: Any,fragmentAny: Any){
+        fun choosenDialog(context:Context,objectAny: Any,fragmentAny: Any,refName:String){
             val builder = AlertDialog.Builder(context)
             val binding = DialogChoosenBinding.inflate(LayoutInflater.from(context))
             builder.setView(binding.root)
@@ -45,7 +47,7 @@ class TempFunc {
                         p0.dismiss()
                     }.setPositiveButton("Chắc chắn"){
                             p0, _ ->
-                        DAO(context).remove(objectAny,"LoaiSP")
+                        DAO(context).remove(objectAny,refName)
 //                        when(fragmentAny){
 //                            is MenuFragment -> fragmentAny.getListLSP()
 //                            is UserFragment -> fragmentAny.getListLSP()
@@ -60,6 +62,7 @@ class TempFunc {
                 when(fragmentAny){
                     is MenuFragment ->  fragmentAny.openDialogLSP(objectAny as LoaiSanPham,1)
                     is UserFragment -> fragmentAny.openDialog(objectAny as User,1)
+                    is SubMenuActivity -> SubMenuActivity().openDialogSP(objectAny as SanPham,1)
                 }
             }
 

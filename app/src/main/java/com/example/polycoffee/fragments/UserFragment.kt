@@ -99,6 +99,8 @@ class UserFragment : Fragment() {
         val sdt = binding.dialogUserSDT
         val saveBtn = binding.dialogUserBtnSave
         val cancelBtn = binding.dialogUserBtnCancel
+        val rdo1 = binding.dialogUserRdoAdmin
+        val rdo0 = binding.dialogUserRdoNhanVien
 
         if(type==1){
             username.editText!!.setText(user.userName)
@@ -112,6 +114,9 @@ class UserFragment : Fragment() {
                 img.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))
                 bitmapImg = TempFunc.StringToBitmap(user.anhDaiDien)
             }
+            if(user.role==0){
+                rdo0.isChecked = true
+            } else rdo1.isChecked = true
         }
 
         img.setOnClickListener {
@@ -119,7 +124,7 @@ class UserFragment : Fragment() {
         }
 
         saveBtn.setOnClickListener {
-            val userAdd = User(username.editText!!.text.toString(),password.editText!!.text.toString(),hoten.editText!!.text.toString(),ngaySinh.editText!!.text.toString(),diaChi.editText!!.text.toString(),sdt.editText!!.text.toString(),if(bitmapImg == null)"" else TempFunc.BitMapToString(bitmapImg!!))
+            val userAdd = User(username.editText!!.text.toString(),password.editText!!.text.toString(),hoten.editText!!.text.toString(),ngaySinh.editText!!.text.toString(),diaChi.editText!!.text.toString(),sdt.editText!!.text.toString(),if(bitmapImg == null)"" else TempFunc.BitMapToString(bitmapImg!!),if(rdo0.isChecked)0 else 1)
             DAO(requireContext()).insert(userAdd,"User")
             alertDialog.dismiss()
         }

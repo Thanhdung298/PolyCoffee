@@ -32,11 +32,14 @@ class SubMenuActivity : AppCompatActivity() {
     lateinit var img:ImageView
     lateinit var recyclerView: RecyclerView
     lateinit var adapterSP: AdapterSP
+   // val type = intent.getIntExtra("types",0)
+   var type = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySubMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        type = intent.getIntExtra("types",0).toString().toInt()
 
         binding.subMenuFab.setOnClickListener {
             openDialogSP(SanPham(),0)
@@ -73,13 +76,13 @@ class SubMenuActivity : AppCompatActivity() {
     fun updateRecyclerView(){
         listSP = ArrayList()
         recyclerView = binding.subMenuRecyclerView
-        adapterSP = AdapterSP(this,listSP)
+        adapterSP = AdapterSP(this,listSP,type)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapterSP
     }
 
     fun openDialogSP(sanPham: SanPham, type:Int){
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(this@SubMenuActivity)
         val binding = DialogSanphamBinding.inflate(layoutInflater)
         builder.setView(binding.root)
 

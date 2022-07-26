@@ -55,12 +55,16 @@ class LoginActivity : AppCompatActivity(){
             database.get().addOnSuccessListener {
                 if (it.hasChild(username)){
                     val user = it.child(username).getValue(User::class.java)
+                    val role = user?.role
+                    intent.putExtra("role",role)
                     if(user!!.passWord==password){
                         rememberUser(username,password,checkbox.isChecked)
                         Toast.makeText(this@LoginActivity,"Login thành công",Toast.LENGTH_SHORT).show()
                         intent.putExtra("Username",binding.edLoginUsername.text.toString())
+
                         startActivity(intent)
                         finish()
+                        database.onDisconnect()
                     } else{
                         Toast.makeText(this@LoginActivity,"Sai mật khẩu",Toast.LENGTH_SHORT).show()
                     }

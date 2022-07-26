@@ -56,7 +56,7 @@ class MenuFragment : Fragment() {
     fun updateRecyclerView(){
         listLoaiSP = ArrayList<LoaiSanPham>()
         recyclerView = binding.menuRecyclerView
-        adapter = AdapterMenu(requireContext(),listLoaiSP,this)
+        adapter = AdapterMenu(requireContext(),listLoaiSP,this,0)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
     }
