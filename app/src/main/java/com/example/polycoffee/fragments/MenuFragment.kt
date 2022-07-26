@@ -32,7 +32,7 @@ class MenuFragment : Fragment() {
 
     lateinit var adapter:AdapterMenu
     lateinit var recyclerView: RecyclerView
-    lateinit var listLoaiSP:ArrayList<LoaiSanPham>
+    var listLoaiSP=ArrayList<LoaiSanPham>()
     var bitmapLoaiSP:Bitmap? = null
     lateinit var img:ImageView
 
@@ -49,7 +49,7 @@ class MenuFragment : Fragment() {
             openDialogLSP(LoaiSanPham(),0)
         }
         updateRecyclerView()
-        getListLSP()
+        getListLSP(listLoaiSP,adapter)
         return binding.root
     }
 
@@ -61,19 +61,20 @@ class MenuFragment : Fragment() {
         recyclerView.adapter = adapter
     }
 
-    fun getListLSP(){
+
+    fun getListLSP(list:ArrayList<LoaiSanPham>,adapterMenu: AdapterMenu){
         val database = FirebaseDatabase.getInstance().getReference("LoaiSP")
         database.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                listLoaiSP.clear()
+                list.clear()
                 for (datasnap in snapshot.children){
                     val loaiSanPham = datasnap.getValue(LoaiSanPham::class.java)
                     if (loaiSanPham != null) {
-                        listLoaiSP.add(loaiSanPham)
+                        list.add(loaiSanPham)
                     }
                 }
-                listLoaiSP.sortWith(compareBy { it.maLoai })
-                adapter.notifyDataSetChanged()
+                list.sortWith(compareBy { it.maLoai })
+                adapterMenu.notifyDataSetChanged()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -87,14 +88,7 @@ class MenuFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-//    fun openDialogSP(sanPham: SanPham, type:Int){
-//        val builder = AlertDialog.Builder(requireContext())
-//        val binding = DialogSanphamBinding.inflate(layoutInflater)
-//        builder.setView(binding.root)
-//
-//        val alertDialog = builder.create()
-//        alertDialog.show()
-//    }
+
     fun openDialogLSP(loaiSanPham: LoaiSanPham, type:Int){
         val builder = AlertDialog.Builder(requireContext())
         val binding = DialogLoaispBinding.inflate(layoutInflater)
@@ -111,8 +105,10 @@ class MenuFragment : Fragment() {
             maLoai.editText!!.isEnabled = false
             maLoai.editText!!.setText(loaiSanPham.maLoai)
             tenLoai.editText!!.setText(loaiSanPham.tenLoai)
-            img.setImageBitmap(TempFunc.StringToBitmap(loaiSanPham.img))
-            bitmapLoaiSP = TempFunc.StringToBitmap(loaiSanPham.img)
+            if(loaiSanPham.img!=""){
+                img.setImageBitmap(TempFunc.StringToBitmap(loaiSanPham.img))
+                bitmapLoaiSP = TempFunc.StringToBitmap(loaiSanPham.img)
+            }
         }
 
         img.setOnClickListener {

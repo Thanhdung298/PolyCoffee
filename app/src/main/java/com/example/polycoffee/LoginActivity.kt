@@ -52,29 +52,24 @@ class LoginActivity : AppCompatActivity(){
         } else{
             val database= FirebaseDatabase.getInstance().getReference("User")
             val intent = Intent(this,MainActivity::class.java)
-            database.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.hasChild(username)){
-                        val user = snapshot.child(username).getValue(User::class.java)
-                        if(user!!.passWord==password){
-                            rememberUser(username,password,checkbox.isChecked)
-                            Toast.makeText(this@LoginActivity,"Login thành công",Toast.LENGTH_SHORT).show()
-                            intent.putExtra("Username",binding.edLoginUsername.text.toString())
-                            startActivity(intent)
-                            finish()
-                        } else{
-                            Toast.makeText(this@LoginActivity,"Sai mật khẩu",Toast.LENGTH_SHORT).show()
-                        }
-
+            database.get().addOnSuccessListener {
+                if (it.hasChild(username)){
+                    val user = it.child(username).getValue(User::class.java)
+                    if(user!!.passWord==password){
+                        rememberUser(username,password,checkbox.isChecked)
+                        Toast.makeText(this@LoginActivity,"Login thành công",Toast.LENGTH_SHORT).show()
+                        intent.putExtra("Username",binding.edLoginUsername.text.toString())
+                        startActivity(intent)
+                        finish()
                     } else{
-                        Toast.makeText(this@LoginActivity,"Sai tên đăng nhập",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LoginActivity,"Sai mật khẩu",Toast.LENGTH_SHORT).show()
                     }
-                }
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-            })
 
+                } else{
+                    Toast.makeText(this@LoginActivity,"Sai tên đăng nhập",Toast.LENGTH_SHORT).show()
+                }
+
+            }
         }
     }
 }

@@ -38,7 +38,7 @@ class UserFragment : Fragment() {
     lateinit var adapter:AdapterUser
     lateinit var recyclerView: RecyclerView
     lateinit var listUser:ArrayList<User>
-    lateinit var bitmapImg:Bitmap
+    var bitmapImg:Bitmap?=null
     lateinit var img:ImageView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -107,8 +107,11 @@ class UserFragment : Fragment() {
             hoten.editText!!.setText(user.hoTen)
             ngaySinh.editText!!.setText(user.ngaySinh)
             diaChi.editText!!.setText(user.diaChi)
-            sdt.editText!!.setText(user.sDT)
-            img.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))
+            sdt.editText!!.setText(user.sdt)
+            if(user.anhDaiDien!=""){
+                img.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))
+                bitmapImg = TempFunc.StringToBitmap(user.anhDaiDien)
+            }
         }
 
         img.setOnClickListener {
@@ -116,7 +119,7 @@ class UserFragment : Fragment() {
         }
 
         saveBtn.setOnClickListener {
-            val userAdd = User(username.editText!!.text.toString(),password.editText!!.text.toString(),hoten.editText!!.text.toString(),ngaySinh.editText!!.text.toString(),diaChi.editText!!.text.toString(),sdt.editText!!.text.toString(),TempFunc.BitMapToString(bitmapImg))
+            val userAdd = User(username.editText!!.text.toString(),password.editText!!.text.toString(),hoten.editText!!.text.toString(),ngaySinh.editText!!.text.toString(),diaChi.editText!!.text.toString(),sdt.editText!!.text.toString(),if(bitmapImg == null)"" else TempFunc.BitMapToString(bitmapImg!!))
             DAO(requireContext()).insert(userAdd,"User")
             alertDialog.dismiss()
         }

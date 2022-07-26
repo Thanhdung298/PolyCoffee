@@ -1,10 +1,12 @@
 package com.example.polycoffee.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.polycoffee.SubMenuActivity
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.ItemMenuBinding
 import com.example.polycoffee.fragments.MenuFragment
@@ -36,6 +38,12 @@ class AdapterMenu(val context: Context,val list:ArrayList<LoaiSanPham>,val fragm
             }
 
         })
+
+        holder.view.setOnClickListener {
+            val intent = Intent(context,SubMenuActivity::class.java)
+            intent.putExtra("maLoai",loaiSanPham.maLoai)
+            context.startActivity(intent)
+        }
 
     }
 

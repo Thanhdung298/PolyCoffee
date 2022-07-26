@@ -37,7 +37,7 @@ class AdapterUser(var context: Context,var list:ArrayList<User>,var fragment:Use
         holder.hoTen.text = "Họ tên: ${user.hoTen}"
         holder.ngaySinh.text = "Ngày sinh: ${user.ngaySinh}"
         holder.diaChi.text = "Địa chỉ: ${user.diaChi}"
-        holder.sdt.text = "Số điện thoại: ${user.sDT}"
+        holder.sdt.text = "Số điện thoại: ${user.sdt}"
 
         holder.view.setOnLongClickListener(object : View.OnLongClickListener{
             override fun onLongClick(p0: View?): Boolean {
