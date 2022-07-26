@@ -26,9 +26,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:text="Password"
-        tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
+        android:inputType="textPassword" />
 
     <RadioButton
         android:layout_marginTop="20dp"
