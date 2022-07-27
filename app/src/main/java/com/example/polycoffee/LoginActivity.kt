@@ -24,7 +24,6 @@ class LoginActivity : AppCompatActivity(){
         binding.edLoginUsername.setText(preferences.getString("username",""))
         binding.edLoginPassword.setText(preferences.getString("password",""))
         binding.rdoLoginRMB.isChecked = preferences.getBoolean("check",false)
-
         binding.btnLogin.setOnClickListener {
             checkLogin()
         }

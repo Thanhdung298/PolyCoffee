@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 
 class UserFragment : Fragment() {
 
@@ -120,7 +121,7 @@ class UserFragment : Fragment() {
         }
 
         img.setOnClickListener {
-            CropImage.activity().setAspectRatio(1,1).start(requireContext(),this)
+            CropImage.activity().setCropShape(CropImageView.CropShape.OVAL).setAspectRatio(1,1).start(requireContext(),this)
         }
 
         saveBtn.setOnClickListener {

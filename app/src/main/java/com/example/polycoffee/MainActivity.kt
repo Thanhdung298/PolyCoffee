@@ -2,16 +2,12 @@ package com.example.polycoffee
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.View
-import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.polycoffee.databinding.ActivityMainBinding
-import me.ibrahimsn.lib.SmoothBottomBar
 
 class MainActivity : AppCompatActivity() {
 

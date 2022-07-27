@@ -36,7 +36,8 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.9'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation('com.cepheuen.elegant-number-button:lib:1.0.2')
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'

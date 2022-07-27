@@ -40,7 +40,17 @@ class AdapterSP(val context: Context, val list:ArrayList<SanPham>,val type:Int) 
 
             })
         }
+        if(type==1){
+            holder.view.setOnClickListener {
+
+            }
+        }
     }
+
+    fun openOrderDialog(){
+
+    }
+    
 
     override fun getItemCount(): Int = list.size
 }

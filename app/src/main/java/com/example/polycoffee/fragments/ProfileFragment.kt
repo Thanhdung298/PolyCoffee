@@ -29,60 +29,38 @@ import com.theartofdev.edmodo.cropper.CropImage
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    var user = User()
-    lateinit var listUser:ArrayList<User>
     lateinit var adapter: AdapterUser
     lateinit var img: ImageView
-    lateinit var imgedit: ImageView
 
     var bitmapImg: Bitmap?=null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        var user = User()
         val username = requireActivity().intent.getStringExtra("Username").toString()
         val database = FirebaseDatabase.getInstance().getReference("User").child(username)
+        database.get().addOnSuccessListener {
+            user = it.getValue(User::class.java)!!
+            binding.tvProfileUsername.text = user.userName
+            binding.tvRole.text = if(user.role==0)"Nhân viên" else "Quản lý"
+            binding.tvProfileHoten.text = "Họ tên: ${user.hoTen}"
+            binding.tvProfileDiachi.text = "Địa chỉ: ${user.diaChi}"
+            binding.tvProfileNgaysinh.text = "Ngày sinh: ${user.ngaySinh}"
+            binding.tvProfileSdt.text = "Số điện thoại: ${user.sdt}"
+            if(user.anhDaiDien!=""){
+                binding.imgProfile.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))
+            }
+        }.addOnFailureListener { Toast.makeText(requireContext(),"failed",Toast.LENGTH_SHORT).show() }
 
-        database.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                user = snapshot.getValue(User::class.java)!!
-            }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
-        img = binding.imgProfile
-        imgedit =binding.imageView2
-        val role = binding.tvRole
-        val hoten = binding.tvProfileHoten
-        val diachi = binding.tvProfileDiachi
-        val ngaysinh = binding.tvProfileNgaysinh
-        val sdt = binding.tvProfileSdt
-        val doimk = binding.tvDoiMK
-        val logout = binding.tvLogout2
-        if (user.role==1){
-            role.setText("admin vjp pro pho mai que")
-        }else{
-            role.setText("Nhân viên quèn")
+
+
+        binding.btnProfileDMK.setOnClickListener {
+
         }
-        hoten.setText(user.hoTen)
-        diachi.setText(user.diaChi)
-        ngaysinh.setText(user.ngaySinh)
-        sdt.setText(user.sdt)
-        if(user.anhDaiDien!=""){
-            img.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))
-            bitmapImg = TempFunc.StringToBitmap(user.anhDaiDien)
+        binding.btnProfileEdit.setOnClickListener {
+
         }
-        imgedit.setOnClickListener {
-            openDialog(User(),0)
-        }
-        doimk.setOnClickListener {
-//            val intent = Intent(this,DoiPassFragment::class.java)
-//            startActivity(intent)
-        }
-        logout.setOnClickListener {
-            startActivity(Intent(requireActivity(),LoginActivity::class.java))
-            requireActivity().finish()
-        }
+
         return root
     }
     fun openDialog(user: User,type:Int){
