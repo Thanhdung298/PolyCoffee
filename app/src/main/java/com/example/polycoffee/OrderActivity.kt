@@ -17,11 +17,13 @@ class OrderActivity : AppCompatActivity() {
     lateinit var adapter: AdapterMenu
     lateinit var recyclerView: RecyclerView
     var listLoaiSP=ArrayList<LoaiSanPham>()
+    var maBan = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.menuFab.isVisible = false
+        maBan = intent.getStringExtra("maBan").toString()
 
         updateRecyclerView()
         MenuFragment().getListLSP(listLoaiSP,adapter)
@@ -31,7 +33,7 @@ class OrderActivity : AppCompatActivity() {
     fun updateRecyclerView(){
         listLoaiSP = ArrayList<LoaiSanPham>()
         recyclerView = binding.menuRecyclerView
-        adapter = AdapterMenu(this,listLoaiSP,MenuFragment(),1)
+        adapter = AdapterMenu(this,listLoaiSP,MenuFragment(),1,maBan)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
     }

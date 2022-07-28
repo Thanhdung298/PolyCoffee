@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import com.example.polycoffee.ChangePasswordActivity
 import com.example.polycoffee.LoginActivity
 import com.example.polycoffee.R
 import com.example.polycoffee.adapter.AdapterUser
@@ -55,15 +56,15 @@ class ProfileFragment : Fragment() {
 
 
         binding.btnProfileDMK.setOnClickListener {
-
+            startActivity(Intent(requireActivity(),ChangePasswordActivity::class.java))
         }
         binding.btnProfileEdit.setOnClickListener {
-
+            openDialog(user)
         }
 
         return root
     }
-    fun openDialog(user: User,type:Int){
+    fun openDialog(user: User){
         val builder = AlertDialog.Builder(requireContext())
         val binding = DialogProfileBinding.inflate(layoutInflater)
         builder.setView(binding.root)
@@ -79,8 +80,6 @@ class ProfileFragment : Fragment() {
         val saveBtn = binding.dialogProfileBtnSave
         val cancelBtn = binding.dialogProfileBtnCancel
 
-
-        if(type==1){
             username.editText!!.setText(user.userName)
             username.editText!!.isEnabled = false
             hoten.editText!!.setText(user.hoTen)
@@ -91,15 +90,17 @@ class ProfileFragment : Fragment() {
                 img.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))
                 bitmapImg = TempFunc.StringToBitmap(user.anhDaiDien)
             }
-        }
 
         img.setOnClickListener {
             CropImage.activity().setAspectRatio(1,1).start(requireContext(),this)
         }
 
         saveBtn.setOnClickListener {
-            val userAdd = User(username.editText!!.text.toString(),hoten.editText!!.text.toString(),ngaySinh.editText!!.text.toString(),diaChi.editText!!.text.toString(),sdt.editText!!.text.toString(),if(bitmapImg == null)"" else TempFunc.BitMapToString(bitmapImg!!))
-            DAO(requireContext()).insert(userAdd,"User")
+            user.hoTen = hoten.editText!!.text.toString()
+            user.ngaySinh = ngaySinh.editText!!.text.toString()
+            user.diaChi = diaChi.editText!!.text.toString()
+            user.sdt = sdt.editText!!.text.toString()
+            DAO(requireContext()).insert(user,"User")
             alertDialog.dismiss()
         }
         cancelBtn.setOnClickListener {

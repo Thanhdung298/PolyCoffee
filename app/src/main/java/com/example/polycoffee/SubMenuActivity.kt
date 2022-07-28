@@ -34,12 +34,14 @@ class SubMenuActivity : AppCompatActivity() {
     lateinit var adapterSP: AdapterSP
    // val type = intent.getIntExtra("types",0)
    var type = 0
+    var maBan = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySubMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
         type = intent.getIntExtra("types",0).toString().toInt()
+        maBan = intent.getStringExtra("maBan").toString()
 
         binding.subMenuFab.setOnClickListener {
             openDialogSP(SanPham(),0)
@@ -76,7 +78,7 @@ class SubMenuActivity : AppCompatActivity() {
     fun updateRecyclerView(){
         listSP = ArrayList()
         recyclerView = binding.subMenuRecyclerView
-        adapterSP = AdapterSP(this,listSP,type)
+        adapterSP = AdapterSP(this,listSP,type,maBan)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapterSP
     }

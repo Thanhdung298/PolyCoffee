@@ -1,17 +1,23 @@
 package com.example.polycoffee.adapter
 
+import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.SubMenuActivity
 import com.example.polycoffee.dao.TempFunc
+import com.example.polycoffee.databinding.DialogOrderBinding
+import com.example.polycoffee.databinding.DialogProfileBinding
 import com.example.polycoffee.databinding.ItemSpBinding
 import com.example.polycoffee.fragments.MenuFragment
+import com.example.polycoffee.model.HoaDonTemp
 import com.example.polycoffee.model.SanPham
+import com.google.firebase.database.FirebaseDatabase
 
-class AdapterSP(val context: Context, val list:ArrayList<SanPham>,val type:Int) : RecyclerView.Adapter<AdapterSP.ViewHolder>() {
+class AdapterSP(val context: Context, val list:ArrayList<SanPham>,val type:Int,var maBan:String="") : RecyclerView.Adapter<AdapterSP.ViewHolder>() {
     class ViewHolder(binding:ItemSpBinding) : RecyclerView.ViewHolder(binding.root) {
         val view = binding.itemSpView
         val tenSP = binding.itemSpTenSP
@@ -40,16 +46,38 @@ class AdapterSP(val context: Context, val list:ArrayList<SanPham>,val type:Int) 
 
             })
         }
-        if(type==1){
+        if(type==1){ //type = 1 la order
             holder.view.setOnClickListener {
+                val builder = AlertDialog.Builder(context)
+                val binding = DialogOrderBinding.inflate(LayoutInflater.from(context))
+                builder.setView(binding.root)
+                val alertDialog = builder.create()
+                alertDialog.show()
 
+                val img = binding.dialogOrderImg
+                val tenSP = binding.dialogOrderTenSP
+                val soLuongOrder = binding.dialogOrderNumber
+                val saveBtn = binding.dialogOrderSaveBtn
+
+                if(sanPham.img!=""){
+                    img.setImageBitmap(TempFunc.StringToBitmap(sanPham.img))
+                }
+
+                tenSP.text = sanPham.tenSP
+                saveBtn.setOnClickListener {
+                    val database = FirebaseDatabase.getInstance().getReference("Ban").child(maBan)
+                    database.child("ListSP").child(sanPham.maSP).setValue(HoaDonTemp(sanPham.maSP,sanPham.tenSP,soLuongOrder.number.toString().toInt())).addOnSuccessListener {
+                        Toast.makeText(context,"Thanh cong",Toast.LENGTH_SHORT).show()
+                        database.child("state").setValue("Chưa thanh toán")
+                    } .addOnFailureListener {
+                        Toast.makeText(context,"That bai",Toast.LENGTH_SHORT).show()
+                    }
+
+                }
             }
         }
     }
 
-    fun openOrderDialog(){
-
-    }
     
 
     override fun getItemCount(): Int = list.size

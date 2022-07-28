@@ -1,5 +1,6 @@
 package com.example.polycoffee.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -12,7 +13,7 @@ import com.example.polycoffee.databinding.ItemMenuBinding
 import com.example.polycoffee.fragments.MenuFragment
 import com.example.polycoffee.model.LoaiSanPham
 
-class AdapterMenu(val context: Context,val list:ArrayList<LoaiSanPham>,val fragment:MenuFragment,val type:Int) : RecyclerView.Adapter<AdapterMenu.ViewHolder>() {
+class AdapterMenu(val context: Context,val list:ArrayList<LoaiSanPham>,val fragment:MenuFragment,val type:Int,var maBan:String = "") : RecyclerView.Adapter<AdapterMenu.ViewHolder>() {
     class ViewHolder(binding:ItemMenuBinding) : RecyclerView.ViewHolder(binding.root) {
         val tenLoai = binding.itemLoaiSPTenLoai
         val img = binding.itemLoaiSPImg
@@ -30,6 +31,7 @@ class AdapterMenu(val context: Context,val list:ArrayList<LoaiSanPham>,val fragm
         if(loaiSanPham.img!="") {
             holder.img.setImageBitmap(TempFunc.StringToBitmap(loaiSanPham.img))
         }
+
         holder.tenLoai.text = loaiSanPham.tenLoai
         if(type==0){
             holder.view.setOnLongClickListener(object :View.OnLongClickListener{
@@ -45,6 +47,7 @@ class AdapterMenu(val context: Context,val list:ArrayList<LoaiSanPham>,val fragm
             val intent = Intent(context,SubMenuActivity::class.java)
             intent.putExtra("maLoai",loaiSanPham.maLoai)
             intent.putExtra("types",type)
+            intent.putExtra("maBan",maBan)
             print(type)
             context.startActivity(intent)
         }
