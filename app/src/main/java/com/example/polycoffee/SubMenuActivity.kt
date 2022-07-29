@@ -9,6 +9,7 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.adapter.AdapterMenu
@@ -43,11 +44,17 @@ class SubMenuActivity : AppCompatActivity() {
         type = intent.getIntExtra("types",0).toString().toInt()
         maBan = intent.getStringExtra("maBan").toString()
 
+        if(type==1){
+            binding.subMenuFab.isVisible = false
+        }
         binding.subMenuFab.setOnClickListener {
             openDialogSP(SanPham(),0)
         }
         updateRecyclerView()
         getListLSP(listSP,adapterSP)
+
+
+
     }
 
     fun getListLSP(list:ArrayList<SanPham>,adapterSP: AdapterSP){

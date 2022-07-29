@@ -13,7 +13,7 @@ import com.example.polycoffee.databinding.ItemMenuBinding
 import com.example.polycoffee.fragments.MenuFragment
 import com.example.polycoffee.model.LoaiSanPham
 
-class AdapterMenu(val context: Context,val list:ArrayList<LoaiSanPham>,val fragment:MenuFragment,val type:Int,var maBan:String = "") : RecyclerView.Adapter<AdapterMenu.ViewHolder>() {
+class AdapterMenu(val context: Context,val list:ArrayList<LoaiSanPham>,val fragment:MenuFragment,val type:Int=0,var maBan:String = "") : RecyclerView.Adapter<AdapterMenu.ViewHolder>() {
     class ViewHolder(binding:ItemMenuBinding) : RecyclerView.ViewHolder(binding.root) {
         val tenLoai = binding.itemLoaiSPTenLoai
         val img = binding.itemLoaiSPImg

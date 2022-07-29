@@ -2,6 +2,7 @@ package com.example.polycoffee.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,9 +36,11 @@ class OrderFragment : Fragment() {
     lateinit var recyclerView: RecyclerView
     lateinit var adapterBan: AdapterBan
     lateinit var listBan:ArrayList<Ban>
+    lateinit var username:String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentOrderBinding.inflate(inflater, container, false)
+        username = requireActivity().intent.getStringExtra("Username").toString()
 
         binding.orderFab.setOnClickListener {
             DAO(requireContext()).insert(Ban((listBan.size+1).toString()),"Ban")
@@ -52,7 +55,7 @@ class OrderFragment : Fragment() {
     fun updateRecyclerView(){
         listBan = ArrayList()
         recyclerView = binding.orderRecyclerView
-        adapterBan = AdapterBan(requireContext(),listBan,this)
+        adapterBan = AdapterBan(requireContext(),listBan,this,username)
         recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
         recyclerView.adapter = adapterBan
     }

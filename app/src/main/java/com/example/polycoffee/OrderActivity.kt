@@ -1,5 +1,6 @@
 package com.example.polycoffee
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,12 @@ class OrderActivity : AppCompatActivity() {
         binding = FragmentMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.menuFab.isVisible = false
+        binding.orderSuccessBtn.isVisible = true
+
+        binding.orderSuccessBtn.setOnClickListener {
+            onBackPressed()
+        }
+
         maBan = intent.getStringExtra("maBan").toString()
 
         updateRecyclerView()
