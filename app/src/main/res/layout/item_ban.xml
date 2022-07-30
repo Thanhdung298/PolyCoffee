@@ -12,7 +12,7 @@
             android:id="@+id/item_ban_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/seat" />
+            app:srcCompat="@drawable/capuchinoart" />
 
         <ImageView
             android:id="@+id/item_ban_menu"
