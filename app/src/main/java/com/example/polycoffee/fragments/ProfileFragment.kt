@@ -61,6 +61,10 @@ class ProfileFragment : Fragment() {
         binding.btnProfileEdit.setOnClickListener {
             openDialog(user)
         }
+        binding.btnProifleLogout.setOnClickListener {
+            startActivity(Intent(requireActivity(),LoginActivity::class.java))
+            requireActivity().finish()
+        }
 
         return root
     }
@@ -106,8 +110,6 @@ class ProfileFragment : Fragment() {
         cancelBtn.setOnClickListener {
             alertDialog.dismiss()
         }
-
-
     }
 
 

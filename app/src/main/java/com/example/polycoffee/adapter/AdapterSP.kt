@@ -2,6 +2,7 @@ package com.example.polycoffee.adapter
 
 import android.app.AlertDialog
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,14 +66,14 @@ class AdapterSP(val context: Context, val list:ArrayList<SanPham>,val type:Int,v
 
                 tenSP.text = sanPham.tenSP
                 saveBtn.setOnClickListener {
+
                     val database = FirebaseDatabase.getInstance().getReference("Ban").child(maBan)
-                    database.child("ListSP").child(sanPham.maSP).setValue(HoaDonTemp(sanPham.maSP,sanPham.tenSP,soLuongOrder.number.toString().toInt())).addOnSuccessListener {
+                    database.child("ListSP").child(sanPham.maSP).setValue(HoaDonTemp(sanPham.maSP,sanPham.tenSP,soLuongOrder.number.toString().toInt(),sanPham.giaSP)).addOnSuccessListener {
                         Toast.makeText(context,"Thanh cong",Toast.LENGTH_SHORT).show()
                         database.child("state").setValue("Chưa thanh toán")
                     } .addOnFailureListener {
                         Toast.makeText(context,"That bai",Toast.LENGTH_SHORT).show()
                     }
-
                 }
             }
         }
