@@ -26,7 +26,7 @@ import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:OrderFragment,var username:String="") : RecyclerView.Adapter<AdapterBan.ViewHolder>() {
+class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:OrderFragment,var username:String="",var role:Int=0) : RecyclerView.Adapter<AdapterBan.ViewHolder>() {
     class ViewHolder(binding:ItemBanBinding) : RecyclerView.ViewHolder(binding.root) {
         val view = binding.itemBanView
         val menu = binding.itemBanMenu
@@ -63,7 +63,8 @@ class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:Ord
                         val builder = AlertDialog.Builder(context)
                         val binding = DialogHoadonBinding.inflate(LayoutInflater.from(context))
                         builder.setView(binding.root)
-                            .setPositiveButton("Đã thanh toán"){ p0,p1 ->
+                        if(role == 1){
+                            builder.setPositiveButton("Đã thanh toán"){ p0,p1 ->
 
                                 val databaseHD = FirebaseDatabase.getInstance().getReference("HoaDon")
                                 databaseHD.get().addOnSuccessListener {
@@ -90,14 +91,16 @@ class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:Ord
                                         }
                                     }
                                 }
-
-
-
                                 p0.dismiss()
                             }
-                            .setNegativeButton("Hủy"){ p0,_ ->
-                                p0.dismiss()
+                                .setNegativeButton("Hủy"){ p0,_ ->
+                                    p0.dismiss()
+                                }
+                        } else{
+                            builder.setPositiveButton("Hoàn thành"){
+                                p0,p1 -> p0.dismiss()
                             }
+                        }
                         val alertDialog = builder.create()
                         alertDialog.show()
 

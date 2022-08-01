@@ -37,10 +37,12 @@ class OrderFragment : Fragment() {
     lateinit var adapterBan: AdapterBan
     lateinit var listBan:ArrayList<Ban>
     lateinit var username:String
+     var role = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentOrderBinding.inflate(inflater, container, false)
         username = requireActivity().intent.getStringExtra("Username").toString()
+        role = requireActivity().intent.getIntExtra("role",0)
 
         binding.orderFab.setOnClickListener {
             DAO(requireContext()).insert(Ban((listBan.size+1).toString()),"Ban")
@@ -55,7 +57,7 @@ class OrderFragment : Fragment() {
     fun updateRecyclerView(){
         listBan = ArrayList()
         recyclerView = binding.orderRecyclerView
-        adapterBan = AdapterBan(requireContext(),listBan,this,username)
+        adapterBan = AdapterBan(requireContext(),listBan,this,username,role)
         recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
         recyclerView.adapter = adapterBan
     }
@@ -80,40 +82,6 @@ class OrderFragment : Fragment() {
 
         })
     }
-
-//    fun openDialogLSP(ban: Ban, type:Int){
-//        val builder = AlertDialog.Builder(requireContext())
-//        val binding = DialogLoaispBinding.inflate(layoutInflater)
-//        builder.setView(binding.root)
-//        val alertDialog = builder.create()
-//        alertDialog.show()
-//        val maLoai = binding.dialogLoaiSPMaLoai
-//        val tenLoai = binding.dialogLoaiSPTenLoai
-//        val saveBtn = binding.dialogLoaiSPSaveBtn
-//        val cancelBtn = binding.btnLSPCancel
-//        img = binding.dialogLoaiSPImg
-//
-//        if(type==1){
-//            maLoai.editText!!.isEnabled = false
-//            maLoai.editText!!.setText(loaiSanPham.maLoai)
-//            tenLoai.editText!!.setText(loaiSanPham.tenLoai)
-//            img.setImageBitmap(TempFunc.StringToBitmap(loaiSanPham.img))
-//            bitmapLoaiSP = TempFunc.StringToBitmap(loaiSanPham.img)
-//        }
-//
-//        img.setOnClickListener {
-//            CropImage.activity().setAspectRatio(27,6).start(requireContext(),this)
-//        }
-//
-//        saveBtn.setOnClickListener {
-//            val loaiSP = LoaiSanPham(maLoai.editText!!.text.toString(),tenLoai.editText!!.text.toString(),if(bitmapLoaiSP == null)"" else TempFunc.BitMapToString(bitmapLoaiSP!!))
-//            DAO(requireContext()).insert(loaiSP,"LoaiSP")
-//            alertDialog.dismiss()
-//        }
-//        cancelBtn.setOnClickListener{
-//            alertDialog.dismiss()
-//        }
-//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
