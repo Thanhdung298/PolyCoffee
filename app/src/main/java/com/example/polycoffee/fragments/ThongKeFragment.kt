@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.polycoffee.R
+import com.example.polycoffee.adapter.AdapterThongKe
 import com.example.polycoffee.databinding.FragmentMenuBinding
 import com.example.polycoffee.databinding.FragmentThongKeBinding
 import com.example.polycoffee.model.HoaDon
@@ -59,7 +61,9 @@ class ThongKeFragment : Fragment() {
                     }
                 }
                 binding.thongkeTongLoiNhuan.text = "Tổng lợi nhuận: ${sum}"
-
+                val adapterThongKe = AdapterThongKe(requireContext(),list)
+                binding.thongkeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+                binding.thongkeRecyclerView.adapter = adapterThongKe
             }
         }
         calBtn.performClick()

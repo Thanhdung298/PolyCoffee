@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.view.LayoutInflater
+import android.widget.EditText
 import com.example.polycoffee.SubMenuActivity
 import com.example.polycoffee.databinding.DialogChoosenBinding
 import com.example.polycoffee.fragments.MenuFragment
@@ -13,6 +14,7 @@ import com.example.polycoffee.fragments.UserFragment
 import com.example.polycoffee.model.LoaiSanPham
 import com.example.polycoffee.model.SanPham
 import com.example.polycoffee.model.User
+import com.google.android.material.textfield.TextInputLayout
 import java.io.ByteArrayOutputStream
 
 class TempFunc {
@@ -66,6 +68,38 @@ class TempFunc {
                 }
             }
 
+        }
+
+        fun checkField(vararg check: TextInputLayout):Boolean{
+            var count = 0
+            for (view in check){
+                if(view.editText!!.text.isEmpty()){
+                    view.error = "Bạn phải nhập vào trường này"
+                    count++
+                } else view.error = null
+            }
+            return count==0
+        }
+
+        fun checkNumber(check: TextInputLayout):Boolean{
+            try {
+                if (check.editText!!.text.toString().toInt()<=0){
+                    check.error = "Giá phải là số lớn hơn 0"
+                    return false
+                }
+            } catch (e:Exception){
+                check.error = "Giá phải là số lớn hơn 0"
+                e.printStackTrace()
+                return false
+            }
+            return true
+        }
+
+        fun resetField(vararg field: EditText){
+            for(i in field){
+                i.text = null
+            }
+            field[0].requestFocus()
         }
     }
 }

@@ -20,6 +20,7 @@ class AdapterUser(var context: Context,var list:ArrayList<User>,var fragment:Use
         val diaChi = binding.itemUserDiaChi
         val sdt = binding.itemUserSdt
         val view = binding.root
+        val background = binding.background
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,6 +29,7 @@ class AdapterUser(var context: Context,var list:ArrayList<User>,var fragment:Use
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.background.background.alpha = 100
         val user = list[position]
         if(user.anhDaiDien!=""){
             holder.img.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))

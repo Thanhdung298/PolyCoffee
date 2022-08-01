@@ -56,7 +56,10 @@ class ProfileFragment : Fragment() {
 
 
         binding.btnProfileDMK.setOnClickListener {
-            startActivity(Intent(requireActivity(),ChangePasswordActivity::class.java))
+            val intent = Intent(requireActivity(),ChangePasswordActivity::class.java)
+            intent.putExtra("password",user.passWord)
+            intent.putExtra("username",username)
+            startActivity(intent)
         }
         binding.btnProfileEdit.setOnClickListener {
             openDialog(user)
