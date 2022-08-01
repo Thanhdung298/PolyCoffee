@@ -19,6 +19,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dialog_profile_username"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconDrawable="@drawable/outline_person_outline_24"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -31,6 +32,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dialog_profile_hoTen"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconDrawable="@drawable/outline_person_outline_24"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -43,6 +45,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dialog_profile_ngaySinh"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconDrawable="@drawable/outline_calendar_today_24"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -55,6 +58,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dialog_profile_diaChi"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconDrawable="@drawable/outline_diachi_24"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -67,6 +71,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dialog_profile_SDT"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconDrawable="@drawable/outline_phone_24"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

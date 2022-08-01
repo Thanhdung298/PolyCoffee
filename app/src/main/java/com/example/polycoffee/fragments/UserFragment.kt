@@ -2,6 +2,7 @@ package com.example.polycoffee.fragments
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -27,6 +28,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class UserFragment : Fragment() {
 
@@ -124,11 +128,32 @@ class UserFragment : Fragment() {
         img.setOnClickListener {
             CropImage.activity().setCropShape(CropImageView.CropShape.OVAL).setAspectRatio(1,1).start(requireContext(),this)
         }
+        val cal = Calendar.getInstance()
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, i, i2, i3 ->
+            cal.set(Calendar.YEAR,i)
+            cal.set(Calendar.MONTH,i2)
+            cal.set(Calendar.DAY_OF_MONTH,i3)
+            val sdf = SimpleDateFormat("dd-MM-yyyy")
+            ngaySinh.editText!!.setText(sdf.format(cal.time))
+        }
+
+        ngaySinh.editText!!.setOnFocusChangeListener{ _, b ->
+            if(b){
+                DatePickerDialog(requireContext(),dateSetListener,cal.get(Calendar.YEAR),cal.get(
+                    Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)).show()
+                ngaySinh.editText!!.setOnClickListener{
+                    DatePickerDialog(requireContext(),dateSetListener,cal.get(Calendar.YEAR),cal.get(
+                        Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)).show()
+                }
+            }
+        }
 
         saveBtn.setOnClickListener {
-            val userAdd = User(username.editText!!.text.toString(),password.editText!!.text.toString(),hoten.editText!!.text.toString(),ngaySinh.editText!!.text.toString(),diaChi.editText!!.text.toString(),sdt.editText!!.text.toString(),if(bitmapImg == null)"" else TempFunc.BitMapToString(bitmapImg!!),if(rdo0.isChecked)0 else 1)
-            DAO(requireContext()).insert(userAdd,"User")
-            alertDialog.dismiss()
+            if(TempFunc.checkField(username,password,hoten,ngaySinh,diaChi,sdt)){
+                val userAdd = User(username.editText!!.text.toString(),password.editText!!.text.toString(),hoten.editText!!.text.toString(),ngaySinh.editText!!.text.toString(),diaChi.editText!!.text.toString(),sdt.editText!!.text.toString(),if(bitmapImg == null)"" else TempFunc.BitMapToString(bitmapImg!!),if(rdo0.isChecked)0 else 1)
+                DAO(requireContext()).insert(userAdd,"User")
+                alertDialog.dismiss()
+            }
         }
         cancelBtn.setOnClickListener {
             alertDialog.dismiss()
