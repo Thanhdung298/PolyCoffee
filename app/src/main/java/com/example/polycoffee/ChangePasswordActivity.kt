@@ -26,11 +26,6 @@ class ChangePasswordActivity : AppCompatActivity() {
         password = intent.getStringExtra("password").toString()
         username = intent.getStringExtra("username").toString()
 
-        Log.d("test",username)
-        Log.d("test",password)
-
-
-
         binding.dmkSaveBtn.setOnClickListener {
             if(valiDateForm()){
                 FirebaseDatabase.getInstance().getReference("User").child(username).child("passWord").setValue(newPass.editText!!.text.toString()).addOnSuccessListener {

@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background14"
     android:orientation="vertical"
-    android:background="@drawable/background14">
+    android:padding="35dp">
 
 
     <ImageView
@@ -17,7 +18,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dialog_profile_username"
-        android:layout_width="409dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -28,7 +30,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dialog_profile_hoTen"
-        android:layout_width="409dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -39,7 +42,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dialog_profile_ngaySinh"
-        android:layout_width="409dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -50,7 +54,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dialog_profile_diaChi"
-        android:layout_width="409dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -61,7 +66,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dialog_profile_SDT"
-        android:layout_width="409dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText

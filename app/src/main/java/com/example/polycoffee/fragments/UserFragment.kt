@@ -90,6 +90,7 @@ class UserFragment : Fragment() {
         builder.setView(binding.root)
         val alertDialog = builder.create()
         alertDialog.show()
+        binding.root.background.alpha = 100
 
         img = binding.dialogUserImg
         val username = binding.dialogUserUsername

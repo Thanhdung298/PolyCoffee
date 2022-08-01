@@ -2,6 +2,8 @@ package com.example.polycoffee.adapter
 
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -52,7 +54,9 @@ class AdapterSP(val context: Context, val list:ArrayList<SanPham>,val type:Int,v
                 val builder = AlertDialog.Builder(context)
                 val binding = DialogOrderBinding.inflate(LayoutInflater.from(context))
                 builder.setView(binding.root)
+
                 val alertDialog = builder.create()
+                alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 alertDialog.show()
 
                 val img = binding.dialogOrderImg
@@ -70,6 +74,7 @@ class AdapterSP(val context: Context, val list:ArrayList<SanPham>,val type:Int,v
                     val database = FirebaseDatabase.getInstance().getReference("Ban").child(maBan)
                     database.child("ListSP").child(sanPham.maSP).setValue(HoaDonTemp(sanPham.maSP,sanPham.tenSP,soLuongOrder.number.toString().toInt(),sanPham.giaSP)).addOnSuccessListener {
                         Toast.makeText(context,"Thanh cong",Toast.LENGTH_SHORT).show()
+                        alertDialog.dismiss()
                         database.child("state").setValue("Chưa thanh toán")
                     } .addOnFailureListener {
                         Toast.makeText(context,"That bai",Toast.LENGTH_SHORT).show()
