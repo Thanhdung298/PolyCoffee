@@ -64,21 +64,25 @@ class TempFunc {
                 when(fragmentAny){
                     is MenuFragment ->  fragmentAny.openDialogLSP(objectAny as LoaiSanPham,1)
                     is UserFragment -> fragmentAny.openDialog(objectAny as User,1)
-                    is SubMenuActivity -> SubMenuActivity().openDialogSP(objectAny as SanPham,1)
+                    is SubMenuActivity -> SubMenuActivity().openDialogSP(objectAny as SanPham,1,context)
                 }
             }
 
         }
 
-        fun checkField(vararg check: TextInputLayout):Boolean{
-            var count = 0
+        fun checkField(vararg check: TextInputLayout){
             for (view in check){
                 if(view.editText!!.text.isEmpty()){
                     view.error = "Bạn phải nhập vào trường này"
-                    count++
                 } else view.error = null
             }
-            return count==0
+        }
+
+        fun noError(vararg check: TextInputLayout):Boolean{
+            for (view in check){
+                if (view.error!=null) return false
+            }
+            return true
         }
 
         fun checkNumber(check: TextInputLayout):Boolean{

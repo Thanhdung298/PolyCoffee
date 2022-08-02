@@ -1,11 +1,13 @@
 package com.example.polycoffee
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -48,7 +50,8 @@ class SubMenuActivity : AppCompatActivity() {
             binding.subMenuFab.isVisible = false
         }
         binding.subMenuFab.setOnClickListener {
-            openDialogSP(SanPham(),0)
+            val maLoai = intent.getStringExtra("maLoai").toString()
+            openDialogSP(SanPham(),0,this@SubMenuActivity,maLoai)
         }
         updateRecyclerView()
         getListLSP(listSP,adapterSP)
@@ -90,9 +93,9 @@ class SubMenuActivity : AppCompatActivity() {
         recyclerView.adapter = adapterSP
     }
 
-    fun openDialogSP(sanPham: SanPham, type:Int){
-        val builder = AlertDialog.Builder(this@SubMenuActivity)
-        val binding = DialogSanphamBinding.inflate(layoutInflater)
+    fun openDialogSP(sanPham: SanPham, type:Int,context: Context,maLoai:String = ""){
+        val builder = AlertDialog.Builder(context)
+        val binding = DialogSanphamBinding.inflate(LayoutInflater.from(context))
         builder.setView(binding.root)
 
         val alertDialog = builder.create()
@@ -102,11 +105,11 @@ class SubMenuActivity : AppCompatActivity() {
         img = binding.dialogSpImg
         val tenSP = binding.dialogSpTenSP
         val gia = binding.dialogSpGia
-        val maLoai = intent.getStringExtra("maLoai").toString()
+
+        maSP.editText!!.isEnabled = false
 
         if(type==1){
-            maSP.editText!!.isEnabled = false
-            maSP.editText!!.setText(sanPham.maSP)
+            maSP.editText!!.setText(sanPham.maSP.toString())
             tenSP.editText!!.setText(sanPham.tenSP)
             gia.editText!!.setText(sanPham.giaSP.toString())
             if(sanPham.img!=""){
@@ -118,11 +121,31 @@ class SubMenuActivity : AppCompatActivity() {
         img.setOnClickListener {
             CropImage.activity().setAspectRatio(1,1).start(this)
         }
+        if(type==0){
+            val database = FirebaseDatabase.getInstance().getReference("SanPham")
+            database.get().addOnSuccessListener {
+                val sp = it.children.lastOrNull()?.getValue(SanPham::class.java)
+                if(sp!=null){
+                    maSP.editText!!.setText("${sp.maSP+1}")
+                } else{
+                    maSP.editText!!.setText("${0}")
+                }
+            }
+        }
+
 
         binding.dialogSpSaveBtn.setOnClickListener {
-            val sanPham = SanPham(maSP.editText!!.text.toString(),tenSP.editText!!.text.toString(),gia.editText!!.text.toString().toInt(),maLoai,if(bitmapSP==null) "" else  TempFunc.BitMapToString(bitmapSP!!))
-            DAO(this).insert(sanPham,"SanPham")
-            alertDialog.dismiss()
+            TempFunc.checkField(tenSP,gia)
+            if(!"^[0-9]+$".toRegex().matches(gia.editText!!.text.toString())){
+                gia.error = "Giá tiền phải là số"
+            } else gia.error = null
+            if(TempFunc.noError(tenSP,gia)){
+                val sanPhamSub = SanPham(maSP.editText!!.text.toString().toInt(),tenSP.editText!!.text.toString(),gia.editText!!.text.toString().toInt(),if(type==0) maLoai else sanPham.maLoai,if(bitmapSP==null) "" else  TempFunc.BitMapToString(bitmapSP!!))
+                FirebaseDatabase.getInstance().getReference("SanPham").child(maSP.editText!!.text.toString()).setValue(sanPhamSub)
+                    .addOnFailureListener { Toast.makeText(context,"That bai",Toast.LENGTH_SHORT).show() }
+                    .addOnSuccessListener { Toast.makeText(context,"Thanh cong",Toast.LENGTH_SHORT).show()}
+                alertDialog.dismiss()
+            }
         }
 
         binding.dialogSpCancelBtn.setOnClickListener {

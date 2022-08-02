@@ -116,9 +116,12 @@ class MenuFragment : Fragment() {
         }
 
         saveBtn.setOnClickListener {
-            val loaiSP = LoaiSanPham(maLoai.editText!!.text.toString(),tenLoai.editText!!.text.toString(),if(bitmapLoaiSP == null)"" else TempFunc.BitMapToString(bitmapLoaiSP!!))
-            DAO(requireContext()).insert(loaiSP,"LoaiSP")
-            alertDialog.dismiss()
+            TempFunc.checkField(maLoai,tenLoai)
+            if(TempFunc.noError(maLoai,tenLoai)){
+                val loaiSP = LoaiSanPham(maLoai.editText!!.text.toString(),tenLoai.editText!!.text.toString(),if(bitmapLoaiSP == null)"" else TempFunc.BitMapToString(bitmapLoaiSP!!))
+                DAO(requireContext()).insert(loaiSP,"LoaiSP")
+                alertDialog.dismiss()
+            }
         }
         cancelBtn.setOnClickListener{
             alertDialog.dismiss()

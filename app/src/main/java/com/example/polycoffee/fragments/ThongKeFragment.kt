@@ -50,7 +50,6 @@ class ThongKeFragment : Fragment() {
                 for(snap in it.children){
                     val hoaDon = snap.getValue(HoaDon::class.java)
                     if (hoaDon != null) {
-                        Log.d("test",hoaDon.ngay)
                         if (parseDate(hoaDon.ngay)!!.compareTo(parseDate(tuNgay.editText!!.text.toString()))>=0 && parseDate(hoaDon.ngay)!!.compareTo(parseDate(denNgay.editText!!.text.toString())) <= 0 ){
                             list.add(hoaDon)
                         }

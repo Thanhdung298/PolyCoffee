@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.dao.TempFunc.Companion.checkField
+import com.example.polycoffee.dao.TempFunc.Companion.noError
 import com.example.polycoffee.databinding.ActivityChangePasswordBinding
 import com.example.polycoffee.model.User
 import com.google.firebase.database.FirebaseDatabase
@@ -20,9 +21,7 @@ class ChangePasswordActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChangePasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val oldPass = binding.dmkOldPass
         val newPass = binding.dmkNewPass
-        val reNewPass = binding.dmkNewPassRepeat
         password = intent.getStringExtra("password").toString()
         username = intent.getStringExtra("username").toString()
 
@@ -42,7 +41,8 @@ class ChangePasswordActivity : AppCompatActivity() {
     }
 
     private fun valiDateForm():Boolean{
-        if(checkField(binding.dmkOldPass,binding.dmkNewPass,binding.dmkNewPassRepeat)){
+        checkField(binding.dmkOldPass,binding.dmkNewPass,binding.dmkNewPassRepeat)
+        if(noError(binding.dmkOldPass,binding.dmkNewPass,binding.dmkNewPassRepeat)){
             val newPass = binding.dmkNewPass.editText!!.text.toString()
             val rePass = binding.dmkNewPassRepeat.editText!!.text.toString()
             val oldPass = binding.dmkOldPass.editText!!.text.toString()

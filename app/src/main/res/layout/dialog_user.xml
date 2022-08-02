@@ -7,6 +7,7 @@
     android:id="@+id/root"
     android:background="@drawable/background14"
     android:orientation="vertical"
+    android:layout_margin="10dp"
     android:padding="35dp">
 
 
@@ -48,6 +49,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPersonName"
             android:hint="Username" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,6 +63,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPassword"
             android:hint="Password" />
     </com.google.android.material.textfield.TextInputLayout>
 
