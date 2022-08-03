@@ -30,7 +30,7 @@ class AdapterHoaDon(val context: Context, val list:ArrayList<HoaDonTemp>,val maB
         holder.soLuong.setOnValueChangeListener(object : ElegantNumberButton.OnValueChangeListener{
             override fun onValueChange(view: ElegantNumberButton?, oldValue: Int, newValue: Int) {
                 val database = FirebaseDatabase.getInstance().getReference("Ban")
-                database.child(maBan).child("ListSP").child(hoaDon.maSP).child("soLuong").setValue(newValue).addOnSuccessListener {
+                database.child(maBan).child("ListSP").child(hoaDon.maSP.toString()).child("soLuong").setValue(newValue).addOnSuccessListener {
                     Log.d("update soLuong","Thanh cong")
                 } .addOnFailureListener {
                     Log.d("update soLuong","That bai")

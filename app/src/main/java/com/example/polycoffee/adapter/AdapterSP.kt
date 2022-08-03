@@ -72,7 +72,7 @@ class AdapterSP(val context: Context, val list:ArrayList<SanPham>,val type:Int,v
                 saveBtn.setOnClickListener {
 
                     val database = FirebaseDatabase.getInstance().getReference("Ban").child(maBan)
-                    database.child("ListSP").child(sanPham.maSP).setValue(HoaDonTemp(sanPham.maSP,sanPham.tenSP,soLuongOrder.number.toString().toInt(),sanPham.giaSP)).addOnSuccessListener {
+                    database.child("ListSP").child(sanPham.maSP.toString()).setValue(HoaDonTemp(sanPham.maSP,sanPham.tenSP,soLuongOrder.number.toString().toInt(),sanPham.giaSP)).addOnSuccessListener {
                         Toast.makeText(context,"Thanh cong",Toast.LENGTH_SHORT).show()
                         alertDialog.dismiss()
                         database.child("state").setValue("Chưa thanh toán")

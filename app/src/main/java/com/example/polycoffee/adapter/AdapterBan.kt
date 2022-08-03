@@ -3,7 +3,6 @@ package com.example.polycoffee.adapter
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -11,18 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.OrderActivity
 import com.example.polycoffee.databinding.DialogHoadonBinding
-import com.example.polycoffee.databinding.DialogOrderBinding
 import com.example.polycoffee.databinding.ItemBanBinding
 import com.example.polycoffee.fragments.OrderFragment
 import com.example.polycoffee.model.Ban
 import com.example.polycoffee.model.HoaDon
 import com.example.polycoffee.model.HoaDonTemp
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
