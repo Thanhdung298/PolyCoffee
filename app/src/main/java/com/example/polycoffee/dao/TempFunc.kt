@@ -64,7 +64,7 @@ class TempFunc {
                 when(fragmentAny){
                     is MenuFragment ->  fragmentAny.openDialogLSP(objectAny as LoaiSanPham,1)
                     is UserFragment -> fragmentAny.openDialog(objectAny as User,1)
-                    is SubMenuActivity -> SubMenuActivity().openDialogSP(objectAny as SanPham,1,context)
+                    is SubMenuActivity -> fragmentAny.openDialogSP(objectAny as SanPham,1,context)
                 }
             }
 

@@ -1,5 +1,6 @@
 package com.example.polycoffee
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -27,6 +28,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 
 class SubMenuActivity : AppCompatActivity() {
     lateinit var binding:ActivitySubMenuBinding
@@ -61,6 +63,7 @@ class SubMenuActivity : AppCompatActivity() {
     }
 
     fun getListLSP(list:ArrayList<SanPham>,adapterSP: AdapterSP){
+        list.clear()
         val database = FirebaseDatabase.getInstance().getReference("SanPham")
         val maLoai = intent.getStringExtra("maLoai").toString()
         database.addValueEventListener(object : ValueEventListener {
@@ -74,7 +77,7 @@ class SubMenuActivity : AppCompatActivity() {
                         }
                     }
                 }
-                list.sortWith(compareBy { it.maLoai })
+                list.sortWith(compareBy { it.maSP })
                 adapterSP.notifyDataSetChanged()
             }
 
@@ -88,7 +91,7 @@ class SubMenuActivity : AppCompatActivity() {
     fun updateRecyclerView(){
         listSP = ArrayList()
         recyclerView = binding.subMenuRecyclerView
-        adapterSP = AdapterSP(this,listSP,type,maBan)
+        adapterSP = AdapterSP(this,listSP,type,maBan,this)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapterSP
     }
@@ -119,7 +122,9 @@ class SubMenuActivity : AppCompatActivity() {
         }
 
         img.setOnClickListener {
-            CropImage.activity().setAspectRatio(1,1).start(this)
+            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(
+                context as Activity
+            )
         }
         if(type==0){
             val database = FirebaseDatabase.getInstance().getReference("SanPham")

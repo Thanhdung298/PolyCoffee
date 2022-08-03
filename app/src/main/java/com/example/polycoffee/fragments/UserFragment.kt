@@ -162,7 +162,7 @@ class UserFragment : Fragment() {
                     password.error = "Mật khẩu phải từ 6 đến 30 ký tự"
                 } else password.error = null
 
-            val regexPhone = "regex =/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}\$/".toRegex()
+            val regexPhone = "^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}\$".toRegex()
                 if(!regexPhone.matches(sdt.editText!!.text.toString())){
                     sdt.error = "Sai định dạng số điện thoại"
                 } else{

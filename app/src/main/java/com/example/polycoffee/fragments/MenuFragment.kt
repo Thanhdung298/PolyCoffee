@@ -63,6 +63,7 @@ class MenuFragment : Fragment() {
 
 
     fun getListLSP(list:ArrayList<LoaiSanPham>,adapterMenu: AdapterMenu){
+        list.clear()
         val database = FirebaseDatabase.getInstance().getReference("LoaiSP")
         database.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
