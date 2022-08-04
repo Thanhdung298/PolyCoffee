@@ -23,6 +23,7 @@ class OrderActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = FragmentMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.rootFragMenu.background.alpha = 130
         binding.menuFab.isVisible = false
         binding.orderSuccessBtn.isVisible = true
 

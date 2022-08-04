@@ -21,6 +21,7 @@ class ChangePasswordActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChangePasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.rootChangePass.background.alpha = 130
         val newPass = binding.dmkNewPass
         password = intent.getStringExtra("password").toString()
         username = intent.getStringExtra("username").toString()

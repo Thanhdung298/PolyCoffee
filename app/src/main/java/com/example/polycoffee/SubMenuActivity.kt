@@ -45,6 +45,8 @@ class SubMenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySubMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
+        binding.rootSubMenu.background.alpha = 130
         type = intent.getIntExtra("types",0).toString().toInt()
         maBan = intent.getStringExtra("maBan").toString()
 
