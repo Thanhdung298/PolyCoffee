@@ -94,6 +94,7 @@ class UserFragment : Fragment() {
         builder.setView(binding.root)
         val alertDialog = builder.create()
         alertDialog.show()
+        bitmapImg = null
         binding.root.background.alpha = 100
 
         img = binding.dialogUserImg

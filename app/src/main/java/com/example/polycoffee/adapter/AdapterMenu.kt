@@ -1,6 +1,5 @@
 package com.example.polycoffee.adapter
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -31,7 +30,6 @@ class AdapterMenu(val context: Context,val list:ArrayList<LoaiSanPham>,val fragm
         if(loaiSanPham.img!="") {
             holder.img.setImageBitmap(TempFunc.StringToBitmap(loaiSanPham.img))
         }
-
         holder.tenLoai.text = loaiSanPham.tenLoai
         if(type==0){
             holder.view.setOnLongClickListener(object :View.OnLongClickListener{
@@ -39,7 +37,6 @@ class AdapterMenu(val context: Context,val list:ArrayList<LoaiSanPham>,val fragm
                     TempFunc.choosenDialog(context,loaiSanPham,fragment,"LoaiSP")
                     return false
                 }
-
             })
         }
 
@@ -48,7 +45,6 @@ class AdapterMenu(val context: Context,val list:ArrayList<LoaiSanPham>,val fragm
             intent.putExtra("maLoai",loaiSanPham.maLoai)
             intent.putExtra("types",type)
             intent.putExtra("maBan",maBan)
-            print(type)
             context.startActivity(intent)
         }
 

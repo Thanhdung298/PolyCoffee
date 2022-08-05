@@ -1,16 +1,12 @@
 package com.example.polycoffee
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.dao.TempFunc.Companion.checkField
 import com.example.polycoffee.dao.TempFunc.Companion.noError
 import com.example.polycoffee.databinding.ActivityChangePasswordBinding
-import com.example.polycoffee.model.User
 import com.google.firebase.database.FirebaseDatabase
 
 class ChangePasswordActivity : AppCompatActivity() {

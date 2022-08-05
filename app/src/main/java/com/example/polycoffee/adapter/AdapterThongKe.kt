@@ -3,12 +3,10 @@ package com.example.polycoffee.adapter
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.databinding.DialogHoadonBinding
-import com.example.polycoffee.databinding.ItemHoadonBinding
 import com.example.polycoffee.databinding.ItemThongkeBinding
 import com.example.polycoffee.model.HoaDon
 
@@ -31,7 +29,7 @@ class AdapterThongKe(var context: Context,var list:ArrayList<HoaDon>) : Recycler
 
         holder.maHD.text = "Mã hóa đơn: ${hoaDon.maHD}"
         holder.nguoiOrder.text = "Người order: ${hoaDon.userName}"
-        holder.ngay.text = "Ngày tạo: ${hoaDon.ngay}"
+        holder.ngay.text = hoaDon.ngay
         holder.maBan.text = "Bàn ${hoaDon.maBan}"
 
         holder.showHD.setOnClickListener {
@@ -39,7 +37,7 @@ class AdapterThongKe(var context: Context,var list:ArrayList<HoaDon>) : Recycler
             val binding = DialogHoadonBinding.inflate(LayoutInflater.from(context))
             builder.setView(binding.root)
                 .setPositiveButton("OK"){
-                    p0,p1 -> p0.dismiss()
+                        p0, _ -> p0.dismiss()
                 }
             val alertDialog = builder.create()
             alertDialog.show()

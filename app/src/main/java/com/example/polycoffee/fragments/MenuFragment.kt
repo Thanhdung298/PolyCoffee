@@ -49,12 +49,12 @@ class MenuFragment : Fragment() {
             openDialogLSP(LoaiSanPham(),0)
         }
         updateRecyclerView()
-        getListLSP(listLoaiSP,adapter)
+        getListLSP()
         return binding.root
     }
 
     fun updateRecyclerView(){
-        listLoaiSP = ArrayList<LoaiSanPham>()
+        listLoaiSP = ArrayList()
         recyclerView = binding.menuRecyclerView
         adapter = AdapterMenu(requireContext(),listLoaiSP,this,0)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -62,20 +62,19 @@ class MenuFragment : Fragment() {
     }
 
 
-    fun getListLSP(list:ArrayList<LoaiSanPham>,adapterMenu: AdapterMenu){
-        list.clear()
+    fun getListLSP(){
+        listLoaiSP.clear()
         val database = FirebaseDatabase.getInstance().getReference("LoaiSP")
         database.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                list.clear()
+                listLoaiSP.clear()
                 for (datasnap in snapshot.children){
                     val loaiSanPham = datasnap.getValue(LoaiSanPham::class.java)
                     if (loaiSanPham != null) {
-                        list.add(loaiSanPham)
+                        listLoaiSP.add(loaiSanPham)
                     }
                 }
-                list.sortWith(compareBy { it.maLoai })
-                adapterMenu.notifyDataSetChanged()
+                adapter.notifyDataSetChanged()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -96,6 +95,7 @@ class MenuFragment : Fragment() {
         builder.setView(binding.root)
         val alertDialog = builder.create()
         alertDialog.show()
+        bitmapLoaiSP = null
         val maLoai = binding.dialogLoaiSPMaLoai
         val tenLoai = binding.dialogLoaiSPTenLoai
         val saveBtn = binding.dialogLoaiSPSaveBtn
@@ -121,6 +121,7 @@ class MenuFragment : Fragment() {
             if(TempFunc.noError(maLoai,tenLoai)){
                 val loaiSP = LoaiSanPham(maLoai.editText!!.text.toString(),tenLoai.editText!!.text.toString(),if(bitmapLoaiSP == null)"" else TempFunc.BitMapToString(bitmapLoaiSP!!))
                 DAO(requireContext()).insert(loaiSP,"LoaiSP")
+                updateRecyclerView()
                 alertDialog.dismiss()
             }
         }

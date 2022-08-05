@@ -2,15 +2,12 @@ package com.example.polycoffee.fragments
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.polycoffee.R
 import com.example.polycoffee.adapter.AdapterThongKe
-import com.example.polycoffee.databinding.FragmentMenuBinding
 import com.example.polycoffee.databinding.FragmentThongKeBinding
 import com.example.polycoffee.model.HoaDon
 import com.example.polycoffee.model.HoaDonTemp

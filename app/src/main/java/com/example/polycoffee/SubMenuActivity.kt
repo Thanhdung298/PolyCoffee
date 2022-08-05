@@ -15,13 +15,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.polycoffee.adapter.AdapterMenu
 import com.example.polycoffee.adapter.AdapterSP
-import com.example.polycoffee.dao.DAO
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.ActivitySubMenuBinding
 import com.example.polycoffee.databinding.DialogSanphamBinding
-import com.example.polycoffee.model.LoaiSanPham
 import com.example.polycoffee.model.SanPham
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -37,7 +34,6 @@ class SubMenuActivity : AppCompatActivity() {
     lateinit var img:ImageView
     lateinit var recyclerView: RecyclerView
     lateinit var adapterSP: AdapterSP
-   // val type = intent.getIntExtra("types",0)
    var type = 0
     var maBan = ""
 
@@ -58,28 +54,26 @@ class SubMenuActivity : AppCompatActivity() {
             openDialogSP(SanPham(),0,this@SubMenuActivity,maLoai)
         }
         updateRecyclerView()
-        getListLSP(listSP,adapterSP)
-
-
+        getListLSP()
 
     }
 
-    fun getListLSP(list:ArrayList<SanPham>,adapterSP: AdapterSP){
-        list.clear()
+    fun getListLSP(){
+        listSP.clear()
         val database = FirebaseDatabase.getInstance().getReference("SanPham")
         val maLoai = intent.getStringExtra("maLoai").toString()
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                list.clear()
+                listSP.clear()
                 for (datasnap in snapshot.children){
                     val sanPham = datasnap.getValue(SanPham::class.java)
                     if (sanPham != null) {
                         if(sanPham.maLoai==maLoai){
-                            list.add(sanPham)
+                            listSP.add(sanPham)
                         }
                     }
                 }
-                list.sortWith(compareBy { it.maSP })
+                listSP.sortWith(compareBy { it.maSP })
                 adapterSP.notifyDataSetChanged()
             }
 
@@ -102,9 +96,9 @@ class SubMenuActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(context)
         val binding = DialogSanphamBinding.inflate(LayoutInflater.from(context))
         builder.setView(binding.root)
-
         val alertDialog = builder.create()
         alertDialog.show()
+        bitmapSP = null
 
         val maSP = binding.dialogSpMaSP
         img = binding.dialogSpImg
@@ -152,6 +146,7 @@ class SubMenuActivity : AppCompatActivity() {
                     .addOnFailureListener { Toast.makeText(context,"That bai",Toast.LENGTH_SHORT).show() }
                     .addOnSuccessListener { Toast.makeText(context,"Thanh cong",Toast.LENGTH_SHORT).show()}
                 alertDialog.dismiss()
+                updateRecyclerView()
             }
         }
 

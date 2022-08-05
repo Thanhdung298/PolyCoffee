@@ -7,10 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.polycoffee.dao.DAO
 import com.example.polycoffee.databinding.ActivityLoginBinding
 import com.example.polycoffee.model.User
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 
 class LoginActivity : AppCompatActivity(){
     lateinit var binding:ActivityLoginBinding
@@ -42,7 +39,7 @@ class LoginActivity : AppCompatActivity(){
         }
         edit.apply()
     }
-    fun checkLogin(){
+    private fun checkLogin(){
         val username = binding.edLoginUsername.text.toString()
         val password = binding.edLoginPassword.text.toString()
         val checkbox = binding.rdoLoginRMB
@@ -52,7 +49,7 @@ class LoginActivity : AppCompatActivity(){
             val database= FirebaseDatabase.getInstance().getReference("User")
             val intent = Intent(this,MainActivity::class.java)
             database.get().addOnSuccessListener {
-                if (it.hasChild(username)){
+                if (it.child(username).value != null){
                     val user = it.child(username).getValue(User::class.java)
                     val role = user?.role
                     intent.putExtra("role",role)

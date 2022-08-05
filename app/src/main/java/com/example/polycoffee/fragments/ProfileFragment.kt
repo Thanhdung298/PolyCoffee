@@ -12,19 +12,13 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.example.polycoffee.ChangePasswordActivity
 import com.example.polycoffee.LoginActivity
-import com.example.polycoffee.R
 import com.example.polycoffee.adapter.AdapterUser
 import com.example.polycoffee.dao.DAO
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.DialogProfileBinding
-import com.example.polycoffee.databinding.DialogUserBinding
 import com.example.polycoffee.databinding.FragmentProfileBinding
-import com.example.polycoffee.databinding.FragmentThongKeBinding
 import com.example.polycoffee.model.User
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.theartofdev.edmodo.cropper.CropImage
 
 class ProfileFragment : Fragment() {

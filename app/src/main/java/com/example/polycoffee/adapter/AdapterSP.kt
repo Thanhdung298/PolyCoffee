@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.SubMenuActivity
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.DialogOrderBinding
-import com.example.polycoffee.databinding.DialogProfileBinding
 import com.example.polycoffee.databinding.ItemSpBinding
-import com.example.polycoffee.fragments.MenuFragment
 import com.example.polycoffee.model.HoaDonTemp
 import com.example.polycoffee.model.SanPham
 import com.google.firebase.database.FirebaseDatabase
@@ -70,14 +67,17 @@ class AdapterSP(val context: Context, val list:ArrayList<SanPham>,val type:Int,v
 
                 tenSP.text = sanPham.tenSP
                 saveBtn.setOnClickListener {
-
-                    val database = FirebaseDatabase.getInstance().getReference("Ban").child(maBan)
-                    database.child("ListSP").child(sanPham.maSP.toString()).setValue(HoaDonTemp(sanPham.maSP,sanPham.tenSP,soLuongOrder.number.toString().toInt(),sanPham.giaSP)).addOnSuccessListener {
-                        Toast.makeText(context,"Thanh cong",Toast.LENGTH_SHORT).show()
-                        alertDialog.dismiss()
-                        database.child("state").setValue("Chưa thanh toán")
-                    } .addOnFailureListener {
-                        Toast.makeText(context,"That bai",Toast.LENGTH_SHORT).show()
+                    if(soLuongOrder.number.toString().toInt() == 0){
+                        Toast.makeText(context,"Số lượng phải lớn hơn 0",Toast.LENGTH_SHORT).show()
+                    } else{
+                        val database = FirebaseDatabase.getInstance().getReference("Ban").child(maBan)
+                        database.child("ListSP").child(sanPham.maSP.toString()).setValue(HoaDonTemp(sanPham.maSP,sanPham.tenSP,soLuongOrder.number.toString().toInt(),sanPham.giaSP)).addOnSuccessListener {
+                            Toast.makeText(context,"Thanh cong",Toast.LENGTH_SHORT).show()
+                            alertDialog.dismiss()
+                            database.child("state").setValue("Chưa thanh toán")
+                        } .addOnFailureListener {
+                            Toast.makeText(context,"That bai",Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }

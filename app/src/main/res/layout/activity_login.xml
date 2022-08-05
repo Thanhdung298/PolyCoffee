@@ -9,6 +9,7 @@
     android:background="@drawable/background5"
     >
 
+
     <EditText
         android:id="@+id/edLoginUsername"
         android:layout_width="250dp"

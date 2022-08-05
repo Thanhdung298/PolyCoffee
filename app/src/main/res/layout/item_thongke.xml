@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <TextView
@@ -23,6 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:text="maHD"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -32,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:text="username"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -47,8 +49,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:text="Ngay"
+                android:textColor="#3F51B5"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -57,8 +61,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:text="maBan"
+                android:textColor="#E91E63"
                 android:textStyle="bold" />
         </LinearLayout>
 

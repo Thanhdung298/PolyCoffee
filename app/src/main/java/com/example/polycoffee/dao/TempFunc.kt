@@ -50,10 +50,11 @@ class TempFunc {
                     }.setPositiveButton("Chắc chắn"){
                             p0, _ ->
                         DAO(context).remove(objectAny,refName)
-//                        when(fragmentAny){
-//                            is MenuFragment -> fragmentAny.getListLSP()
-//                            is UserFragment -> fragmentAny.getListLSP()
-//                        }
+                        when(fragmentAny){
+                            is MenuFragment -> fragmentAny.updateRecyclerView()
+                            is UserFragment -> fragmentAny.updateRecyclerView()
+                            is SubMenuActivity -> fragmentAny.updateRecyclerView()
+                        }
                         p0.dismiss()
                     }
                 val dialog = builderRemove.create()
@@ -81,20 +82,6 @@ class TempFunc {
         fun noError(vararg check: TextInputLayout):Boolean{
             for (view in check){
                 if (view.error!=null) return false
-            }
-            return true
-        }
-
-        fun checkNumber(check: TextInputLayout):Boolean{
-            try {
-                if (check.editText!!.text.toString().toInt()<=0){
-                    check.error = "Giá phải là số lớn hơn 0"
-                    return false
-                }
-            } catch (e:Exception){
-                check.error = "Giá phải là số lớn hơn 0"
-                e.printStackTrace()
-                return false
             }
             return true
         }
