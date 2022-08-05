@@ -29,7 +29,7 @@ class AdapterUser(var context: Context,var list:ArrayList<User>,var fragment:Use
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.background.background.alpha = 100
+        holder.background.background.alpha = 70
         val user = list[position]
         if(user.anhDaiDien!=""){
             holder.img.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))

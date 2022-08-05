@@ -113,7 +113,7 @@ class MenuFragment : Fragment() {
         }
 
         img.setOnClickListener {
-            CropImage.activity().setAspectRatio(27,5).start(requireContext(),this)
+            CropImage.activity().setAspectRatio(27,7).start(requireContext(),this)
         }
 
         saveBtn.setOnClickListener {

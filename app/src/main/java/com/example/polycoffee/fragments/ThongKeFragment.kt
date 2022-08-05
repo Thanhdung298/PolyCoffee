@@ -2,11 +2,15 @@ package com.example.polycoffee.fragments
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.adapter.AdapterThongKe
 import com.example.polycoffee.databinding.FragmentThongKeBinding
 import com.example.polycoffee.model.HoaDon
@@ -23,6 +27,10 @@ class ThongKeFragment : Fragment() {
     private var _binding: FragmentThongKeBinding? = null
     private val binding get() = _binding!!
     val sdf = SimpleDateFormat("dd-MM-yyyy")
+    lateinit var list : ArrayList<HoaDon>
+    lateinit var adapterThongKe: AdapterThongKe
+    lateinit var recyclerView: RecyclerView
+    val cal = Calendar.getInstance()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentThongKeBinding.inflate(inflater, container, false)
@@ -30,20 +38,14 @@ class ThongKeFragment : Fragment() {
         val tuNgay = binding.thongkeTuNgay
         val denNgay = binding.thongkeDenNgay
         val calBtn = binding.thongkeResultBtn
-
-        val cal = Calendar.getInstance()
+        recyclerView = binding.thongkeRecyclerView
         tuNgay.editText!!.setText(sdf.format(cal.time))
         denNgay.editText!!.setText(sdf.format(cal.time))
-
-        chooseDate(tuNgay)
-        chooseDate(denNgay)
-
-
-
+        chooseDate(tuNgay,denNgay)
+        updateRecyclerView()
         calBtn.setOnClickListener {
             val database = FirebaseDatabase.getInstance().getReference("HoaDon")
             database.get().addOnSuccessListener {
-                val list = ArrayList<HoaDon>()
                 for(snap in it.children){
                     val hoaDon = snap.getValue(HoaDon::class.java)
                     if (hoaDon != null) {
@@ -51,11 +53,11 @@ class ThongKeFragment : Fragment() {
                             list.add(hoaDon)
                         }
                     }
+                    adapterThongKe.notifyDataSetChanged()
                 }
                 list.sortBy {
                     it.ngay
                 }
-
                 var sum = 0
                 list.forEach {
                     sum += it.listSP.fold(0) { acc: Int, hoaDonTemp: HoaDonTemp ->
@@ -63,9 +65,6 @@ class ThongKeFragment : Fragment() {
                     }
                 }
                 binding.thongkeTongLoiNhuan.text = "Tổng lợi nhuận: ${sum}"
-                val adapterThongKe = AdapterThongKe(requireContext(),list)
-                binding.thongkeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-                binding.thongkeRecyclerView.adapter = adapterThongKe
             }
         }
         calBtn.performClick()
@@ -74,25 +73,33 @@ class ThongKeFragment : Fragment() {
         return binding.root
     }
 
-    fun chooseDate(textInputLayout: TextInputLayout){
-        val cal = Calendar.getInstance()
-        val dateSetListener = DatePickerDialog.OnDateSetListener { _, i, i2, i3 ->
-            cal.set(Calendar.YEAR,i)
-            cal.set(Calendar.MONTH,i2)
-            cal.set(Calendar.DAY_OF_MONTH,i3)
-            val sdf = SimpleDateFormat("dd-MM-yyyy")
-            textInputLayout.editText!!.setText(sdf.format(cal.time))
-        }
+    fun updateRecyclerView(){
+        list = ArrayList()
+        adapterThongKe = AdapterThongKe(requireContext(),list)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapterThongKe
+    }
 
-        textInputLayout.editText!!.setOnFocusChangeListener{ _, b ->
-            if(b){
-                DatePickerDialog(requireContext(),dateSetListener,cal.get(Calendar.YEAR),cal.get(
-                    Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)).show()
-                textInputLayout.editText!!.setOnClickListener{
-                    DatePickerDialog(requireContext(),dateSetListener,cal.get(Calendar.YEAR),cal.get(
-                        Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)).show()
-                }
+    fun chooseDate(vararg textInputLayout: TextInputLayout){
+        for (textinput in textInputLayout){
+            val dateSetListener = DatePickerDialog.OnDateSetListener { _, i, i2, i3 ->
+                cal.set(Calendar.YEAR,i)
+                cal.set(Calendar.MONTH,i2)
+                cal.set(Calendar.DAY_OF_MONTH,i3)
+                textinput.editText!!.setText(sdf.format(cal.time))
             }
+            textinput.editText!!.setOnTouchListener(object : View.OnTouchListener{
+                override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                    if (event?.action == MotionEvent.ACTION_UP){
+                        val picker = DatePickerDialog(requireContext(),dateSetListener,cal.get(Calendar.YEAR),cal.get(
+                            Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH))
+                            picker.show()
+                        return true
+                    }
+                    return true
+                }
+
+            })
         }
     }
 

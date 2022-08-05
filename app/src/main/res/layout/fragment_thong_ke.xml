@@ -21,7 +21,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.048"
-        app:startIconDrawable="@drawable/outline_calendar_today_24">
+        android:clickable="true"
+        app:startIconDrawable="@drawable/outline_calendar_today_24"
+        android:focusable="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -51,7 +53,6 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:hint="Đến ngày"
             android:inputType="textPersonName"
             android:textColor="#A9000000"

@@ -28,7 +28,7 @@ class AdapterThongKe(var context: Context,var list:ArrayList<HoaDon>) : Recycler
         val hoaDon = list[position]
 
         holder.maHD.text = "Mã hóa đơn: ${hoaDon.maHD}"
-        holder.nguoiOrder.text = "Người order: ${hoaDon.userName}"
+        holder.nguoiOrder.text = "Người nhận tiền: ${hoaDon.userName}"
         holder.ngay.text = hoaDon.ngay
         holder.maBan.text = "Bàn ${hoaDon.maBan}"
 
