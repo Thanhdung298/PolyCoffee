@@ -1,9 +1,12 @@
 package com.example.polycoffee.fragments
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -26,8 +29,7 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var adapter: AdapterUser
     lateinit var img: ImageView
-
-    var bitmapImg: Bitmap?=null
+    var bitmapTemp:Bitmap? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -67,19 +69,19 @@ class ProfileFragment : Fragment() {
     }
     fun openDialog(user: User){
         val builder = AlertDialog.Builder(requireContext())
-        val binding = DialogProfileBinding.inflate(layoutInflater)
-        builder.setView(binding.root)
+        val bindingD = DialogProfileBinding.inflate(layoutInflater)
+        builder.setView(bindingD.root)
         val alertDialog = builder.create()
         alertDialog.show()
 
-        img = binding.dialogProfileImg
-        val username = binding.dialogProfileUsername
-        val hoten = binding.dialogProfileHoTen
-        val ngaySinh = binding.dialogProfileNgaySinh
-        val diaChi = binding.dialogProfileDiaChi
-        val sdt = binding.dialogProfileSDT
-        val saveBtn = binding.dialogProfileBtnSave
-        val cancelBtn = binding.dialogProfileBtnCancel
+        img = bindingD.dialogProfileImg
+        val username = bindingD.dialogProfileUsername
+        val hoten = bindingD.dialogProfileHoTen
+        val ngaySinh = bindingD.dialogProfileNgaySinh
+        val diaChi = bindingD.dialogProfileDiaChi
+        val sdt = bindingD.dialogProfileSDT
+        val saveBtn = bindingD.dialogProfileBtnSave
+        val cancelBtn = bindingD.dialogProfileBtnCancel
 
             username.editText!!.setText(user.userName)
             username.editText!!.isEnabled = false
@@ -89,7 +91,7 @@ class ProfileFragment : Fragment() {
             sdt.editText!!.setText(user.sdt)
             if(user.anhDaiDien!=""){
                 img.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))
-                bitmapImg = TempFunc.StringToBitmap(user.anhDaiDien)
+                bitmapTemp = TempFunc.StringToBitmap(user.anhDaiDien)
             }
 
         img.setOnClickListener {
@@ -101,7 +103,15 @@ class ProfileFragment : Fragment() {
             user.ngaySinh = ngaySinh.editText!!.text.toString()
             user.diaChi = diaChi.editText!!.text.toString()
             user.sdt = sdt.editText!!.text.toString()
+            user.anhDaiDien = if(bitmapTemp == null)"" else TempFunc.BitMapToString(bitmapTemp!!)
             DAO(requireContext()).insert(user,"User")
+            if(user.anhDaiDien!=""){
+                binding.imgProfile.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))
+            }
+            binding.tvProfileHoten.text = "Họ tên: ${user.hoTen}"
+            binding.tvProfileDiachi.text = "Địa chỉ: ${user.diaChi}"
+            binding.tvProfileNgaysinh.text = "Ngày sinh: ${user.ngaySinh}"
+            binding.tvProfileSdt.text = "Số điện thoại: ${user.sdt}"
             alertDialog.dismiss()
         }
         cancelBtn.setOnClickListener {
@@ -109,8 +119,21 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+            val result = CropImage.getActivityResult(data)
+            if(resultCode == Activity.RESULT_OK){
+                val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver,result.uri)
+                bitmapTemp = bitmap
+                img.setImageBitmap(bitmapTemp)
 
-
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+                val error = result.error
+                Log.d("error",error.toString())
+            }
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
