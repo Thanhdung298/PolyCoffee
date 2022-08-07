@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.OrderActivity
+import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.databinding.DialogHoadonBinding
 import com.example.polycoffee.databinding.ItemBanBinding
 import com.example.polycoffee.fragments.OrderFragment
@@ -60,7 +61,7 @@ class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:Ord
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = adapterHoaDon
 
-            val database = FirebaseDatabase.getInstance().getReference("Ban")
+            val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("Ban")
             database.child(ban.maBan).child("ListSP").addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                         list.clear()
@@ -73,6 +74,7 @@ class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:Ord
                     TODO("Not yet implemented")
                 }
             })
+            database.keepSynced(true)
 
             database.child(ban.maBan).child("ListSP").get().addOnSuccessListener {
                 if(it.value!=null){
@@ -86,7 +88,7 @@ class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:Ord
             if(role == 1){
                 builder.setPositiveButton("Đã thanh toán"){ p0, _ ->
 
-                    val databaseHD = FirebaseDatabase.getInstance().getReference("HoaDon")
+                    val databaseHD = FirebaseDatabaseTemp.getDatabase()!!.getReference("HoaDon")
                     databaseHD.get().addOnSuccessListener {
                         val hoaDon = it.children.lastOrNull()?.getValue(HoaDon::class.java)
                         val cal = Calendar.getInstance()

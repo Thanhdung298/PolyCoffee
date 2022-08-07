@@ -8,7 +8,7 @@ import com.google.firebase.database.FirebaseDatabase
 
 class DAO(private val context: Context) {
         fun insert(objectAny: Any,refName:String){
-            val database = FirebaseDatabase.getInstance().getReference(refName)
+            val database = FirebaseDatabaseTemp.getDatabase()!!.getReference(refName)
             database.child(when(objectAny){
                 is LoaiSanPham -> objectAny.maLoai
                 is SanPham -> objectAny.maSP
@@ -21,7 +21,7 @@ class DAO(private val context: Context) {
 
         }
         fun remove(objectAny: Any,refName: String){
-            val database = FirebaseDatabase.getInstance().getReference(refName)
+            val database = FirebaseDatabaseTemp.getDatabase()!!.getReference(refName)
             database.child(when(objectAny){
                 is LoaiSanPham -> objectAny.maLoai
                 is SanPham -> objectAny.maSP

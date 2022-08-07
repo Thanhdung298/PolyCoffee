@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.polycoffee.dao.DAO
+import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.ActivityLoginBinding
 import com.example.polycoffee.model.User
@@ -46,7 +47,7 @@ class LoginActivity : AppCompatActivity(){
         val checkbox = binding.rdoLoginRMB
         TempFunc.checkField(binding.edLoginUsername,binding.edLoginPassword)
         if(TempFunc.noError(binding.edLoginUsername,binding.edLoginPassword)){
-            val database= FirebaseDatabase.getInstance().getReference("User")
+            val database= FirebaseDatabaseTemp.getDatabase()!!.getReference("User")
             val intent = Intent(this,MainActivity::class.java)
             database.get().addOnSuccessListener {
                 if (it.child(username).value != null){
@@ -68,6 +69,7 @@ class LoginActivity : AppCompatActivity(){
                     Toast.makeText(this@LoginActivity,"Sai tên đăng nhập",Toast.LENGTH_SHORT).show()
                 }
             }
+            database.keepSynced(true)
         }
     }
 }

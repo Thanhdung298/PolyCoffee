@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.databinding.ItemHoadonBinding
 import com.example.polycoffee.fragments.OrderFragment
 import com.example.polycoffee.model.HoaDonTemp
@@ -29,7 +30,7 @@ class AdapterHoaDon(val context: Context, val list:ArrayList<HoaDonTemp>,val maB
         holder.tenSP.text = hoaDon.tenSP
         holder.soLuong.number = hoaDon.soLuong.toString()
         holder.soLuong.setOnValueChangeListener { view, oldValue, newValue ->
-            val database = FirebaseDatabase.getInstance().getReference("Ban")
+            val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("Ban")
             if(newValue==0){
                 database.child(maBan).child("ListSP").child(hoaDon.maSP.toString()).removeValue()
             } else{

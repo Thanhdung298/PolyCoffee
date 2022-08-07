@@ -1,5 +1,6 @@
 package com.example.polycoffee.dao
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Bitmap
@@ -15,6 +16,7 @@ import com.example.polycoffee.model.LoaiSanPham
 import com.example.polycoffee.model.SanPham
 import com.example.polycoffee.model.User
 import com.google.android.material.textfield.TextInputLayout
+import dev.shreyaspatil.MaterialDialog.MaterialDialog
 import java.io.ByteArrayOutputStream
 
 class TempFunc {
@@ -30,45 +32,38 @@ class TempFunc {
             return BitmapFactory.decodeByteArray(imgBytes,0,imgBytes.size)
         }
         fun choosenDialog(context:Context,objectAny: Any,fragmentAny: Any,refName:String){
-            val builder = AlertDialog.Builder(context)
-            val binding = DialogChoosenBinding.inflate(LayoutInflater.from(context))
-            builder.setView(binding.root)
-                .setTitle("Chọn chức năng")
-            val alertDialog = builder.create()
-            alertDialog.show()
-
-            val removeBtn = binding.removeBtn
-            val editBtn = binding.editBtn
-            removeBtn.setOnClickListener{
-                alertDialog.dismiss()
-                val builderRemove = AlertDialog.Builder(context)
-                    .setTitle("Xóa")
-                    .setMessage("Bạn chắc chắn xóa chứ?")
-                    .setNegativeButton("Cancel"
-                    ) { p0, _ ->
+            val builder = MaterialDialog.Builder(context as Activity)
+                    .setTitle("Chọn chức năng")
+                    .setNegativeButton("Xóa"){ p0, p1 ->
                         p0.dismiss()
-                    }.setPositiveButton("Chắc chắn"){
-                            p0, _ ->
-                        DAO(context).remove(objectAny,refName)
-                        when(fragmentAny){
-                            is MenuFragment -> fragmentAny.updateRecyclerView()
-                            is UserFragment -> fragmentAny.updateRecyclerView()
-                            is SubMenuActivity -> fragmentAny.updateRecyclerView()
-                        }
-                        p0.dismiss()
+                        val builderRemove = MaterialDialog.Builder(context)
+                            .setTitle("Xóa")
+                            .setMessage("Bạn chắc chắn xóa chứ?")
+                            .setNegativeButton("Cancel"
+                            ) { px, _ ->
+                                px.dismiss()
+                            }.setPositiveButton("Chắc chắn"){
+                                    px, _ ->
+                                DAO(context).remove(objectAny,refName)
+                                when(fragmentAny){
+                                    is MenuFragment -> fragmentAny.updateRecyclerView()
+                                    is UserFragment -> fragmentAny.updateRecyclerView()
+                                    is SubMenuActivity -> fragmentAny.updateRecyclerView()
+                                }
+                                px.dismiss()
+                            }.build()
+                        builderRemove.show()
                     }
-                val dialog = builderRemove.create()
-                dialog.show()
-            }
-            editBtn.setOnClickListener {
-                alertDialog.dismiss()
-                when(fragmentAny){
-                    is MenuFragment ->  fragmentAny.openDialogLSP(objectAny as LoaiSanPham,1)
-                    is UserFragment -> fragmentAny.openDialog(objectAny as User,1)
-                    is SubMenuActivity -> fragmentAny.openDialogSP(objectAny as SanPham,1,context)
-                }
-            }
-
+                    .setPositiveButton("Sửa"){
+                        p0,p1 ->
+                        p0.dismiss()
+                        when(fragmentAny){
+                            is MenuFragment ->  fragmentAny.openDialogLSP(objectAny as LoaiSanPham,1)
+                            is UserFragment -> fragmentAny.openDialog(objectAny as User,1)
+                            is SubMenuActivity -> fragmentAny.openDialogSP(objectAny as SanPham,1,context)
+                        }
+                    }.setCancelable(true).build()
+            builder.show()
         }
 
         fun checkField(vararg check: TextInputLayout){

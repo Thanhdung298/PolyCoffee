@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.adapter.AdapterThongKe
+import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.databinding.FragmentThongKeBinding
 import com.example.polycoffee.model.HoaDon
 import com.example.polycoffee.model.HoaDonTemp
@@ -44,7 +45,7 @@ class ThongKeFragment : Fragment() {
         chooseDate(tuNgay,denNgay)
         updateRecyclerView()
         calBtn.setOnClickListener {
-            val database = FirebaseDatabase.getInstance().getReference("HoaDon")
+            val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("HoaDon")
             database.get().addOnSuccessListener {
                 for(snap in it.children){
                     val hoaDon = snap.getValue(HoaDon::class.java)
@@ -66,6 +67,7 @@ class ThongKeFragment : Fragment() {
                 }
                 binding.thongkeTongLoiNhuan.text = "Tổng lợi nhuận: ${sum} VND"
             }
+            database.keepSynced(true)
         }
         calBtn.performClick()
 

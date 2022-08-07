@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.dao.TempFunc.Companion.checkField
 import com.example.polycoffee.dao.TempFunc.Companion.noError
 import com.example.polycoffee.databinding.ActivityChangePasswordBinding
@@ -24,7 +25,7 @@ class ChangePasswordActivity : AppCompatActivity() {
 
         binding.dmkSaveBtn.setOnClickListener {
             if(valiDateForm()){
-                FirebaseDatabase.getInstance().getReference("User").child(username).child("passWord").setValue(newPass.editText!!.text.toString()).addOnSuccessListener {
+                FirebaseDatabaseTemp.getDatabase()!!.getReference("User").child(username).child("passWord").setValue(newPass.editText!!.text.toString()).addOnSuccessListener {
                     Toast.makeText(this@ChangePasswordActivity,"Cập nhật mật khẩu thành công",Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this,LoginActivity::class.java))
                     finish()

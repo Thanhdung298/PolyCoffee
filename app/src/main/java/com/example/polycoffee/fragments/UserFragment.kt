@@ -83,6 +83,7 @@ class UserFragment : Fragment() {
                 Toast.makeText(requireContext(),"Failed",Toast.LENGTH_SHORT).show()
             }
         })
+        database.keepSynced(true)
     }
     override fun onDestroyView() {
         super.onDestroyView()

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.adapter.AdapterMenu
 import com.example.polycoffee.dao.DAO
+import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.DialogLoaispBinding
 import com.example.polycoffee.databinding.FragmentMenuBinding
@@ -64,7 +65,7 @@ class MenuFragment : Fragment() {
 
     fun getListLSP(){
         listLoaiSP.clear()
-        val database = FirebaseDatabase.getInstance().getReference("LoaiSP")
+        val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("LoaiSP")
         database.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 listLoaiSP.clear()
@@ -80,8 +81,8 @@ class MenuFragment : Fragment() {
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(requireContext(),"Failed",Toast.LENGTH_SHORT).show()
             }
-
         })
+        database.keepSynced(true)
     }
 
     override fun onDestroyView() {

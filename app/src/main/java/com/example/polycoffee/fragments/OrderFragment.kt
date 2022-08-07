@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.adapter.AdapterBan
 import com.example.polycoffee.dao.DAO
+import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.databinding.FragmentOrderBinding
 import com.example.polycoffee.model.Ban
 import com.google.firebase.database.DataSnapshot
@@ -55,7 +56,7 @@ class OrderFragment : Fragment() {
     }
 
     fun getListLSP(){
-        val database = FirebaseDatabase.getInstance().getReference("Ban")
+        val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("Ban")
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 listBan.clear()
@@ -71,8 +72,8 @@ class OrderFragment : Fragment() {
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(requireContext(),"Failed", Toast.LENGTH_SHORT).show()
             }
-
         })
+        database.keepSynced(true)
     }
 
     override fun onDestroyView() {

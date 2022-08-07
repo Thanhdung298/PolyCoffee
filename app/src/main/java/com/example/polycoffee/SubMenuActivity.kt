@@ -16,6 +16,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.adapter.AdapterSP
+import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.ActivitySubMenuBinding
 import com.example.polycoffee.databinding.DialogSanphamBinding
@@ -60,7 +61,7 @@ class SubMenuActivity : AppCompatActivity() {
 
     fun getListLSP(){
         listSP.clear()
-        val database = FirebaseDatabase.getInstance().getReference("SanPham")
+        val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("SanPham")
         val maLoai = intent.getStringExtra("maLoai").toString()
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -80,8 +81,8 @@ class SubMenuActivity : AppCompatActivity() {
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@SubMenuActivity,"Failed", Toast.LENGTH_SHORT).show()
             }
-
         })
+        database.keepSynced(true)
     }
 
     fun updateRecyclerView(){
@@ -142,7 +143,7 @@ class SubMenuActivity : AppCompatActivity() {
             } else gia.error = null
             if(TempFunc.noError(tenSP,gia)){
                 val sanPhamSub = SanPham(maSP.editText!!.text.toString().toInt(),tenSP.editText!!.text.toString(),gia.editText!!.text.toString().toInt(),if(type==0) maLoai else sanPham.maLoai,if(bitmapSP==null) "" else  TempFunc.BitMapToString(bitmapSP!!))
-                FirebaseDatabase.getInstance().getReference("SanPham").child(maSP.editText!!.text.toString()).setValue(sanPhamSub)
+                FirebaseDatabaseTemp.getDatabase()!!.getReference("SanPham").child(maSP.editText!!.text.toString()).setValue(sanPhamSub)
                     .addOnFailureListener { Toast.makeText(context,"That bai",Toast.LENGTH_SHORT).show() }
                     .addOnSuccessListener { Toast.makeText(context,"Thanh cong",Toast.LENGTH_SHORT).show()}
                 alertDialog.dismiss()

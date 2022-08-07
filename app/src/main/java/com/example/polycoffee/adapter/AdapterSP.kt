@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.SubMenuActivity
+import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.DialogOrderBinding
 import com.example.polycoffee.databinding.ItemSpBinding
@@ -70,7 +71,7 @@ class AdapterSP(val context: Context, val list:ArrayList<SanPham>,val type:Int,v
                     if(soLuongOrder.number.toString().toInt() == 0){
                         Toast.makeText(context,"Số lượng phải lớn hơn 0",Toast.LENGTH_SHORT).show()
                     } else{
-                        val database = FirebaseDatabase.getInstance().getReference("Ban").child(maBan)
+                        val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("Ban").child(maBan)
                         database.child("ListSP").child(sanPham.maSP.toString()).setValue(HoaDonTemp(sanPham.maSP,sanPham.tenSP,soLuongOrder.number.toString().toInt(),sanPham.giaSP)).addOnSuccessListener {
                             Toast.makeText(context,"Thanh cong",Toast.LENGTH_SHORT).show()
                             alertDialog.dismiss()

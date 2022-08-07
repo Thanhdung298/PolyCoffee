@@ -18,6 +18,7 @@ import com.example.polycoffee.LoginActivity
 import com.example.polycoffee.R
 import com.example.polycoffee.adapter.AdapterUser
 import com.example.polycoffee.dao.DAO
+import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.DialogProfileBinding
 import com.example.polycoffee.databinding.FragmentProfileBinding
@@ -36,7 +37,7 @@ class ProfileFragment : Fragment() {
         val root: View = binding.root
         var user = User()
         val username = requireActivity().intent.getStringExtra("Username").toString()
-        val database = FirebaseDatabase.getInstance().getReference("User").child(username)
+        val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("User").child(username)
         database.get().addOnSuccessListener {
             user = it.getValue(User::class.java)!!
             binding.tvProfileUsername.text = user.userName
@@ -47,8 +48,10 @@ class ProfileFragment : Fragment() {
             binding.tvProfileSdt.text = "Số điện thoại: ${user.sdt}"
             if(user.anhDaiDien!=""){
                 binding.imgProfile.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))
-            } else binding.imgProfile.setImageResource(R.drawable.unknown)
+            }
         }.addOnFailureListener { Toast.makeText(requireContext(),"failed",Toast.LENGTH_SHORT).show() }
+
+        database.keepSynced(true)
 
 
 
