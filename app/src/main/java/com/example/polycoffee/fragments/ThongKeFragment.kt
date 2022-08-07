@@ -64,7 +64,7 @@ class ThongKeFragment : Fragment() {
                         acc + hoaDonTemp.donGia * hoaDonTemp.soLuong
                     }
                 }
-                binding.thongkeTongLoiNhuan.text = "Tổng lợi nhuận: ${sum}"
+                binding.thongkeTongLoiNhuan.text = "Tổng lợi nhuận: ${sum} VND"
             }
         }
         calBtn.performClick()

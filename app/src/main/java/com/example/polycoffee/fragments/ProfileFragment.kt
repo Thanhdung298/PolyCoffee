@@ -15,6 +15,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.example.polycoffee.ChangePasswordActivity
 import com.example.polycoffee.LoginActivity
+import com.example.polycoffee.R
 import com.example.polycoffee.adapter.AdapterUser
 import com.example.polycoffee.dao.DAO
 import com.example.polycoffee.dao.TempFunc
@@ -46,7 +47,7 @@ class ProfileFragment : Fragment() {
             binding.tvProfileSdt.text = "Số điện thoại: ${user.sdt}"
             if(user.anhDaiDien!=""){
                 binding.imgProfile.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))
-            }
+            } else binding.imgProfile.setImageResource(R.drawable.unknown)
         }.addOnFailureListener { Toast.makeText(requireContext(),"failed",Toast.LENGTH_SHORT).show() }
 
 

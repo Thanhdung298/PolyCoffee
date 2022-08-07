@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.polycoffee.dao.DAO
+import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.ActivityLoginBinding
 import com.example.polycoffee.model.User
 import com.google.firebase.database.FirebaseDatabase
@@ -18,8 +19,8 @@ class LoginActivity : AppCompatActivity(){
         setContentView(binding.root)
         dao = DAO(this)
         val preferences = getSharedPreferences("USER ACCOUNT", MODE_PRIVATE)
-        binding.edLoginUsername.setText(preferences.getString("username",""))
-        binding.edLoginPassword.setText(preferences.getString("password",""))
+        binding.edLoginUsername.editText!!.setText(preferences.getString("username",""))
+        binding.edLoginPassword.editText!!.setText(preferences.getString("password",""))
         binding.rdoLoginRMB.isChecked = preferences.getBoolean("check",false)
         binding.btnLogin.setOnClickListener {
             checkLogin()
@@ -40,12 +41,11 @@ class LoginActivity : AppCompatActivity(){
         edit.apply()
     }
     private fun checkLogin(){
-        val username = binding.edLoginUsername.text.toString()
-        val password = binding.edLoginPassword.text.toString()
+        val username = binding.edLoginUsername.editText!!.text.toString()
+        val password = binding.edLoginPassword.editText!!.text.toString()
         val checkbox = binding.rdoLoginRMB
-        if (username.isEmpty()||password.isEmpty()){
-            Toast.makeText(this@LoginActivity,"Tên đăng nhập và mật khẩu không được bỏ trống",Toast.LENGTH_SHORT).show()
-        } else{
+        TempFunc.checkField(binding.edLoginUsername,binding.edLoginPassword)
+        if(TempFunc.noError(binding.edLoginUsername,binding.edLoginPassword)){
             val database= FirebaseDatabase.getInstance().getReference("User")
             val intent = Intent(this,MainActivity::class.java)
             database.get().addOnSuccessListener {
@@ -56,7 +56,7 @@ class LoginActivity : AppCompatActivity(){
                     if(user!!.passWord==password){
                         rememberUser(username,password,checkbox.isChecked)
                         Toast.makeText(this@LoginActivity,"Login thành công",Toast.LENGTH_SHORT).show()
-                        intent.putExtra("Username",binding.edLoginUsername.text.toString())
+                        intent.putExtra("Username",binding.edLoginUsername.editText!!.text.toString())
 
                         startActivity(intent)
                         finish()
@@ -64,11 +64,9 @@ class LoginActivity : AppCompatActivity(){
                     } else{
                         Toast.makeText(this@LoginActivity,"Sai mật khẩu",Toast.LENGTH_SHORT).show()
                     }
-
                 } else{
                     Toast.makeText(this@LoginActivity,"Sai tên đăng nhập",Toast.LENGTH_SHORT).show()
                 }
-
             }
         }
     }

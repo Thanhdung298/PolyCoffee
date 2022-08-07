@@ -47,7 +47,7 @@ class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:Ord
         }
 
         holder.state.text = ban.state
-        holder.id.text = "Bàn ${list[position].maBan.toInt()+1}"
+        holder.id.text = "Bàn ${list[position].maBan}"
 
         holder.hoaDon.setOnClickListener {
             val builder = AlertDialog.Builder(context)

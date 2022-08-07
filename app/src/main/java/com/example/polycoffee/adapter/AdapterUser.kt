@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.polycoffee.R
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.ItemUserBinding
 import com.example.polycoffee.fragments.UserFragment
@@ -33,7 +34,7 @@ class AdapterUser(var context: Context,var list:ArrayList<User>,var fragment:Use
         val user = list[position]
         if(user.anhDaiDien!=""){
             holder.img.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))
-        }
+        } else holder.img.setImageResource(R.drawable.unknown)
         holder.username.text = "Username: ${user.userName}"
         holder.password.text = "Passwrod: ${user.passWord}"
         holder.hoTen.text = "Họ tên: ${user.hoTen}"
