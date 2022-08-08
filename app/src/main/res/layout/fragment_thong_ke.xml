@@ -15,6 +15,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:minHeight="48dp"
+        app:boxStrokeWidth="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -35,6 +36,8 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        app:boxStrokeWidth="2dp"
+        android:layout_marginTop="5dp"
         android:id="@+id/thongke_denNgay"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
@@ -89,7 +92,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/thongke_recyclerView"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_width="409dp"
         android:layout_height="477dp"
         app:layout_constraintBottom_toBottomOf="parent"

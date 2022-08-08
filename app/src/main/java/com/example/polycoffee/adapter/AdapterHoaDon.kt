@@ -33,6 +33,11 @@ class AdapterHoaDon(val context: Context, val list:ArrayList<HoaDonTemp>,val maB
             val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("Ban")
             if(newValue==0){
                 database.child(maBan).child("ListSP").child(hoaDon.maSP.toString()).removeValue()
+//                database.child(maBan).child("ListSP").get().addOnSuccessListener {
+//                    if(it.value==null){
+//                        database.child(maBan).child("status").setValue("Trống")
+//                    }
+//                }
             } else{
                 database.child(maBan).child("ListSP").child(hoaDon.maSP.toString()).child("soLuong")
                     .setValue(newValue).addOnSuccessListener {

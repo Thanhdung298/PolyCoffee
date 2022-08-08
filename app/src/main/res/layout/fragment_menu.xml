@@ -18,6 +18,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
         android:clickable="true"
+        android:backgroundTint="#795548"
         android:src="@android:drawable/ic_input_add"
         tools:ignore="SpeakableTextPresentCheck" />
 

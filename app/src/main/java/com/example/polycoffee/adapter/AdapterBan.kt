@@ -54,6 +54,8 @@ class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:Ord
             val builder = AlertDialog.Builder(context)
             val binding = DialogHoadonBinding.inflate(LayoutInflater.from(context))
             builder.setView(binding.root)
+            var alertDialog = builder.create()
+
             val list = ArrayList<HoaDonTemp>()
             val recyclerView = binding.dialogHoadonRecyclerView
 
@@ -69,6 +71,10 @@ class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:Ord
                             list.add(snap.getValue(HoaDonTemp::class.java)!!)
                         }
                         adapterHoaDon.notifyDataSetChanged()
+                        if(list.isEmpty()){
+                            database.child(ban.maBan).child("state").setValue("Trống")
+                            alertDialog.dismiss()
+                        }
                 }
                 override fun onCancelled(error: DatabaseError) {
                     TODO("Not yet implemented")
@@ -78,7 +84,7 @@ class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:Ord
 
             database.child(ban.maBan).child("ListSP").get().addOnSuccessListener {
                 if(it.value!=null){
-                    val alertDialog = builder.create()
+                    alertDialog = builder.create()
                     alertDialog.show()
                 } else{
                     Toast.makeText(context,"Bàn trống",Toast.LENGTH_SHORT).show()
@@ -87,7 +93,6 @@ class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:Ord
 
             if(role == 1){
                 builder.setPositiveButton("Đã thanh toán"){ p0, _ ->
-
                     val databaseHD = FirebaseDatabaseTemp.getDatabase()!!.getReference("HoaDon")
                     databaseHD.get().addOnSuccessListener {
                         val hoaDon = it.children.lastOrNull()?.getValue(HoaDon::class.java)
@@ -118,6 +123,7 @@ class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:Ord
                     .setNegativeButton("Hủy"){ p0,_ ->
                         p0.dismiss()
                     }
+
             } else{
                 builder.setPositiveButton("Hoàn thành"){
                         p0, _ -> p0.dismiss()

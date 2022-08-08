@@ -18,6 +18,7 @@ class LoginActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
         dao = DAO(this)
         val preferences = getSharedPreferences("USER ACCOUNT", MODE_PRIVATE)
         binding.edLoginUsername.editText!!.setText(preferences.getString("username",""))
