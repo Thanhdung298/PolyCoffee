@@ -76,6 +76,7 @@ class MenuFragment : Fragment() {
                     }
                 }
                 adapter.notifyDataSetChanged()
+                binding.menuProgressBar.visibility = View.GONE
             }
 
             override fun onCancelled(error: DatabaseError) {

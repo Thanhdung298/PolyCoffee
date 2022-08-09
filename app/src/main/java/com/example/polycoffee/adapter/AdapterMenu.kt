@@ -48,6 +48,7 @@ class AdapterMenu(val context: Context,val list:ArrayList<LoaiSanPham>,val fragm
             context.startActivity(intent)
         }
 
+
     }
 
     override fun getItemCount(): Int = list.size

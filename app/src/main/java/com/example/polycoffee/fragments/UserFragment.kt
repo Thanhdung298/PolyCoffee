@@ -82,6 +82,7 @@ class UserFragment : Fragment() {
                     }
                 }
                 adapter.notifyDataSetChanged()
+                binding.userProgressBar.visibility = View.GONE
             }
 
             override fun onCancelled(error: DatabaseError) {

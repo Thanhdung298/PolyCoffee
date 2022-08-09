@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -76,6 +77,7 @@ class SubMenuActivity : AppCompatActivity() {
                 }
                 listSP.sortWith(compareBy { it.maSP })
                 adapterSP.notifyDataSetChanged()
+                binding.subMenuProgressBar.visibility = View.GONE
             }
 
             override fun onCancelled(error: DatabaseError) {

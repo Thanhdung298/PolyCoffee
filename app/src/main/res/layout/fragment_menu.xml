@@ -38,4 +38,11 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
         android:text="Hoàn thành" />
+
+    <ProgressBar
+        android:id="@+id/menuProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
