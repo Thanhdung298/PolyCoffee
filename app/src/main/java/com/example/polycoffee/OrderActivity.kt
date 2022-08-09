@@ -28,7 +28,7 @@ class OrderActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
         binding.rootFragMenu.setBackgroundResource(R.drawable.background10)
-        binding.rootFragMenu.background.alpha = 130
+        binding.rootFragMenu.background.alpha = 60
         binding.menuFab.isVisible = false
         binding.orderSuccessBtn.isVisible = true
 

@@ -13,21 +13,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.polycoffee.R
 import com.example.polycoffee.adapter.AdapterUser
 import com.example.polycoffee.dao.DAO
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.DialogUserBinding
 import com.example.polycoffee.databinding.FragmentUserBinding
 import com.example.polycoffee.model.User
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -96,7 +101,6 @@ class UserFragment : Fragment() {
         val alertDialog = builder.create()
         alertDialog.show()
         bitmapImg = null
-        binding.root.background.alpha = 100
 
         img = binding.dialogUserImg
         val username = binding.dialogUserUsername
@@ -151,11 +155,16 @@ class UserFragment : Fragment() {
         }
 
         saveBtn.setOnClickListener {
-            TempFunc.checkField(username,password,hoten,ngaySinh,diaChi,sdt)
-//                if(username.editText!!.text.toString().length<6){
-//                    username.error = "Tên đăng nhập phải ít nhất 6 ký tự"
-//                } else username.error = null
-            val regexUsername = "^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{6,25}$".toRegex()
+            //TempFunc.checkField(username,password,hoten,ngaySinh,diaChi,sdt)
+            if(!checkField(username,password,hoten,ngaySinh,diaChi,sdt)){
+                MotionToast.darkToast(requireActivity(),"Error",
+                    "Phải nhập hết các trường",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(requireContext(), www.sanju.motiontoast.R.font.helvetica_regular))
+            } else{
+                val regexUsername = "^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{6,25}$".toRegex()
                 if(!regexUsername.matches(username.editText!!.text.toString())){
                     username.error = "Tên đăng nhập không hợp lệ"
                     Toast.makeText(requireContext(),"Tên đăng nhập phải từ 6 đến 25 ký tự và không chứa kí tự đặc biệt",Toast.LENGTH_LONG).show()
@@ -164,7 +173,7 @@ class UserFragment : Fragment() {
                     password.error = "Mật khẩu phải từ 6 đến 30 ký tự"
                 } else password.error = null
 
-            val regexPhone = "^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}\$".toRegex()
+                val regexPhone = "^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}\$".toRegex()
                 if(!regexPhone.matches(sdt.editText!!.text.toString())){
                     sdt.error = "Sai định dạng số điện thoại"
                 } else{
@@ -176,12 +185,13 @@ class UserFragment : Fragment() {
                     if(TempFunc.noError(username,password,hoten,ngaySinh,diaChi,sdt)){
                         val userAdd = User(username.editText!!.text.toString(),password.editText!!.text.toString(),hoten.editText!!.text.toString(),ngaySinh.editText!!.text.toString(),diaChi.editText!!.text.toString(),sdt.editText!!.text.toString(),if(bitmapImg == null)"" else TempFunc.BitMapToString(bitmapImg!!),if(rdo0.isChecked)0 else 1)
                         DAO(requireContext()).insert(userAdd,"User")
+                        updateRecyclerView()
                         alertDialog.dismiss()
                     }
                 } else{
                     Toast.makeText(requireContext(),"Bạn chưa chọn chức vụ",Toast.LENGTH_SHORT).show()
                 }
-
+            }
 
         }
         cancelBtn.setOnClickListener {
@@ -189,6 +199,15 @@ class UserFragment : Fragment() {
         }
 
 
+    }
+
+    fun checkField(vararg textInputLayout: TextInputLayout):Boolean{
+        for(text in textInputLayout){
+            if(text.editText!!.text.toString().isEmpty()){
+                return false
+            }
+        }
+        return true
     }
 
 

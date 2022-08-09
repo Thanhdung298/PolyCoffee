@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import dev.shreyaspatil.MaterialDialog.MaterialDialog
 
 class OrderFragment : Fragment() {
 
@@ -38,7 +39,18 @@ class OrderFragment : Fragment() {
         role = requireActivity().intent.getIntExtra("role",0)
 
         binding.orderFab.setOnClickListener {
-            DAO(requireContext()).insert(Ban((listBan.size+1).toString()),"Ban")
+            val builder = MaterialDialog.Builder(requireActivity())
+                .setTitle("Thêm bàn mới")
+                .setMessage("Bạn có chắc thêm bàn mới không")
+                .setPositiveButton("Chắc chắn"){
+                    p0,p1 ->
+                    DAO(requireContext()).insert(Ban((listBan.size+1).toString()),"Ban")
+                    p0.dismiss()
+                }
+                .setNegativeButton("Hủy"){p0,p1 -> p0.dismiss()}
+                .setCancelable(true)
+                .build()
+            builder.show()
         }
 
         updateRecyclerView()
@@ -51,7 +63,7 @@ class OrderFragment : Fragment() {
         listBan = ArrayList()
         recyclerView = binding.orderRecyclerView
         adapterBan = AdapterBan(requireContext(),listBan,this,username,role)
-        recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+        recyclerView.layoutManager = GridLayoutManager(requireContext(),2,RecyclerView.VERTICAL,false)
         recyclerView.adapter = adapterBan
     }
 
