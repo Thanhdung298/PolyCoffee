@@ -19,7 +19,7 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
-        android:backgroundTint="#3E2723"
+        app:backgroundTint="#D7CCC8"
         android:layout_margin="10dp"
         android:background="@drawable/bordernavshape"
         android:layout_width="match_parent"

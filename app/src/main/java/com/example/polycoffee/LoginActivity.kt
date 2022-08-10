@@ -69,8 +69,10 @@ class LoginActivity : AppCompatActivity(){
                 } else{
                     Toast.makeText(this@LoginActivity,"Sai tên đăng nhập",Toast.LENGTH_SHORT).show()
                 }
+            } .addOnFailureListener {
+                Toast.makeText(this,"Không có kết nối mạng",Toast.LENGTH_SHORT).show()
             }
-            database.keepSynced(true)
+            database.keepSynced(false)
         }
     }
 }

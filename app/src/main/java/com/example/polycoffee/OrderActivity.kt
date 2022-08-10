@@ -1,6 +1,7 @@
 package com.example.polycoffee
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -31,6 +32,7 @@ class OrderActivity : AppCompatActivity() {
         binding.rootFragMenu.background.alpha = 60
         binding.menuFab.isVisible = false
         binding.orderSuccessBtn.isVisible = true
+        binding.menuProgressBar.visibility = View.GONE
 
         binding.orderSuccessBtn.setOnClickListener {
             onBackPressed()

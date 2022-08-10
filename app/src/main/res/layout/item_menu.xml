@@ -18,9 +18,10 @@
 
         <ImageView
             android:id="@+id/item_loaiSP_img"
-            android:scaleType="fitXY"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:alpha="120"
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/item_loaiSP_tenLoai"
