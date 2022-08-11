@@ -47,11 +47,19 @@ class ChangePasswordActivity : AppCompatActivity() {
             if(password != oldPass){
                 binding.dmkOldPass.error = "Mật khẩu cũ sai"
                 return false
-            } else binding.dmkOldPass.error = null
-            if(newPass != rePass){
-                binding.dmkNewPassRepeat.error = "Mật khẩu không trùng khớp"
-                return false
-            } else binding.dmkNewPassRepeat.error = null
+            } else {
+                binding.dmkOldPass.error = null
+                if(binding.dmkNewPass.editText!!.text.toString().length<6 || binding.dmkNewPass.editText!!.text.toString().length>30){
+                    binding.dmkNewPass.error = "Mật khẩu phải từ 6 đến 30 ký tự"
+                } else {
+                    binding.dmkNewPass.error = null
+                    if(newPass != rePass){
+                        binding.dmkNewPassRepeat.error = "Mật khẩu không trùng khớp"
+                        return false
+                    } else binding.dmkNewPassRepeat.error = null
+                }
+            }
+
             return true
         }
         return false
