@@ -55,8 +55,8 @@ class SubMenuActivity : AppCompatActivity() {
             val maLoai = intent.getStringExtra("maLoai").toString()
             openDialogSP(SanPham(),0,this@SubMenuActivity,maLoai)
         }
-        updateRecyclerView()
-        getListLSP()
+//        updateRecyclerView()
+//        getListLSP()
 
     }
 
@@ -90,7 +90,7 @@ class SubMenuActivity : AppCompatActivity() {
     fun updateRecyclerView(){
         listSP = ArrayList()
         recyclerView = binding.subMenuRecyclerView
-        adapterSP = AdapterSP(this,listSP,type,maBan,this)
+       // adapterSP = AdapterSP(this,listSP,type,maBan,this)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapterSP
     }

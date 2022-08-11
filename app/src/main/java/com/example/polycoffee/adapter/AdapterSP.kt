@@ -9,16 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.polycoffee.OrderActivity
 import com.example.polycoffee.SubMenuActivity
 import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.DialogOrderBinding
 import com.example.polycoffee.databinding.ItemSpBinding
+import com.example.polycoffee.fragments.MenuFragment
 import com.example.polycoffee.model.HoaDonTemp
 import com.example.polycoffee.model.SanPham
 import com.google.firebase.database.FirebaseDatabase
 
-class AdapterSP(val context: Context, val list:ArrayList<SanPham>,val type:Int,var maBan:String="", val acitivty:SubMenuActivity= SubMenuActivity()) : RecyclerView.Adapter<AdapterSP.ViewHolder>() {
+class AdapterSP(val context: Context, val list:ArrayList<SanPham>,val type:Int,var maBan:String="", val fragment: MenuFragment) : RecyclerView.Adapter<AdapterSP.ViewHolder>() {
     class ViewHolder(binding:ItemSpBinding) : RecyclerView.ViewHolder(binding.root) {
         val view = binding.itemSpView
         val tenSP = binding.itemSpTenSP
@@ -41,7 +43,7 @@ class AdapterSP(val context: Context, val list:ArrayList<SanPham>,val type:Int,v
         if(type==0){
             holder.view.setOnLongClickListener(object : View.OnLongClickListener{
                 override fun onLongClick(v: View?): Boolean {
-                    TempFunc.choosenDialog(context,sanPham,acitivty,"SanPham")
+                    TempFunc.choosenDialog(context,sanPham,fragment,"SanPham")
                     return false
                 }
 

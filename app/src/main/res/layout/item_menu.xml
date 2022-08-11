@@ -20,17 +20,14 @@
             android:id="@+id/item_loaiSP_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha="120"
+            android:alpha="0.4"
             android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/item_loaiSP_tenLoai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="false"
-            android:layout_alignParentEnd="false"
-            android:layout_alignParentBottom="false"
-            android:layout_centerVertical="false"
+            android:layout_centerHorizontal="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
@@ -38,7 +35,7 @@
             android:background="@drawable/shapecorner"
             android:text="TextView"
             android:textColor="#C12727"
-            android:textSize="22sp"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
     </RelativeLayout>

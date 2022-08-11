@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.util.Base64
 import android.view.LayoutInflater
 import android.widget.EditText
+import com.example.polycoffee.OrderActivity
 import com.example.polycoffee.SubMenuActivity
 import com.example.polycoffee.databinding.DialogChoosenBinding
 import com.example.polycoffee.fragments.MenuFragment
@@ -48,7 +49,7 @@ class TempFunc {
                                 when(fragmentAny){
                                     is MenuFragment -> fragmentAny.updateRecyclerView()
                                     is UserFragment -> fragmentAny.updateRecyclerView()
-                                    is SubMenuActivity -> fragmentAny.updateRecyclerView()
+                                    //is OrderActivity -> fragmentAny.updateRecyclerView()
                                 }
                                 px.dismiss()
                             }.build()
@@ -58,9 +59,8 @@ class TempFunc {
                         p0,p1 ->
                         p0.dismiss()
                         when(fragmentAny){
-                            is MenuFragment ->  fragmentAny.openDialogLSP(objectAny as LoaiSanPham,1)
+                            is MenuFragment ->  fragmentAny.openDialogSP(objectAny as SanPham,1,context)
                             is UserFragment -> fragmentAny.openDialog(objectAny as User,1)
-                            is SubMenuActivity -> fragmentAny.openDialogSP(objectAny as SanPham,1,context)
                         }
                     }.setCancelable(true).build()
             builder.show()

@@ -1,7 +1,9 @@
 package com.example.polycoffee.fragments
 
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -15,27 +17,36 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.polycoffee.SubMenuActivity
 import com.example.polycoffee.adapter.AdapterMenu
+import com.example.polycoffee.adapter.AdapterSP
 import com.example.polycoffee.dao.DAO
 import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.dao.TempFunc
+import com.example.polycoffee.databinding.ActivitySubMenuBinding
 import com.example.polycoffee.databinding.DialogLoaispBinding
+import com.example.polycoffee.databinding.DialogSanphamBinding
 import com.example.polycoffee.databinding.FragmentMenuBinding
 import com.example.polycoffee.model.*
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 
 
 class MenuFragment : Fragment() {
 
-    lateinit var adapter:AdapterMenu
-    lateinit var recyclerView: RecyclerView
-    var listLoaiSP=ArrayList<LoaiSanPham>()
-    var bitmapLoaiSP:Bitmap? = null
+    var bitmapSP:Bitmap? = null
+    var listSP = ArrayList<SanPham>()
     lateinit var img:ImageView
+    lateinit var recyclerView: RecyclerView
+    lateinit var adapterSP: AdapterSP
+    var type = 0
+    var maBan = ""
+    var maLoai = "menu1"
 
     private var _binding: FragmentMenuBinding? = null
 
@@ -46,41 +57,62 @@ class MenuFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         _binding = FragmentMenuBinding.inflate(inflater, container, false)
-        binding.menuFab.setOnClickListener {
-            openDialogLSP(LoaiSanPham(),0)
+        binding.subMenuFab.setOnClickListener {
+            openDialogSP(SanPham(),0,requireContext())
         }
+
+        binding.menuTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                maLoai =  when(tab.text){
+                                    "Đồ uống" -> "menu1"
+                                    "Bánh ngọt" -> "menu2"
+                                    "Đồ ăn vặt" -> "menu3"
+                                    else -> "menu1"
+                                }
+                getListLSP()
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
+        binding.menuTab.getTabAt(1)!!.select()
+        binding.menuTab.getTabAt(0)!!.select()
+
         updateRecyclerView()
-        getListLSP()
         return binding.root
     }
 
     fun updateRecyclerView(){
-        listLoaiSP = ArrayList()
-        recyclerView = binding.menuRecyclerView
-        adapter = AdapterMenu(requireContext(),listLoaiSP,this,0)
+        listSP = ArrayList()
+        recyclerView = binding.subMenuRecyclerView
+        adapterSP = AdapterSP(requireContext(),listSP,type,maBan,this)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = adapter
+        recyclerView.adapter = adapterSP
     }
 
-
     fun getListLSP(){
-        listLoaiSP.clear()
-        val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("LoaiSP")
-        database.addValueEventListener(object :ValueEventListener{
+        listSP.clear()
+        val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("SanPham")
+        database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                listLoaiSP.clear()
+                listSP.clear()
                 for (datasnap in snapshot.children){
-                    val loaiSanPham = datasnap.getValue(LoaiSanPham::class.java)
-                    if (loaiSanPham != null) {
-                        listLoaiSP.add(loaiSanPham)
+                    val sanPham = datasnap.getValue(SanPham::class.java)
+                    if (sanPham != null) {
+                        if(sanPham.maLoai==maLoai){
+                            listSP.add(sanPham)
+                        }
                     }
                 }
-                adapter.notifyDataSetChanged()
-                binding.menuProgressBar.visibility = View.GONE
+                listSP.sortWith(compareBy { it.maSP })
+                adapterSP.notifyDataSetChanged()
+                binding.subMenuProgressBar.visibility = View.GONE
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(),"Failed",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),"Failed", Toast.LENGTH_SHORT).show()
             }
         })
         database.keepSynced(true)
@@ -91,45 +123,66 @@ class MenuFragment : Fragment() {
         _binding = null
     }
 
-    fun openDialogLSP(loaiSanPham: LoaiSanPham, type:Int){
-        val builder = AlertDialog.Builder(requireContext())
-        val binding = DialogLoaispBinding.inflate(layoutInflater)
+    fun openDialogSP(sanPham: SanPham, type:Int, context: Context){
+        val builder = androidx.appcompat.app.AlertDialog.Builder(context)
+        val binding = DialogSanphamBinding.inflate(LayoutInflater.from(context))
         builder.setView(binding.root)
         val alertDialog = builder.create()
         alertDialog.show()
-        bitmapLoaiSP = null
-        val maLoai = binding.dialogLoaiSPMaLoai
-        val tenLoai = binding.dialogLoaiSPTenLoai
-        val saveBtn = binding.dialogLoaiSPSaveBtn
-        val cancelBtn = binding.btnLSPCancel
-        img = binding.dialogLoaiSPImg
+        bitmapSP = null
+
+        val maSP = binding.dialogSpMaSP
+        img = binding.dialogSpImg
+        val tenSP = binding.dialogSpTenSP
+        val gia = binding.dialogSpGia
+
+        maSP.editText!!.isEnabled = false
 
         if(type==1){
-            maLoai.editText!!.isEnabled = false
-            maLoai.editText!!.setText(loaiSanPham.maLoai)
-            tenLoai.editText!!.setText(loaiSanPham.tenLoai)
-            if(loaiSanPham.img!=""){
-                img.setImageBitmap(TempFunc.StringToBitmap(loaiSanPham.img))
-                bitmapLoaiSP = TempFunc.StringToBitmap(loaiSanPham.img)
+            maSP.editText!!.setText(sanPham.maSP.toString())
+            tenSP.editText!!.setText(sanPham.tenSP)
+            gia.editText!!.setText(sanPham.giaSP.toString())
+            if(sanPham.img!=""){
+                img.setImageBitmap(TempFunc.StringToBitmap(sanPham.img))
+                bitmapSP = TempFunc.StringToBitmap(sanPham.img)
             }
         }
 
         img.setOnClickListener {
-            CropImage.activity().setAspectRatio(27,7).start(requireContext(),this)
+            CropImage.activity().setCropShape(CropImageView.CropShape.OVAL).setAspectRatio(1,1).start(requireContext(),this)
         }
-
-        saveBtn.setOnClickListener {
-            TempFunc.checkField(maLoai,tenLoai)
-            if(TempFunc.noError(maLoai,tenLoai)){
-                val loaiSP = LoaiSanPham(maLoai.editText!!.text.toString(),tenLoai.editText!!.text.toString(),if(bitmapLoaiSP == null)"" else TempFunc.BitMapToString(bitmapLoaiSP!!))
-                DAO(requireContext()).insert(loaiSP,"LoaiSP")
-                updateRecyclerView()
-                alertDialog.dismiss()
+        if(type==0){
+            val database = FirebaseDatabase.getInstance().getReference("SanPham")
+            database.get().addOnSuccessListener {
+                val sp = it.children.lastOrNull()?.getValue(SanPham::class.java)
+                if(sp!=null){
+                    maSP.editText!!.setText("${sp.maSP+1}")
+                } else{
+                    maSP.editText!!.setText("${0}")
+                }
             }
         }
-        cancelBtn.setOnClickListener{
+
+
+        binding.dialogSpSaveBtn.setOnClickListener {
+            TempFunc.checkField(tenSP,gia)
+            if(!"^[0-9]+$".toRegex().matches(gia.editText!!.text.toString())){
+                gia.error = "Giá tiền phải là số"
+            } else gia.error = null
+            if(TempFunc.noError(tenSP,gia)){
+                val sanPhamSub = SanPham(maSP.editText!!.text.toString().toInt(),tenSP.editText!!.text.toString(),gia.editText!!.text.toString().toInt(),if(type==0) maLoai else sanPham.maLoai,if(bitmapSP==null) "" else  TempFunc.BitMapToString(bitmapSP!!))
+                FirebaseDatabaseTemp.getDatabase()!!.getReference("SanPham").child(maSP.editText!!.text.toString()).setValue(sanPhamSub)
+                    .addOnFailureListener { Toast.makeText(context,"That bai",Toast.LENGTH_SHORT).show() }
+                    .addOnSuccessListener { Toast.makeText(context,"Thanh cong",Toast.LENGTH_SHORT).show()}
+                alertDialog.dismiss()
+                updateRecyclerView()
+            }
+        }
+
+        binding.dialogSpCancelBtn.setOnClickListener {
             alertDialog.dismiss()
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -138,8 +191,8 @@ class MenuFragment : Fragment() {
             val result = CropImage.getActivityResult(data)
             if(resultCode == RESULT_OK){
                 val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver,result.uri)
-                bitmapLoaiSP = bitmap
-                img.setImageBitmap(bitmapLoaiSP)
+                bitmapSP = bitmap
+                img.setImageBitmap(bitmapSP)
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
                 val error = result.error
