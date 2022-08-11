@@ -1,10 +1,14 @@
 package com.example.polycoffee.fragments
 
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,8 +19,12 @@ import com.example.polycoffee.databinding.FragmentOrderBinding
 import com.example.polycoffee.model.Ban
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.skydoves.powermenu.MenuAnimation
+import com.skydoves.powermenu.OnMenuItemClickListener
+import com.skydoves.powermenu.PowerMenu
+import com.skydoves.powermenu.PowerMenuItem
+import com.skydoves.powermenu.kotlin.powerMenu
 import dev.shreyaspatil.MaterialDialog.MaterialDialog
 
 class OrderFragment : Fragment() {
@@ -51,6 +59,28 @@ class OrderFragment : Fragment() {
                 .setCancelable(true)
                 .build()
             builder.show()
+        }
+
+        binding.showFilterMenu.setOnClickListener {
+
+            val powerMenu = PowerMenu.Builder(requireContext())
+                .addItem(PowerMenuItem("Tất cả"))
+                .addItem(PowerMenuItem("Trống"))
+                .addItem(PowerMenuItem("Chưa thanh toán"))
+                .setAnimation(MenuAnimation.SHOWUP_TOP_LEFT)
+                .setMenuRadius(10f)
+                .setMenuShadow(10f)
+                .setTextGravity(Gravity.CENTER)
+                .setTextTypeface(Typeface.create("sans-serif-medium", Typeface.BOLD))
+                .setMenuColor(Color.WHITE)
+                .setSelectedMenuColor(ContextCompat.getColor(requireContext(), www.sanju.motiontoast.R.color.colorPrimary)).build()
+            val onMenuItemClickListener =
+                OnMenuItemClickListener<PowerMenuItem> { position, item ->
+                    adapterBan.filter.filter(if (position==0)"" else item.title)
+                    powerMenu.dismiss()
+                }
+            powerMenu.setOnMenuItemClickListener(onMenuItemClickListener)
+            powerMenu.showAsDropDown(binding.showFilterMenu)
         }
 
         updateRecyclerView()

@@ -6,6 +6,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +19,7 @@ import com.example.polycoffee.fragments.OrderFragment
 import com.example.polycoffee.model.Ban
 import com.example.polycoffee.model.HoaDon
 import com.example.polycoffee.model.HoaDonTemp
+import com.example.polycoffee.model.SanPham
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -25,8 +28,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:OrderFragment, var username:String="",
-                 private var role:Int=0) : RecyclerView.Adapter<AdapterBan.ViewHolder>() {
+class AdapterBan(val context: Context, var list:ArrayList<Ban>, val fragment:OrderFragment, var username:String="",
+                 private var role:Int=0) : RecyclerView.Adapter<AdapterBan.ViewHolder>(), Filterable{
     class ViewHolder(binding:ItemBanBinding) : RecyclerView.ViewHolder(binding.root) {
         val view = binding.itemBanView
         val menu = binding.itemBanMenu
@@ -142,5 +145,27 @@ class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:Ord
 
 
     override fun getItemCount(): Int = list.size
+    val oldList = list
+    override fun getFilter(): Filter {
+        return object : Filter(){
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val strSearch =constraint.toString()
+                if(strSearch.isEmpty()){
+                    list = oldList
+                } else{
+                    list = oldList.filter { ban -> ban.state.lowercase().contains(strSearch.lowercase()) } as ArrayList<Ban>
+                }
+                val filterResult = FilterResults()
+                filterResult.values = list
+                return filterResult
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+                list = results.values as ArrayList<Ban>
+                notifyDataSetChanged()
+            }
+
+        }
+    }
 
 }

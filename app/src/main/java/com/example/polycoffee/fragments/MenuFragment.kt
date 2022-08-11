@@ -77,12 +77,10 @@ class MenuFragment : Fragment() {
                 adapterSP.filter.filter(query)
                 return false
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 adapterSP.filter.filter(newText)
                 return false
             }
-
         })
 
         binding.menuTab.getTabAt(1)!!.select()
