@@ -3,6 +3,7 @@ package com.example.polycoffee.adapter
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -46,8 +47,14 @@ class AdapterBan(val context: Context, val list:ArrayList<Ban>, val fragment:Ord
             intent.putExtra("maBan",ban.maBan)
             context.startActivity(intent)
         }
-
         holder.state.text = ban.state
+        if(ban.state=="Trống"){
+            holder.state.setTextColor(Color.BLUE)
+        } else{
+            holder.state.setTextColor(Color.RED)
+        }
+
+
         holder.id.text = "Bàn ${list[position].maBan}"
 
         holder.hoaDon.setOnClickListener {
