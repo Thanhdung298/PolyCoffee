@@ -51,6 +51,7 @@ class ChangePasswordActivity : AppCompatActivity() {
                 binding.dmkOldPass.error = null
                 if(binding.dmkNewPass.editText!!.text.toString().length<6 || binding.dmkNewPass.editText!!.text.toString().length>30){
                     binding.dmkNewPass.error = "Mật khẩu phải từ 6 đến 30 ký tự"
+                    return false
                 } else {
                     binding.dmkNewPass.error = null
                     if(newPass != rePass){
