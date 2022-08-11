@@ -1,19 +1,13 @@
 package com.example.polycoffee.dao
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
-import android.view.LayoutInflater
 import android.widget.EditText
-import com.example.polycoffee.OrderActivity
-import com.example.polycoffee.SubMenuActivity
-import com.example.polycoffee.databinding.DialogChoosenBinding
 import com.example.polycoffee.fragments.MenuFragment
 import com.example.polycoffee.fragments.UserFragment
-import com.example.polycoffee.model.LoaiSanPham
 import com.example.polycoffee.model.SanPham
 import com.example.polycoffee.model.User
 import com.google.android.material.textfield.TextInputLayout

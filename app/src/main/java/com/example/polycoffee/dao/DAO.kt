@@ -10,7 +10,6 @@ class DAO(private val context: Context) {
         fun insert(objectAny: Any,refName:String){
             val database = FirebaseDatabaseTemp.getDatabase()!!.getReference(refName)
             database.child(when(objectAny){
-                is LoaiSanPham -> objectAny.maLoai
                 is SanPham -> objectAny.maSP
                 is Ban -> objectAny.maBan
                 is User -> objectAny.userName
@@ -23,7 +22,6 @@ class DAO(private val context: Context) {
         fun remove(objectAny: Any,refName: String){
             val database = FirebaseDatabaseTemp.getDatabase()!!.getReference(refName)
             database.child(when(objectAny){
-                is LoaiSanPham -> objectAny.maLoai
                 is SanPham -> objectAny.maSP
                 is Ban -> objectAny.maBan
                 is User -> objectAny.userName

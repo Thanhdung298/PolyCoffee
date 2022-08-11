@@ -7,22 +7,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.polycoffee.adapter.AdapterMenu
 import com.example.polycoffee.adapter.AdapterSP
 import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.databinding.FragmentMenuBinding
 import com.example.polycoffee.fragments.MenuFragment
-import com.example.polycoffee.model.LoaiSanPham
 import com.example.polycoffee.model.SanPham
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class OrderActivity : AppCompatActivity() {
     lateinit var binding:FragmentMenuBinding
-    lateinit var adapter: AdapterMenu
     var listSP = ArrayList<SanPham>()
     lateinit var recyclerView: RecyclerView
     lateinit var adapterSP: AdapterSP

@@ -1,8 +1,6 @@
 package com.example.polycoffee.fragments
 
-import android.app.Activity
 import android.app.Activity.RESULT_OK
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -15,16 +13,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.polycoffee.SubMenuActivity
-import com.example.polycoffee.adapter.AdapterMenu
+import com.example.polycoffee.R
 import com.example.polycoffee.adapter.AdapterSP
-import com.example.polycoffee.dao.DAO
 import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.dao.TempFunc
-import com.example.polycoffee.databinding.ActivitySubMenuBinding
-import com.example.polycoffee.databinding.DialogLoaispBinding
 import com.example.polycoffee.databinding.DialogSanphamBinding
 import com.example.polycoffee.databinding.FragmentMenuBinding
 import com.example.polycoffee.model.*
@@ -49,9 +44,6 @@ class MenuFragment : Fragment() {
     var maLoai = "menu1"
 
     private var _binding: FragmentMenuBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -77,9 +69,9 @@ class MenuFragment : Fragment() {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
         })
+
         binding.menuTab.getTabAt(1)!!.select()
         binding.menuTab.getTabAt(0)!!.select()
-
         updateRecyclerView()
         return binding.root
     }

@@ -22,11 +22,12 @@
         app:srcCompat="@android:drawable/ic_input_add"
         tools:ignore="SpeakableTextPresentCheck" />
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/subMenu_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/menuTab"/>
+        android:layout_below="@+id/menuTab" />
     <Button
         android:id="@+id/order_successBtn"
         android:layout_width="wrap_content"

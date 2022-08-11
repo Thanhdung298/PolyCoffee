@@ -1,7 +1,9 @@
 package com.example.polycoffee.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -9,6 +11,7 @@ import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -25,6 +28,8 @@ import com.example.polycoffee.databinding.FragmentProfileBinding
 import com.example.polycoffee.model.User
 import com.google.firebase.database.FirebaseDatabase
 import com.theartofdev.edmodo.cropper.CropImage
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
@@ -32,6 +37,7 @@ class ProfileFragment : Fragment() {
     lateinit var adapter: AdapterUser
     lateinit var img: ImageView
     var bitmapTemp:Bitmap? = null
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -71,6 +77,7 @@ class ProfileFragment : Fragment() {
 
         return root
     }
+    @SuppressLint("SimpleDateFormat", "ClickableViewAccessibility", "SetTextI18n")
     fun openDialog(user: User){
         val builder = AlertDialog.Builder(requireContext())
         val bindingD = DialogProfileBinding.inflate(layoutInflater)
@@ -101,22 +108,52 @@ class ProfileFragment : Fragment() {
         img.setOnClickListener {
             CropImage.activity().setAspectRatio(1,1).start(requireContext(),this)
         }
+        val sdf = SimpleDateFormat("dd-MM-yyyy")
+        val cal = Calendar.getInstance()
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, i, i2, i3 ->
+            cal.set(Calendar.YEAR,i)
+            cal.set(Calendar.MONTH,i2)
+            cal.set(Calendar.DAY_OF_MONTH,i3)
+            ngaySinh.editText!!.setText(sdf.format(cal.time))
+        }
+        ngaySinh.editText!!.setOnTouchListener(object : View.OnTouchListener{
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                if (event?.action == MotionEvent.ACTION_UP){
+                    val picker = DatePickerDialog(requireContext(),dateSetListener,cal.get(Calendar.YEAR),cal.get(
+                        Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH))
+                    picker.show()
+                    return true
+                }
+                return true
+            }
+        })
 
         saveBtn.setOnClickListener {
-            user.hoTen = hoten.editText!!.text.toString()
-            user.ngaySinh = ngaySinh.editText!!.text.toString()
-            user.diaChi = diaChi.editText!!.text.toString()
-            user.sdt = sdt.editText!!.text.toString()
-            user.anhDaiDien = if(bitmapTemp == null)"" else TempFunc.BitMapToString(bitmapTemp!!)
-            DAO(requireContext()).insert(user,"User")
-            if(user.anhDaiDien!=""){
-                binding.imgProfile.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))
+            TempFunc.checkField(username,hoten,ngaySinh,diaChi,sdt)
+            val regexPhone = "^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}\$".toRegex()
+            if(!regexPhone.matches(sdt.editText!!.text.toString())){
+                sdt.error = "Sai định dạng số điện thoại"
+            } else{
+                sdt.error = null
             }
-            binding.tvProfileHoten.text = "Họ tên: ${user.hoTen}"
-            binding.tvProfileDiachi.text = "Địa chỉ: ${user.diaChi}"
-            binding.tvProfileNgaysinh.text = "Ngày sinh: ${user.ngaySinh}"
-            binding.tvProfileSdt.text = "Số điện thoại: ${user.sdt}"
-            alertDialog.dismiss()
+
+            if(TempFunc.noError(username,hoten,ngaySinh,diaChi,sdt)){
+                user.hoTen = hoten.editText!!.text.toString()
+                user.ngaySinh = ngaySinh.editText!!.text.toString()
+                user.diaChi = diaChi.editText!!.text.toString()
+                user.sdt = sdt.editText!!.text.toString()
+                user.anhDaiDien = if(bitmapTemp == null)"" else TempFunc.BitMapToString(bitmapTemp!!)
+                DAO(requireContext()).insert(user,"User")
+                if(user.anhDaiDien!=""){
+                    binding.imgProfile.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))
+                }
+                binding.tvProfileHoten.text = "Họ tên: ${user.hoTen}"
+                binding.tvProfileDiachi.text = "Địa chỉ: ${user.diaChi}"
+                binding.tvProfileNgaysinh.text = "Ngày sinh: ${user.ngaySinh}"
+                binding.tvProfileSdt.text = "Số điện thoại: ${user.sdt}"
+                alertDialog.dismiss()
+            }
+
         }
         cancelBtn.setOnClickListener {
             alertDialog.dismiss()
