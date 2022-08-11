@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.R
 import com.example.polycoffee.dao.TempFunc
@@ -11,7 +13,7 @@ import com.example.polycoffee.databinding.ItemUserBinding
 import com.example.polycoffee.fragments.UserFragment
 import com.example.polycoffee.model.User
 
-class AdapterUser(var context: Context,var list:ArrayList<User>,var fragment:UserFragment) : RecyclerView.Adapter<AdapterUser.ViewHolder>() {
+class AdapterUser(var context: Context,var list:ArrayList<User>,var fragment:UserFragment) : RecyclerView.Adapter<AdapterUser.ViewHolder>(),Filterable {
     class ViewHolder(binding:ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
         val img = binding.itemUserImg
         val username = binding.itemUserUsername
@@ -52,4 +54,26 @@ class AdapterUser(var context: Context,var list:ArrayList<User>,var fragment:Use
     }
 
     override fun getItemCount(): Int = list.size
+    val oldList = list
+    override fun getFilter(): Filter {
+        return object : Filter(){
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val strSearch =constraint.toString()
+                if(strSearch.isEmpty()){
+                    list = oldList
+                } else{
+                    list = oldList.filter { user -> user.userName.lowercase().contains(strSearch.lowercase()) } as ArrayList<User>
+                }
+                val filterResult = FilterResults()
+                filterResult.values = list
+                return filterResult
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+                list = results.values as ArrayList<User>
+                notifyDataSetChanged()
+            }
+
+        }
+    }
 }

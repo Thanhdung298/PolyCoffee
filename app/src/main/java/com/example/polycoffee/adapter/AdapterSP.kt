@@ -7,6 +7,8 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.dao.FirebaseDatabaseTemp
@@ -16,8 +18,9 @@ import com.example.polycoffee.databinding.ItemSpBinding
 import com.example.polycoffee.fragments.MenuFragment
 import com.example.polycoffee.model.HoaDonTemp
 import com.example.polycoffee.model.SanPham
+import com.example.polycoffee.model.User
 
-class AdapterSP(val context: Context, val list:ArrayList<SanPham>,val type:Int,var maBan:String="", val fragment: MenuFragment) : RecyclerView.Adapter<AdapterSP.ViewHolder>() {
+class AdapterSP(val context: Context, var list:ArrayList<SanPham>, val type:Int, var maBan:String="", val fragment: MenuFragment) : RecyclerView.Adapter<AdapterSP.ViewHolder>(),Filterable {
     class ViewHolder(binding:ItemSpBinding) : RecyclerView.ViewHolder(binding.root) {
         val view = binding.itemSpView
         val tenSP = binding.itemSpTenSP
@@ -87,4 +90,26 @@ class AdapterSP(val context: Context, val list:ArrayList<SanPham>,val type:Int,v
     
 
     override fun getItemCount(): Int = list.size
+    val oldList = list
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val strSearch =constraint.toString()
+                if(strSearch.isEmpty()){
+                    list = oldList
+                } else{
+                    list = oldList.filter { sp -> sp.tenSP.lowercase().contains(strSearch.lowercase()) } as ArrayList<SanPham>
+                }
+                val filterResult = FilterResults()
+                filterResult.values = list
+                return filterResult
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+                list = results.values as ArrayList<SanPham>
+                notifyDataSetChanged()
+            }
+
+        }
+    }
 }

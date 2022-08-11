@@ -27,7 +27,7 @@
         android:id="@+id/subMenu_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/menuTab" />
+        android:layout_below="@+id/searchViewMenu" />
     <Button
         android:id="@+id/order_successBtn"
         android:layout_width="wrap_content"
@@ -44,9 +44,9 @@
     <ProgressBar
         android:id="@+id/subMenuProgressBar"
         style="?android:attr/progressBarStyle"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/menuTab"
@@ -68,5 +68,11 @@
             android:layout_height="wrap_content"
             android:text="Đồ ăn vặt" />
     </com.google.android.material.tabs.TabLayout>
+
+    <SearchView
+        android:id="@+id/searchViewMenu"
+        android:layout_below="@+id/menuTab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

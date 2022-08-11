@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -68,6 +69,20 @@ class MenuFragment : Fragment() {
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
+        })
+
+        binding.searchViewMenu.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            android.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                adapterSP.filter.filter(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapterSP.filter.filter(newText)
+                return false
+            }
+
         })
 
         binding.menuTab.getTabAt(1)!!.select()
