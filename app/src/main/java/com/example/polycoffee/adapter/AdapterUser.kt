@@ -13,7 +13,7 @@ import com.example.polycoffee.databinding.ItemUserBinding
 import com.example.polycoffee.fragments.UserFragment
 import com.example.polycoffee.model.User
 
-class AdapterUser(var context: Context,var list:ArrayList<User>,var fragment:UserFragment) : RecyclerView.Adapter<AdapterUser.ViewHolder>(),Filterable {
+class AdapterUser(var context: Context,var list:ArrayList<User>,var fragment:UserFragment,val accountUsername:String = "") : RecyclerView.Adapter<AdapterUser.ViewHolder>(),Filterable {
     class ViewHolder(binding:ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
         val img = binding.itemUserImg
         val username = binding.itemUserUsername
@@ -46,7 +46,7 @@ class AdapterUser(var context: Context,var list:ArrayList<User>,var fragment:Use
 
         holder.view.setOnLongClickListener(object : View.OnLongClickListener{
             override fun onLongClick(p0: View?): Boolean {
-                TempFunc.choosenDialog(context,user,fragment,"User")
+                TempFunc.choosenDialog(context,user,fragment,"User",accountUsername)
                 return false
             }
 

@@ -80,7 +80,7 @@ class UserFragment : Fragment() {
     fun updateRecyclerView(){
         listUser = ArrayList()
         recyclerView = binding.reyclerViewUser
-        adapter = AdapterUser(requireContext(),listUser,this)
+        adapter = AdapterUser(requireContext(),listUser,this,requireActivity().intent.getStringExtra("Username").toString())
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
     }

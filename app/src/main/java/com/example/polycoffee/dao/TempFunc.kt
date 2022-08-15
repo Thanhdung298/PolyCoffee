@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.widget.EditText
+import android.widget.Toast
 import com.example.polycoffee.fragments.MenuFragment
 import com.example.polycoffee.fragments.UserFragment
 import com.example.polycoffee.model.SanPham
@@ -26,28 +27,33 @@ class TempFunc {
             val imgBytes = Base64.decode(imgStr,0)
             return BitmapFactory.decodeByteArray(imgBytes,0,imgBytes.size)
         }
-        fun choosenDialog(context:Context,objectAny: Any,fragmentAny: Any,refName:String){
+        fun choosenDialog(context:Context,objectAny: Any,fragmentAny: Any,refName:String,username:String = ""){
             val builder = MaterialDialog.Builder(context as Activity)
                     .setTitle("Chọn chức năng")
                     .setNegativeButton("Xóa"){ p0, p1 ->
                         p0.dismiss()
-                        val builderRemove = MaterialDialog.Builder(context)
-                            .setTitle("Xóa")
-                            .setMessage("Bạn chắc chắn xóa chứ?")
-                            .setNegativeButton("Cancel"
-                            ) { px, _ ->
-                                px.dismiss()
-                            }.setPositiveButton("Chắc chắn"){
-                                    px, _ ->
-                                DAO(context).remove(objectAny,refName)
-                                when(fragmentAny){
-                                    is MenuFragment -> fragmentAny.updateRecyclerView()
-                                    is UserFragment -> fragmentAny.updateRecyclerView()
-                                    //is OrderActivity -> fragmentAny.updateRecyclerView()
-                                }
-                                px.dismiss()
-                            }.build()
-                        builderRemove.show()
+                        if((objectAny as User).userName == username){
+                            Toast.makeText(context,"Không thể xóa",Toast.LENGTH_SHORT).show()
+                        }
+                        else{
+                            val builderRemove = MaterialDialog.Builder(context)
+                                .setTitle("Xóa")
+                                .setMessage("Bạn chắc chắn xóa chứ?")
+                                .setNegativeButton("Cancel"
+                                ) { px, _ ->
+                                    px.dismiss()
+                                }.setPositiveButton("Chắc chắn"){
+                                        px, _ ->
+                                    DAO(context).remove(objectAny,refName)
+                                    when(fragmentAny){
+                                        is MenuFragment -> fragmentAny.updateRecyclerView()
+                                        is UserFragment -> fragmentAny.updateRecyclerView()
+                                        //is OrderActivity -> fragmentAny.updateRecyclerView()
+                                    }
+                                    px.dismiss()
+                                }.build()
+                            builderRemove.show()
+                        }
                     }
                     .setPositiveButton("Sửa"){
                         p0,p1 ->
