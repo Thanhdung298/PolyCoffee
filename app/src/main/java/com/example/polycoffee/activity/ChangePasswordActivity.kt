@@ -1,4 +1,4 @@
-package com.example.polycoffee
+package com.example.polycoffee.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +8,6 @@ import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.dao.TempFunc.Companion.checkField
 import com.example.polycoffee.dao.TempFunc.Companion.noError
 import com.example.polycoffee.databinding.ActivityChangePasswordBinding
-import com.google.firebase.database.FirebaseDatabase
 
 class ChangePasswordActivity : AppCompatActivity() {
     lateinit var binding:ActivityChangePasswordBinding
@@ -27,7 +26,7 @@ class ChangePasswordActivity : AppCompatActivity() {
             if(valiDateForm()){
                 FirebaseDatabaseTemp.getDatabase()!!.getReference("User").child(username).child("passWord").setValue(newPass.editText!!.text.toString()).addOnSuccessListener {
                     Toast.makeText(this@ChangePasswordActivity,"Cập nhật mật khẩu thành công",Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this,LoginActivity::class.java))
+                    startActivity(Intent(this, LoginActivity::class.java))
                     finish()
                 }
             }

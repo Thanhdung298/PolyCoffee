@@ -71,7 +71,6 @@ class UserFragment : Fragment() {
                 adapter.filter.filter(newText)
                 return false
             }
-
         })
         updateRecyclerView()
         getListLSP()

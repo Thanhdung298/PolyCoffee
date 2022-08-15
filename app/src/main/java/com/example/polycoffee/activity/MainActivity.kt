@@ -1,4 +1,4 @@
-package com.example.polycoffee
+package com.example.polycoffee.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,8 +6,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.polycoffee.R
 import com.example.polycoffee.databinding.ActivityMainBinding
-import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +32,11 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_qltk, R.id.navigation_menu, R.id.navigation_order,R.id.navigation_profile,R.id.navigation_thongke
+                R.id.navigation_qltk,
+                R.id.navigation_menu,
+                R.id.navigation_order,
+                R.id.navigation_profile,
+                R.id.navigation_thongke
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

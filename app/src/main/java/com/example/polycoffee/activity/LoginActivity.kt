@@ -1,4 +1,4 @@
-package com.example.polycoffee
+package com.example.polycoffee.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,6 @@ import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.ActivityLoginBinding
 import com.example.polycoffee.model.User
-import com.google.firebase.database.FirebaseDatabase
 
 class LoginActivity : AppCompatActivity(){
     lateinit var binding:ActivityLoginBinding
@@ -49,7 +48,7 @@ class LoginActivity : AppCompatActivity(){
         TempFunc.checkField(binding.edLoginUsername,binding.edLoginPassword)
         if(TempFunc.noError(binding.edLoginUsername,binding.edLoginPassword)){
             val database= FirebaseDatabaseTemp.getDatabase()!!.getReference("User")
-            val intent = Intent(this,MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             database.get().addOnSuccessListener {
                 if (it.child(username).value != null){
                     val user = it.child(username).getValue(User::class.java)

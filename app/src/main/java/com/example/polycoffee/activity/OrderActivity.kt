@@ -1,4 +1,4 @@
-package com.example.polycoffee
+package com.example.polycoffee.activity
 
 import android.os.Bundle
 import android.view.View
@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.polycoffee.R
 import com.example.polycoffee.adapter.AdapterSP
 import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.databinding.FragmentMenuBinding

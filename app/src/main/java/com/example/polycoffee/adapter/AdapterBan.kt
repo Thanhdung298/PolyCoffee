@@ -11,7 +11,7 @@ import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.polycoffee.OrderActivity
+import com.example.polycoffee.activity.OrderActivity
 import com.example.polycoffee.dao.FirebaseDatabaseTemp
 import com.example.polycoffee.databinding.DialogHoadonBinding
 import com.example.polycoffee.databinding.ItemBanBinding
@@ -19,7 +19,6 @@ import com.example.polycoffee.fragments.OrderFragment
 import com.example.polycoffee.model.Ban
 import com.example.polycoffee.model.HoaDon
 import com.example.polycoffee.model.HoaDonTemp
-import com.example.polycoffee.model.SanPham
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -46,7 +45,7 @@ class AdapterBan(val context: Context, var list:ArrayList<Ban>, val fragment:Ord
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ban = list[position]
         holder.menu.setOnClickListener {
-            val intent = Intent(context,OrderActivity::class.java)
+            val intent = Intent(context, OrderActivity::class.java)
             intent.putExtra("maBan",ban.maBan)
             context.startActivity(intent)
         }

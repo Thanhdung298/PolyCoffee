@@ -16,9 +16,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import com.example.polycoffee.ChangePasswordActivity
-import com.example.polycoffee.LoginActivity
-import com.example.polycoffee.R
+import com.example.polycoffee.activity.ChangePasswordActivity
+import com.example.polycoffee.activity.LoginActivity
 import com.example.polycoffee.adapter.AdapterUser
 import com.example.polycoffee.dao.DAO
 import com.example.polycoffee.dao.FirebaseDatabaseTemp
@@ -26,7 +25,6 @@ import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.DialogProfileBinding
 import com.example.polycoffee.databinding.FragmentProfileBinding
 import com.example.polycoffee.model.User
-import com.google.firebase.database.FirebaseDatabase
 import com.theartofdev.edmodo.cropper.CropImage
 import java.text.SimpleDateFormat
 import java.util.*
@@ -62,7 +60,7 @@ class ProfileFragment : Fragment() {
 
 
         binding.btnProfileDMK.setOnClickListener {
-            val intent = Intent(requireActivity(),ChangePasswordActivity::class.java)
+            val intent = Intent(requireActivity(), ChangePasswordActivity::class.java)
             intent.putExtra("password",user.passWord)
             intent.putExtra("username",username)
             startActivity(intent)
@@ -71,7 +69,7 @@ class ProfileFragment : Fragment() {
             openDialog(user)
         }
         binding.btnProifleLogout.setOnClickListener {
-            startActivity(Intent(requireActivity(),LoginActivity::class.java))
+            startActivity(Intent(requireActivity(), LoginActivity::class.java))
             requireActivity().finish()
         }
 
