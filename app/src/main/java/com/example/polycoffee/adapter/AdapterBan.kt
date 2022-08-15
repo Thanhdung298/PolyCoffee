@@ -1,5 +1,6 @@
 package com.example.polycoffee.adapter
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -42,6 +43,7 @@ class AdapterBan(val context: Context, var list:ArrayList<Ban>, val fragment:Ord
         return ViewHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ban = list[position]
         holder.menu.setOnClickListener {
@@ -74,11 +76,14 @@ class AdapterBan(val context: Context, var list:ArrayList<Ban>, val fragment:Ord
 
             val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("Ban")
             database.child(ban.maBan).child("ListSP").addValueEventListener(object : ValueEventListener{
+                @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
                 override fun onDataChange(snapshot: DataSnapshot) {
                         list.clear()
                         for(snap in snapshot.children){
                             list.add(snap.getValue(HoaDonTemp::class.java)!!)
                         }
+                        val tongTien = list.fold(0){ acc:Int, hoaDonTemp: HoaDonTemp -> acc + hoaDonTemp.donGia * hoaDonTemp.soLuong }
+                        binding.dialogHoadonTongTien.text = "Tổng tiền: ${tongTien} VND"
                         adapterHoaDon.notifyDataSetChanged()
                         if(list.isEmpty()){
                             database.child(ban.maBan).child("state").setValue("Trống")
@@ -159,6 +164,7 @@ class AdapterBan(val context: Context, var list:ArrayList<Ban>, val fragment:Ord
                 return filterResult
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(constraint: CharSequence?, results: FilterResults) {
                 list = results.values as ArrayList<Ban>
                 notifyDataSetChanged()
