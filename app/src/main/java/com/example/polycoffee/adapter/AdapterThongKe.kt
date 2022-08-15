@@ -1,5 +1,6 @@
 package com.example.polycoffee.adapter
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.databinding.DialogHoadonBinding
 import com.example.polycoffee.databinding.ItemThongkeBinding
 import com.example.polycoffee.model.HoaDon
+import com.example.polycoffee.model.HoaDonTemp
 
 class AdapterThongKe(var context: Context,var list:ArrayList<HoaDon>) : RecyclerView.Adapter<AdapterThongKe.ViewHolder>() {
     class ViewHolder(binding:ItemThongkeBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -24,6 +26,7 @@ class AdapterThongKe(var context: Context,var list:ArrayList<HoaDon>) : Recycler
         return ViewHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val hoaDon = list[position]
 
@@ -38,12 +41,15 @@ class AdapterThongKe(var context: Context,var list:ArrayList<HoaDon>) : Recycler
             builder.setView(binding.root)
                 .setPositiveButton("OK"){
                         p0, _ -> p0.dismiss()
-                }
+                } .setTitle("Hóa đơn")
             val alertDialog = builder.create()
             alertDialog.show()
 
+            val tongTien = hoaDon.listSP.fold(0){ acc:Int, hoaDonTemp: HoaDonTemp -> acc + hoaDonTemp.donGia * hoaDonTemp.soLuong }
+            binding.dialogHoadonTongTien.text = "Tổng tiền: $tongTien VND"
+
             val recyclerView = binding.dialogHoadonRecyclerView
-            val adapter = AdapterListSPTrongHD(context,hoaDon.listSP)
+            val adapter = AdapterHoaDonThongKe(context,hoaDon.listSP)
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = adapter
         }

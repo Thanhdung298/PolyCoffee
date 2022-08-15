@@ -1,5 +1,6 @@
 package com.example.polycoffee.fragments
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
@@ -82,6 +83,7 @@ class ThongKeFragment : Fragment() {
         recyclerView.adapter = adapterThongKe
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     fun chooseDate(vararg textInputLayout: TextInputLayout){
         for (textinput in textInputLayout){
             val dateSetListener = DatePickerDialog.OnDateSetListener { _, i, i2, i3 ->
@@ -90,7 +92,8 @@ class ThongKeFragment : Fragment() {
                 cal.set(Calendar.DAY_OF_MONTH,i3)
                 textinput.editText!!.setText(sdf.format(cal.time))
             }
-            textinput.editText!!.setOnTouchListener(object : View.OnTouchListener{
+            textinput.editText!!.setOnTouchListener(@SuppressLint("ClickableViewAccessibility")
+            object : View.OnTouchListener{
                 override fun onTouch(v: View?, event: MotionEvent?): Boolean {
                     if (event?.action == MotionEvent.ACTION_UP){
                         val picker = DatePickerDialog(requireContext(),dateSetListener,cal.get(Calendar.YEAR),cal.get(

@@ -65,12 +65,13 @@ class AdapterBan(val context: Context, var list:ArrayList<Ban>, val fragment:Ord
             val builder = AlertDialog.Builder(context)
             val binding = DialogHoadonBinding.inflate(LayoutInflater.from(context))
             builder.setView(binding.root)
+                .setTitle("Hóa đơn tạm")
             var alertDialog = builder.create()
 
             val list = ArrayList<HoaDonTemp>()
             val recyclerView = binding.dialogHoadonRecyclerView
 
-            val adapterHoaDon = AdapterHoaDon(context,list,ban.maBan)
+            val adapterHoaDon = AdapterHoaDonTam(context,list,ban.maBan)
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = adapterHoaDon
 

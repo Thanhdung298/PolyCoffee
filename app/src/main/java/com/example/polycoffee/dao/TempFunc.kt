@@ -32,8 +32,10 @@ class TempFunc {
                     .setTitle("Chọn chức năng")
                     .setNegativeButton("Xóa"){ p0, p1 ->
                         p0.dismiss()
-                        if((objectAny as User).userName == username){
-                            Toast.makeText(context,"Không thể xóa",Toast.LENGTH_SHORT).show()
+                        if(objectAny is User){
+                            if(objectAny.userName == username){
+                                Toast.makeText(context,"Không thể xóa",Toast.LENGTH_SHORT).show()
+                            }
                         }
                         else{
                             val builderRemove = MaterialDialog.Builder(context)

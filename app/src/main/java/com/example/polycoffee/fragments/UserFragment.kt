@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.res.ResourcesCompat
@@ -51,6 +52,7 @@ class UserFragment : Fragment() {
     lateinit var listUser:ArrayList<User>
     var bitmapImg:Bitmap?=null
     lateinit var img:ImageView
+    lateinit var progressBar: ProgressBar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentUserBinding.inflate(inflater, container, false)
@@ -78,6 +80,7 @@ class UserFragment : Fragment() {
     }
 
     fun updateRecyclerView(){
+        progressBar = binding.userProgressBar
         listUser = ArrayList()
         recyclerView = binding.reyclerViewUser
         adapter = AdapterUser(requireContext(),listUser,this,requireActivity().intent.getStringExtra("Username").toString())
@@ -96,7 +99,7 @@ class UserFragment : Fragment() {
                     }
                 }
                 adapter.notifyDataSetChanged()
-                binding.userProgressBar.visibility = View.GONE
+                progressBar.visibility = View.GONE
             }
 
             override fun onCancelled(error: DatabaseError) {

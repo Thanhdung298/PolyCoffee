@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -43,6 +44,7 @@ class MenuFragment : Fragment() {
     var type = 0
     var maBan = ""
     var maLoai = "menu1"
+    lateinit var progressBar: ProgressBar
 
     private var _binding: FragmentMenuBinding? = null
     private val binding get() = _binding!!
@@ -90,6 +92,7 @@ class MenuFragment : Fragment() {
     }
 
     fun updateRecyclerView(){
+        progressBar = binding.subMenuProgressBar
         listSP = ArrayList()
         recyclerView = binding.subMenuRecyclerView
         adapterSP = AdapterSP(requireContext(),listSP,type,maBan,this)
@@ -113,7 +116,7 @@ class MenuFragment : Fragment() {
                 }
                 listSP.sortWith(compareBy { it.maSP })
                 adapterSP.notifyDataSetChanged()
-                binding.subMenuProgressBar.visibility = View.GONE
+                progressBar.visibility = View.GONE
             }
 
             override fun onCancelled(error: DatabaseError) {

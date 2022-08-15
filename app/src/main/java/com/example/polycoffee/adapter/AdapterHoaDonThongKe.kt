@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.databinding.ItemListsptronghdBinding
 import com.example.polycoffee.model.HoaDonTemp
 
-class AdapterListSPTrongHD(val context: Context, val list:ArrayList<HoaDonTemp>) : RecyclerView.Adapter<AdapterListSPTrongHD.ViewHolder>() {
+class AdapterHoaDonThongKe(val context: Context, val list:ArrayList<HoaDonTemp>) : RecyclerView.Adapter<AdapterHoaDonThongKe.ViewHolder>() {
     class ViewHolder(binding:ItemListsptronghdBinding) : RecyclerView.ViewHolder(binding.root) {
         val tenSP = binding.itemListspTensP
         val soLuong = binding.itemListspSoLuong
