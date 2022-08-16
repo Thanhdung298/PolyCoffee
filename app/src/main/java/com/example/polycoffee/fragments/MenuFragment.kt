@@ -1,5 +1,6 @@
 package com.example.polycoffee.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
@@ -71,7 +72,7 @@ class MenuFragment : Fragment() {
             }
         })
 
-        binding.searchViewMenu.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+        binding.searchViewMenu.setOnQueryTextListener(object : SearchView.OnQueryTextListener,  //searchView query
             android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 adapterSP.filter.filter(query)
@@ -98,10 +99,11 @@ class MenuFragment : Fragment() {
         recyclerView.adapter = adapterSP
     }
 
-    fun getListLSP(){
+    fun getListLSP(){ //read data SP
         listSP.clear()
         val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("SanPham")
         database.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
                 listSP.clear()
                 for (datasnap in snapshot.children){
@@ -168,8 +170,6 @@ class MenuFragment : Fragment() {
                 }
             }
         }
-
-
         binding.dialogSpSaveBtn.setOnClickListener {
             TempFunc.checkField(tenSP,gia)
             if(!"^[0-9]+$".toRegex().matches(gia.editText!!.text.toString())){

@@ -183,7 +183,7 @@ class UserFragment : Fragment() {
                     MotionToast.LONG_DURATION,
                     ResourcesCompat.getFont(requireContext(), www.sanju.motiontoast.R.font.helvetica_regular))
             } else{
-                val regexUsername = "^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{6,25}$".toRegex()
+                val regexUsername = "^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{5,25}$".toRegex()
                 if(!regexUsername.matches(username.editText!!.text.toString())){
                     username.error = "Tên đăng nhập không hợp lệ"
                     Toast.makeText(requireContext(),"Tên đăng nhập phải từ 6 đến 25 ký tự và không chứa kí tự đặc biệt",Toast.LENGTH_LONG).show()

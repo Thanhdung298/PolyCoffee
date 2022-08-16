@@ -16,7 +16,6 @@ class DAO(private val context: Context) {
                 else -> ""
             }.toString()).setValue(objectAny).addOnFailureListener { Toast.makeText(context,"That bai",Toast.LENGTH_SHORT).show() }
                 .addOnSuccessListener { Toast.makeText(context,"Thanh cong",Toast.LENGTH_SHORT).show()}
-
         }
         fun remove(objectAny: Any,refName: String){
             val database = FirebaseDatabaseTemp.getDatabase()!!.getReference(refName)

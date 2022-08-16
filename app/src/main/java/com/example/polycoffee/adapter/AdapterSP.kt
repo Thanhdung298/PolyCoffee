@@ -42,7 +42,7 @@ class AdapterSP(val context: Context, var list:ArrayList<SanPham>, val type:Int,
             holder.img.setImageBitmap(TempFunc.StringToBitmap(sanPham.img))
         }
         if(type==0){
-            holder.view.setOnLongClickListener(object : View.OnLongClickListener{
+            holder.view.setOnLongClickListener(object : View.OnLongClickListener{ // giu de mo dialog chon xoa hoac sua
                 override fun onLongClick(v: View?): Boolean {
                     TempFunc.choosenDialog(context,sanPham,fragment,"SanPham")
                     return false
@@ -50,7 +50,7 @@ class AdapterSP(val context: Context, var list:ArrayList<SanPham>, val type:Int,
 
             })
         }
-        if(type==1){ //type = 1 la order
+        if(type==1){ // order
             holder.view.setOnClickListener {
                 val builder = AlertDialog.Builder(context)
                 val binding = DialogOrderBinding.inflate(LayoutInflater.from(context))
@@ -96,7 +96,7 @@ class AdapterSP(val context: Context, var list:ArrayList<SanPham>, val type:Int,
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val strSearch =constraint.toString()
-                if(strSearch.isEmpty()){
+                if(strSearch.isEmpty()){  // neu khong ghi tu nao trong search view thi
                     list = oldList
                 } else{
                     list = oldList.filter { sp -> sp.tenSP.lowercase().contains(strSearch.lowercase()) } as ArrayList<SanPham>

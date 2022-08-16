@@ -30,7 +30,7 @@ class TempFunc {
         fun choosenDialog(context:Context,objectAny: Any,fragmentAny: Any,refName:String,username:String = ""){
             val builder = MaterialDialog.Builder(context as Activity)
                     .setTitle("Chọn chức năng")
-                    .setNegativeButton("Xóa"){ p0, p1 ->
+                    .setNegativeButton("Xóa"){ p0, p1 ->     // Set nút xóa cho dialog
                         p0.dismiss()
                         if(objectAny is User){
                             if(objectAny.userName == username){
@@ -46,9 +46,9 @@ class TempFunc {
                                     px.dismiss()
                                 }.setPositiveButton("Chắc chắn"){
                                         px, _ ->
-                                    DAO(context).remove(objectAny,refName)
+                                    DAO(context).remove(objectAny,refName)   // xóa từ DAO
                                     when(fragmentAny){
-                                        is MenuFragment -> fragmentAny.updateRecyclerView()
+                                        is MenuFragment -> fragmentAny.updateRecyclerView() //Cập nhật lại recyclerview
                                         is UserFragment -> fragmentAny.updateRecyclerView()
                                         //is OrderActivity -> fragmentAny.updateRecyclerView()
                                     }
@@ -57,11 +57,11 @@ class TempFunc {
                             builderRemove.show()
                         }
                     }
-                    .setPositiveButton("Sửa"){
+                    .setPositiveButton("Sửa"){   // set nút sửa cho dialog
                         p0,p1 ->
                         p0.dismiss()
                         when(fragmentAny){
-                            is MenuFragment ->  fragmentAny.openDialogSP(objectAny as SanPham,1,context)
+                            is MenuFragment ->  fragmentAny.openDialogSP(objectAny as SanPham,1,context) //mở dialog sửa của các fragment
                             is UserFragment -> fragmentAny.openDialog(objectAny as User,1)
                         }
                     }.setCancelable(true).build()
