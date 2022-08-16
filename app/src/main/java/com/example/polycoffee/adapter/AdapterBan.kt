@@ -84,7 +84,7 @@ class AdapterBan(val context: Context, var list:ArrayList<Ban>, val fragment:Ord
                             list.add(snap.getValue(HoaDonTemp::class.java)!!)
                         }
                         val tongTien = list.fold(0){ acc:Int, hoaDonTemp: HoaDonTemp -> acc + hoaDonTemp.donGia * hoaDonTemp.soLuong }
-                        binding.dialogHoadonTongTien.text = "Tổng tiền: ${tongTien} VND"
+                        binding.dialogHoadonTongTien.text = "Tổng tiền: $tongTien VND"
                         adapterHoaDon.notifyDataSetChanged()
                         if(list.isEmpty()){
                             database.child(ban.maBan).child("state").setValue("Trống")

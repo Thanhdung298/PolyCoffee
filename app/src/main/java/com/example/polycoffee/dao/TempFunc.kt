@@ -75,19 +75,11 @@ class TempFunc {
                 } else view.error = null
             }
         }
-
         fun noError(vararg check: TextInputLayout):Boolean{
             for (view in check){
                 if (view.error!=null) return false
             }
             return true
-        }
-
-        fun resetField(vararg field: EditText){
-            for(i in field){
-                i.text = null
-            }
-            field[0].requestFocus()
         }
     }
 }

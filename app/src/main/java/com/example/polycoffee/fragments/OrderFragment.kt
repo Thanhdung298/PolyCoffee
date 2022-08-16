@@ -1,5 +1,6 @@
 package com.example.polycoffee.fragments
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -24,7 +25,6 @@ import com.skydoves.powermenu.MenuAnimation
 import com.skydoves.powermenu.OnMenuItemClickListener
 import com.skydoves.powermenu.PowerMenu
 import com.skydoves.powermenu.PowerMenuItem
-import com.skydoves.powermenu.kotlin.powerMenu
 import dev.shreyaspatil.MaterialDialog.MaterialDialog
 
 class OrderFragment : Fragment() {
@@ -51,11 +51,11 @@ class OrderFragment : Fragment() {
                 .setTitle("Thêm bàn mới")
                 .setMessage("Bạn có chắc thêm bàn mới không")
                 .setPositiveButton("Chắc chắn"){
-                    p0,p1 ->
+                        p0, _ ->
                     DAO(requireContext()).insert(Ban((listBan.size+1).toString()),"Ban")
                     p0.dismiss()
                 }
-                .setNegativeButton("Hủy"){p0,p1 -> p0.dismiss()}
+                .setNegativeButton("Hủy"){ p0, _ -> p0.dismiss()}
                 .setCancelable(true)
                 .build()
             builder.show()
@@ -79,7 +79,7 @@ class OrderFragment : Fragment() {
                     adapterBan.filter.filter(if (position==0)"" else item.title)
                     powerMenu.dismiss()
                 }
-            powerMenu.setOnMenuItemClickListener(onMenuItemClickListener)
+            powerMenu.onMenuItemClickListener = onMenuItemClickListener
             powerMenu.showAsDropDown(binding.showFilterMenu)
         }
 
@@ -101,6 +101,7 @@ class OrderFragment : Fragment() {
     fun getListLSP(){
         val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("Ban")
         database.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
                 listBan.clear()
                 for (datasnap in snapshot.children){

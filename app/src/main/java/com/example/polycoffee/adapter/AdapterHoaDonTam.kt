@@ -25,7 +25,7 @@ class AdapterHoaDonTam(val context: Context, val list:ArrayList<HoaDonTemp>, val
         val hoaDon = list[position]
         holder.tenSP.text = hoaDon.tenSP
         holder.soLuong.number = hoaDon.soLuong.toString()
-        holder.soLuong.setOnValueChangeListener { view, oldValue, newValue ->
+        holder.soLuong.setOnValueChangeListener { _, _, newValue ->
             val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("Ban")
             if(newValue==0){
                 database.child(maBan).child("ListSP").child(hoaDon.maSP.toString()).removeValue()

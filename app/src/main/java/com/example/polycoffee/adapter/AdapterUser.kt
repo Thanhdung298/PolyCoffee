@@ -1,5 +1,6 @@
 package com.example.polycoffee.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import com.example.polycoffee.R
 import com.example.polycoffee.dao.TempFunc
 import com.example.polycoffee.databinding.ItemUserBinding
 import com.example.polycoffee.fragments.UserFragment
@@ -31,6 +31,7 @@ class AdapterUser(var context: Context,var list:ArrayList<User>,var fragment:Use
         return ViewHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.background.background.alpha = 70
         val user = list[position]
@@ -69,6 +70,7 @@ class AdapterUser(var context: Context,var list:ArrayList<User>,var fragment:Use
                 return filterResult
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(constraint: CharSequence?, results: FilterResults) {
                 list = results.values as ArrayList<User>
                 notifyDataSetChanged()

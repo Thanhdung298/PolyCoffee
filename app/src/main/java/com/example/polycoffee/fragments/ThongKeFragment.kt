@@ -3,13 +3,11 @@ package com.example.polycoffee.fragments
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.polycoffee.adapter.AdapterThongKe
@@ -18,7 +16,6 @@ import com.example.polycoffee.databinding.FragmentThongKeBinding
 import com.example.polycoffee.model.HoaDon
 import com.example.polycoffee.model.HoaDonTemp
 import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -28,12 +25,14 @@ class ThongKeFragment : Fragment() {
 
     private var _binding: FragmentThongKeBinding? = null
     private val binding get() = _binding!!
+    @SuppressLint("SimpleDateFormat")
     val sdf = SimpleDateFormat("dd-MM-yyyy")
     lateinit var list : ArrayList<HoaDon>
     lateinit var adapterThongKe: AdapterThongKe
     lateinit var recyclerView: RecyclerView
-    val cal = Calendar.getInstance()
+    val cal: Calendar = Calendar.getInstance()
 
+    @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentThongKeBinding.inflate(inflater, container, false)
 
@@ -52,22 +51,22 @@ class ThongKeFragment : Fragment() {
                 for(snap in it.children){
                     val hoaDon = snap.getValue(HoaDon::class.java)
                     if (hoaDon != null) {
-                        if (parseDate(hoaDon.ngay)!!.compareTo(parseDate(tuNgay.editText!!.text.toString()))>=0 && parseDate(hoaDon.ngay)!!.compareTo(parseDate(denNgay.editText!!.text.toString())) <= 0 ){
+                        if (parseDate(hoaDon.ngay)!! >= parseDate(tuNgay.editText!!.text.toString()) && parseDate(hoaDon.ngay)!! <= parseDate(denNgay.editText!!.text.toString())){
                             list.add(hoaDon)
                         }
                     }
                     adapterThongKe.notifyDataSetChanged()
                 }
-                list.sortBy {
-                    it.ngay
+                list.sortBy { hoaDon ->
+                    hoaDon.ngay
                 }
                 var sum = 0
-                list.forEach {
-                    sum += it.listSP.fold(0) { acc: Int, hoaDonTemp: HoaDonTemp ->
+                list.forEach { hoaDon ->
+                    sum += hoaDon.listSP.fold(0) { acc: Int, hoaDonTemp: HoaDonTemp ->
                         acc + hoaDonTemp.donGia * hoaDonTemp.soLuong
                     }
                 }
-                binding.thongkeTongLoiNhuan.text = "Tổng lợi nhuận: ${sum} VND"
+                binding.thongkeTongLoiNhuan.text = "Tổng lợi nhuận: $sum VND"
             }
             database.keepSynced(true)
         }

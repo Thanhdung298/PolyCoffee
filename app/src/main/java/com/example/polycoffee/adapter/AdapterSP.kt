@@ -1,5 +1,6 @@
 package com.example.polycoffee.adapter
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
@@ -18,7 +19,6 @@ import com.example.polycoffee.databinding.ItemSpBinding
 import com.example.polycoffee.fragments.MenuFragment
 import com.example.polycoffee.model.HoaDonTemp
 import com.example.polycoffee.model.SanPham
-import com.example.polycoffee.model.User
 
 class AdapterSP(val context: Context, var list:ArrayList<SanPham>, val type:Int, var maBan:String="", val fragment: MenuFragment) : RecyclerView.Adapter<AdapterSP.ViewHolder>(),Filterable {
     class ViewHolder(binding:ItemSpBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -33,6 +33,7 @@ class AdapterSP(val context: Context, var list:ArrayList<SanPham>, val type:Int,
         return ViewHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val sanPham = list[position]
         holder.tenSP.text = sanPham.tenSP
@@ -105,6 +106,7 @@ class AdapterSP(val context: Context, var list:ArrayList<SanPham>, val type:Int,
                 return filterResult
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(constraint: CharSequence?, results: FilterResults) {
                 list = results.values as ArrayList<SanPham>
                 notifyDataSetChanged()

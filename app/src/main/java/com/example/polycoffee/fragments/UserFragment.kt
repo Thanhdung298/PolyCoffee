@@ -1,5 +1,6 @@
 package com.example.polycoffee.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -19,7 +20,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.polycoffee.R
 import com.example.polycoffee.adapter.AdapterUser
 import com.example.polycoffee.dao.DAO
 import com.example.polycoffee.dao.TempFunc
@@ -90,6 +90,7 @@ class UserFragment : Fragment() {
     fun getListLSP(){
         val database = FirebaseDatabase.getInstance().getReference("User")
         database.addValueEventListener(object :ValueEventListener{
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
                 listUser.clear()
                 for (datasnap in snapshot.children){
