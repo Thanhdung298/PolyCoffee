@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/root"
     android:orientation="vertical"
+    android:background="#D7CCC8"
     android:layout_margin="10dp"
     android:padding="35dp">
 

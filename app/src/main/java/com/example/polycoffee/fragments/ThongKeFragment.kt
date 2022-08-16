@@ -48,6 +48,7 @@ class ThongKeFragment : Fragment() {
         calBtn.setOnClickListener {
             val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("HoaDon")
             database.get().addOnSuccessListener {
+                list.clear()
                 for(snap in it.children){
                     val hoaDon = snap.getValue(HoaDon::class.java)
                     if (hoaDon != null) {

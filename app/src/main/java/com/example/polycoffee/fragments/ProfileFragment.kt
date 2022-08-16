@@ -40,18 +40,26 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
         var user = User()
-        val username = requireActivity().intent.getStringExtra("Username").toString()
-        val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("User").child(username)
+        val username = binding.tvProfileUsername
+        val role = binding.tvRole
+        val hoTen = binding.tvProfileHoten
+        val diaChi = binding.tvProfileDiachi
+        val ngaySinh = binding.tvProfileNgaysinh
+        val sdt = binding.tvProfileSdt
+        val imgProfile = binding.imgProfile
+
+        val AccUsername = requireActivity().intent.getStringExtra("Username").toString()
+        val database = FirebaseDatabaseTemp.getDatabase()!!.getReference("User").child(AccUsername)
         database.get().addOnSuccessListener {
             user = it.getValue(User::class.java)!!
-            binding.tvProfileUsername.text = user.userName
-            binding.tvRole.text = if(user.role==0)"Nhân viên" else "Quản lý"
-            binding.tvProfileHoten.text = "Họ tên: ${user.hoTen}"
-            binding.tvProfileDiachi.text = "Địa chỉ: ${user.diaChi}"
-            binding.tvProfileNgaysinh.text = "Ngày sinh: ${user.ngaySinh}"
-            binding.tvProfileSdt.text = "Số điện thoại: ${user.sdt}"
+            username.text = user.userName
+            role.text = if(user.role==0)"Nhân viên" else "Quản lý"
+            hoTen.text = "Họ tên: ${user.hoTen}"
+            diaChi.text = "Địa chỉ: ${user.diaChi}"
+            ngaySinh.text = "Ngày sinh: ${user.ngaySinh}"
+            sdt.text = "Số điện thoại: ${user.sdt}"
             if(user.anhDaiDien!=""){
-                binding.imgProfile.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))
+                imgProfile.setImageBitmap(TempFunc.StringToBitmap(user.anhDaiDien))
             }
         }.addOnFailureListener { Toast.makeText(requireContext(),"failed",Toast.LENGTH_SHORT).show() }
 
@@ -62,7 +70,7 @@ class ProfileFragment : Fragment() {
         binding.btnProfileDMK.setOnClickListener {
             val intent = Intent(requireActivity(), ChangePasswordActivity::class.java)
             intent.putExtra("password",user.passWord)
-            intent.putExtra("username",username)
+            intent.putExtra("username",AccUsername)
             startActivity(intent)
         }
         binding.btnProfileEdit.setOnClickListener {
