@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -113,7 +114,8 @@ class UserFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-    fun openDialog(user: User,type:Int){
+    @SuppressLint("SimpleDateFormat", "ClickableViewAccessibility")
+    fun openDialog(user: User, type:Int){
         val builder = AlertDialog.Builder(requireContext())
         val binding = DialogUserBinding.inflate(layoutInflater)
         builder.setView(binding.root)
@@ -161,17 +163,17 @@ class UserFragment : Fragment() {
             val sdf = SimpleDateFormat("dd-MM-yyyy")
             ngaySinh.editText!!.setText(sdf.format(cal.time))
         }
-
-        ngaySinh.editText!!.setOnFocusChangeListener{ _, b ->
-            if(b){
-                DatePickerDialog(requireContext(),dateSetListener,cal.get(Calendar.YEAR),cal.get(
-                    Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)).show()
-                ngaySinh.editText!!.setOnClickListener{
+        ngaySinh.editText!!.setOnTouchListener(object : View.OnTouchListener{
+            @SuppressLint("ClickableViewAccessibility")
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                if(event?.action == MotionEvent.ACTION_UP){
                     DatePickerDialog(requireContext(),dateSetListener,cal.get(Calendar.YEAR),cal.get(
                         Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)).show()
+                    return true
                 }
+                return false
             }
-        }
+        })
 
         saveBtn.setOnClickListener {
             //TempFunc.checkField(username,password,hoten,ngaySinh,diaChi,sdt)
