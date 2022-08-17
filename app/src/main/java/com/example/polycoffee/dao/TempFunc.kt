@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
+import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import com.example.polycoffee.fragments.MenuFragment
@@ -32,12 +33,11 @@ class TempFunc {
                     .setTitle("Chọn chức năng")
                     .setNegativeButton("Xóa"){ p0, p1 ->     // Set nút xóa cho dialog
                         p0.dismiss()
-                        if(objectAny is User){
-                            if(objectAny.userName == username){
-                                Toast.makeText(context,"Không thể xóa",Toast.LENGTH_SHORT).show()
-                            }
+                        if(objectAny is User && objectAny.userName == username){
+                            Toast.makeText(context,"Không thể xóa",Toast.LENGTH_SHORT).show()
                         }
                         else{
+                            Log.d("sa","tjsaoj")
                             val builderRemove = MaterialDialog.Builder(context)
                                 .setTitle("Xóa")
                                 .setMessage("Bạn chắc chắn xóa chứ?")
